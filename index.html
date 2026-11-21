@@ -5,56 +5,101 @@
 <title>Aurelvo Collections - Kanganpur</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
-body{background:#fdf8f2}
-header{background:#111;color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
-header h1{font-size:22px;color:#d4af37} header h1 span{font-size:11px;display:block;color:#ccc}
-.btn{background:#d4af37;color:#000;border:none;padding:10px 16px;border-radius:20px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;font-size:14px}
+body{background:#fdf8f2;color:#222}
+header{background:#111;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+header h1{font-size:22px;color:#d4af37;line-height:1} header h1 span{font-size:11px;color:#ccc;display:block}
+.btn{background:#d4af37;color:#000;padding:10px 16px;border-radius:20px;font-weight:800;text-decoration:none;font-size:14px}
 .hero{background:linear-gradient(135deg,#111,#3a2a00);color:#fff;text-align:center;padding:35px 15px}
-.hero h2{font-size:30px} .hero p{color:#e8d9a0;margin-top:8px}
-.cats{display:flex;gap:8px;overflow:auto;padding:15px;justify-content:center}
-.cats button{padding:8px 16px;border-radius:20px;border:1px solid #ddd;background:#fff;cursor:pointer;white-space:nowrap}
-.cats button.active{background:#111;color:#fff}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:15px;padding:15px;max-width:1100px;margin:auto}
+.hero h2{font-size:29px} .hero p{color:#e8d9a0;margin-top:8px}
+.section{max-width:1100px;margin:auto;padding:20px 15px 5px}
+.section h2{font-size:22px;margin-bottom:12px;border-left:5px solid #d4af37;padding-left:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:15px;padding:0 15px 10px;max-width:1100px;margin:auto}
 .card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.08)}
 .card img{width:100%;height:180px;object-fit:cover}
 .card-body{padding:12px} .price{color:#b8860b;font-weight:800} .old{color:#999;text-decoration:line-through;font-size:13px;margin-left:5px}
-.order{width:100%;background:#25D366;color:#fff;border:none;padding:9px;border-radius:8px;font-weight:700;cursor:pointer;margin-top:8px}
-.admin{background:#fff8dc;border:2px dashed #d4af37;margin:15px auto;max-width:1100px;padding:15px;border-radius:12px;text-align:center;font-size:14px;line-height:1.6}
-footer{text-align:center;padding:20px;color:#888;font-size:13px}
-.whats{position:fixed;bottom:20px;right:20px;background:#25D366;color:#fff;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;text-decoration:none}
+.order{width:100%;background:#25D366;color:#fff;border:none;padding:10px;border-radius:8px;font-weight:700;cursor:pointer;margin-top:8px}
+.add-card{border:2px dashed #d4af37;border-radius:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:260px;background:#fffbe6;text-align:center;padding:15px}
+.add-card a{background:#111;color:#fff;padding:12px 20px;border-radius:20px;text-decoration:none;font-weight:800}
+.info-box{background:#fff;border-radius:15px;padding:20px;box-shadow:0 4px 15px rgba(0,0,0,.06);line-height:1.8;margin:0 15px 15px}
+.info-box h3{color:#b8860b;margin-bottom:6px}
+.pay-box{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;padding:0 15px 10px;max-width:1100px;margin:auto}
+.pay-card{background:#fff;padding:16px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.pay-card b{font-size:18px}
+footer{background:#111;color:#aaa;text-align:center;padding:22px 15px;font-size:13px;line-height:1.8}
+footer b{color:#d4af37}
+.live{color:#22c55e;font-size:12px;font-weight:800}
 </style>
 </head>
 <body>
-<header><h1>AURELVO <span>COLLECTIONS • KANGANPUR</span></h1><a class="btn" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pubhtml" target="_blank">＋ Add Product</a></header>
-<div class="hero"><h2>Kanganpur Ki Trusted Shop ✨</h2><p>Watches • Suits • Jewelry • Shoes | Free Cash on Delivery in Kanganpur</p><p style="margin-top:8px;font-size:13px">Order on WhatsApp: 0300-1234567</p></div>
-<div class="admin">👋 <b>Admin ke liye:</b> Naya product daalne ke liye upar <b>"＋ Add Product"</b> pe click karo → Sheet me nayi line likho → Website pe khud aa jayega! <button onclick="loadProducts()" style="background:#111;color:#fff;border:none;padding:6px 12px;border-radius:10px;cursor:pointer;margin-left:5px">Refresh 🔄</button></div>
-<div class="cats" id="cats"></div>
-<div class="grid" id="grid"><p style="text-align:center;padding:30px">Products load ho rahe hain...</p></div>
-<footer>Aurelvo Collections © 2026 | Kanganpur, Pakistan | Free Delivery in Kanganpur</footer>
-<a class="whats" href="https://wa.me/923001234567" target="_blank">💬</a>
+
+<header><h1>AURELVO<span>COLLECTIONS • KANGANPUR</span></h1><a class="btn" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pubhtml" target="_blank">＋ Add Product</a></header>
+
+<div class="hero"><h2>Kanganpur Ki Trusted Shop ✨</h2><p>Watches • Suits • Jewelry • Shoes</p><p style="margin-top:8px;font-size:13px;color:#fff">WhatsApp: 03098890935 • <span class="live">● LIVE</span></p></div>
+
+<!-- SIRF ADD WALI PICS - KOI ORDER NAHI -->
+<div class="section"><h2>✨ Our Collection</h2></div>
+<div class="grid">
+<div class="card"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500"><div class="card-body"><h3>Luxury Watches</h3><p style="font-size:13px;color:#777">Premium Quality Collection</p></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500"><div class="card-body"><h3>Elegant Suits</h3><p style="font-size:13px;color:#777">Stylish & Premium Suits</p></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500"><div class="card-body"><h3>Beautiful Jewelry</h3><p style="font-size:13px;color:#777">Gold & Artificial Jewelry</p></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"><div class="card-body"><h3>Trendy Shoes</h3><p style="font-size:13px;color:#777">Comfortable & Stylish</p></div></div>
+</div>
+
+<!-- SHEET WALE LIVE PRODUCTS -->
+<div class="section"><h2>🛍️ Our Live Products <span class="live">● LIVE FROM SHEET</span></h2><p style="color:#888;font-size:13px;margin-bottom:12px">Sheet me add karo to yahan LIVE aa jayega!</p></div>
+<div class="grid" id="grid"><p style="padding:10px;color:#888">Loading products...</p></div>
+
+<!-- ABOUT US -->
+<div class="section"><h2>About Us</h2></div>
+<div class="info-box"><h3>Aurelvo Collections</h3>
+<p>Aurelvo Collections Kanganpur ki trusted online shop hai. Hum apne customers ko best quality Watches, Suits, Jewelry aur Shoes dete hain, wo bhi munasib price me.</p>
+<p>Hamara maqsad hai ke Kanganpur ke har ghar tak achi cheez pohnche, wo bhi ghar baithe!</p>
+<p>Shukriya ke aapne Aurelvo ko chuna! ❤️</p>
+</div>
+
+<!-- PAYMENT + DELIVERY -->
+<div class="section"><h2>💳 Payment Method</h2></div>
+<div class="pay-box">
+<div class="pay-card"><b>📱 JazzCash</b><br>Number: 03098890935<br><span style="color:#777;font-size:13px">Payment ka screenshot WhatsApp pe bhejein</span></div>
+<div class="pay-card"><b>📱 EasyPaisa</b><br>Number: 03289598403<br><span style="color:#777;font-size:13px">Payment ka screenshot WhatsApp pe bhejein</span></div>
+<div class="pay-card"><b>💵 Cash on Delivery</b><br>Ghar pe paisa dein<br><span style="color:#777;font-size:13px">Product milne par payment karein</span></div>
+</div>
+
+<div class="section"><h2>🚚 Delivery Info</h2></div>
+<div class="info-box">
+<p><b>Delivery Charges:</b> Rs 250</p>
+<p><b>Delivery Time:</b> 3 to 5 Business Days</p>
+<p><b>Delivery:</b> All Pakistan Delivery Available</p>
+</div>
+
+<!-- CONTACT US -->
+<div class="section"><h2>📞 Contact Us</h2></div>
+<div class="info-box">
+<p>📧 Email: aurelvo.collections@gmial.com</p>
+<p>📱 WhatsApp: 03098890935</p>
+<p>📍 Location: Kanganpur, Pakistan</p>
+<p>🕒 Timing: Subha 9:00 se Raat 9:00 tak</p>
+<p style="margin-top:10px"><a href="https://wa.me/923098890935?text=Assalam-o-Alaikum! Mujhe Aurelvo Collections se order karna hai." style="background:#25D366;color:#fff;padding:10px 20px;border-radius:20px;text-decoration:none;font-weight:700;display:inline-block">WhatsApp Pe Baat Karein</a></p>
+</div>
+
+<footer><b>AURELVO COLLECTIONS</b><br>Kanganpur, Pakistan | WhatsApp: 03098890935<br>© 2026 Aurelvo Collections - All Rights Reserved</footer>
+
 <script>
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pub?output=csv";
-let products=[]; let currentCat='All'; let cats=['All','Watches','Suits','Jewelry','Shoes','Other'];
-function renderCats(){document.getElementById('cats').innerHTML=cats.map(c=>`<button class="${c===currentCat?'active':''}" onclick="showCat('${c}')">${c}</button>`).join('')}
-function showCat(c){currentCat=c;renderCats();render()}
-function render(){
-let f=currentCat==='All'?products:products.filter(p=>p.cat===currentCat);
-document.getElementById('grid').innerHTML=f.map(p=>`
-<div class="card"><img src="${p.img}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${p.price}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:12px;color:#777">${p.cat} • ${p.desc||''}</p><button class="order" onclick="order('${p.name}',${p.price})">Order on WhatsApp</button></div></div>`).join('')||'<p style="text-align:center;padding:30px">Abhi koi product nahi hai, Sheet me add karo!</p>';
-}
-function order(n,pr){window.open(`https://wa.me/923001234567?text=${encodeURIComponent('Assalam-o-Alaikum! Mujhe ye chahiye: '+n+' - Rs '+pr+' (Aurelvo Collections)')}`)}
-async function loadProducts(){
+async function loadSheet(){
 try{
 let res=await fetch(SHEET_CSV_URL); let text=await res.text();
 let lines=text.split('\n'); let headers=lines[0].split(',').map(h=>h.trim().toLowerCase().replace(/"/g,''));
-products=lines.slice(1).filter(l=>l.trim()).map(line=>{
+let products=lines.slice(1).filter(l=>l.trim()).map(line=>{
 let vals=line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)||[];
 let o={}; headers.forEach((h,i)=>{o[h]=(vals[i]||'').replace(/^"|"$/g,'').trim()}); return o;
-}).filter(p=>p.name);
-renderCats(); render();
-}catch(e){document.getElementById('grid').innerHTML='<p style="text-align:center;padding:30px">Sheet link sahi nahi hai! Sheet ko Publish to web karna zaroori hai.</p>'}
+}).filter(p=>p.name && p.name.toLowerCase()!=='name');
+if(products.length===0){document.getElementById('grid').innerHTML='<p style="padding:10px;color:#888">Abhi koi product nahi hai. Sheet me add karo!</p>'; return;}
+document.getElementById('grid').innerHTML=products.map(p=>`<div class="card"><img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${p.price}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:12px;color:#777">${p.cat||''} • ${p.desc||''}</p><button class="order" onclick="orderNow('${p.name}',${p.price})">Order on WhatsApp</button></div></div>`).join('');
+}catch(e){document.getElementById('grid').innerHTML='<p style="padding:10px;color:#888">Products load nahi hue. Refresh karo!</p>';}
 }
-loadProducts();
+function orderNow(n,pr){window.open(`https://wa.me/923098890935?text=${encodeURIComponent('Assalam-o-Alaikum! Mujhe ye chahiye: '+n+' - Rs '+pr)}`)}
+loadSheet();
 </script>
 </body>
 </html>
