@@ -1,256 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AURELVO - Kanganpur | Watches, Suits, Jewelry, Shoes</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurelvo Collections - Kanganpur</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
-body{background:#fff;color:#222}
-.top-bar{background:#111;color:#fff;text-align:center;padding:8px;font-size:12px;letter-spacing:1px}
-header{position:sticky;top:0;background:#fff;z-index:99;border-bottom:1px solid #eee;padding:14px 12px;text-align:center}
-header h1{font-size:30px;letter-spacing:6px;font-weight:800}
-.top-row{display:flex;justify-content:space-between;align-items:center;max-width:900px;margin:10px auto 0}
-.top-row input{flex:1;max-width:350px;padding:10px 14px;border:1px solid #ddd;border-radius:25px;outline:none;font-size:13px}
-.top-row div{display:flex;gap:8px}
-.top-row button{padding:8px 16px;border-radius:20px;border:1px solid #111;background:#fff;cursor:pointer;font-weight:600;font-size:12px}
-.top-row button.fill{background:#111;color:#fff}
-.hero{max-width:900px;margin:16px auto;padding:0 12px}
-.hero img{width:100%;height:280px;object-fit:cover;border-radius:14px}
-.hero-text{text-align:center;margin-top:-55px;position:relative}
-.hero-text h2{background:#fff;display:inline-block;padding:12px 25px;border-radius:30px;box-shadow:0 4px 15px rgba(0,0,0,.1);font-size:22px;letter-spacing:1px}
-.hero-text p{margin-top:10px;color:#777;font-size:13px}
-.cat-title{text-align:center;margin:25px 0 12px;font-size:20px;letter-spacing:2px}
-.categories{max-width:900px;margin:auto;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:0 12px}
-.categories button{padding:10px 20px;border-radius:25px;border:1px solid #ddd;background:#fff;cursor:pointer;font-weight:600;font-size:13px}
-.categories button.active{background:#111;color:#fff;border-color:#111}
-.about{max-width:900px;margin:22px auto;background:#fafafa;padding:22px;border-radius:14px;text-align:center;border:1px solid #f0f0f0}
-.about h3{margin-bottom:10px;font-size:21px;letter-spacing:1px}
-.about p{font-size:14px;line-height:1.7;color:#555}
-.section{max-width:900px;margin:18px auto;padding:0 12px}
-.section h3{font-size:19px;margin-bottom:4px;letter-spacing:1px}
-.section small{color:#999;display:block;margin-bottom:12px}
-.slider{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:5px 5px 12px;scroll-behavior:smooth}
-.slider::-webkit-scrollbar{display:none}
-.card{min-width:195px;max-width:195px;background:#fff;border:1px solid #f0f0f0;border-radius:14px;overflow:hidden;scroll-snap-align:start;text-align:center;padding-bottom:12px}
-.card img{width:100%;height:200px;object-fit:cover;display:block}
-.card h4{margin:10px 0 2px;font-size:14px;font-weight:600}
-.card p{font-size:11px;color:#999;letter-spacing:2px;text-transform:uppercase}
-.coming{background:#fafafa;border:2px dashed #ccc;border-radius:14px;padding:30px;text-align:center}
-.coming h2{font-size:21px;margin-bottom:8px}
-.coming p{color:#888;font-size:13px}
-.payment{max-width:900px;margin:18px auto;background:#fafafa;padding:20px;border-radius:14px;text-align:center;border:1px solid #f0f0f0}
-.payment h3{margin-bottom:14px;letter-spacing:1px}
-.pay-box{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.pay{background:#fff;border:1px solid #eee;border-radius:12px;padding:14px 20px;min-width:170px}
-.pay b{font-size:14px}
-.pay span{display:block;margin-top:4px;font-weight:700}
-.contact{max-width:900px;margin:18px auto;background:#111;color:#fff;padding:24px;border-radius:14px;text-align:center}
-.contact h3{font-size:21px;letter-spacing:2px;margin-bottom:8px}
-.contact p{color:#bbb;font-size:13px;margin-bottom:16px}
-.contact-box{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.contact-card{background:#fff;color:#222;border-radius:12px;padding:16px;min-width:220px;flex:1;max-width:280px;text-align:center}
-.contact-card b{font-size:15px}
-.contact-card span{display:block;margin:6px 0;color:#555;font-size:13px}
-.contact-card a{display:inline-block;margin-top:8px;padding:9px 18px;border-radius:20px;text-decoration:none;font-weight:bold;font-size:13px}
-.wa-btn{background:#25D366;color:#fff}
-.mail-btn{background:#111;color:#fff}
-.contact-form{margin-top:16px;background:#fff;border-radius:12px;padding:16px;text-align:left}
-.contact-form input,.contact-form textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:10px;font-size:14px}
-.contact-form button{width:100%;padding:12px;background:#25D366;color:#fff;border:none;border-radius:10px;font-weight:bold;cursor:pointer;font-size:14px}
-footer{background:#111;color:#aaa;text-align:center;padding:24px 12px;margin-top:20px;font-size:12.5px;line-height:1.8;border-top:1px solid #222}
-footer b{color:#fff;font-size:15px;letter-spacing:3px}
-.whatsapp{position:fixed;bottom:20px;right:20px;background:#25D366;color:#fff;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;text-decoration:none;z-index:100}
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:200;justify-content:center;align-items:center}
-.modal-box{background:#fff;width:90%;max-width:350px;padding:25px;border-radius:16px;text-align:center}
-.modal-box h3{margin-bottom:14px}
-.modal-box input{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:10px}
-.modal-box button{width:100%;padding:12px;border:none;border-radius:10px;font-weight:bold;cursor:pointer;margin-top:5px}
-.btn-green{background:#25D366;color:#fff}
-.btn-dark{background:#111;color:#fff}
-.close{color:#888;cursor:pointer;margin-top:10px;display:block;font-size:13px}
-@media(max-width:500px){header h1{font-size:24px}.top-row{flex-direction:column;gap:8px}.top-row input{max-width:100%;width:100%}.hero img{height:190px}.card{min-width:160px}.card img{height:160px}}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
+body{background:#fdf8f2}
+header{background:#111;color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+header h1{font-size:22px;color:#d4af37} header h1 span{font-size:11px;display:block;color:#ccc}
+.btn{background:#d4af37;color:#000;border:none;padding:10px 16px;border-radius:20px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;font-size:14px}
+.hero{background:linear-gradient(135deg,#111,#3a2a00);color:#fff;text-align:center;padding:35px 15px}
+.hero h2{font-size:30px} .hero p{color:#e8d9a0;margin-top:8px}
+.cats{display:flex;gap:8px;overflow:auto;padding:15px;justify-content:center}
+.cats button{padding:8px 16px;border-radius:20px;border:1px solid #ddd;background:#fff;cursor:pointer;white-space:nowrap}
+.cats button.active{background:#111;color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:15px;padding:15px;max-width:1100px;margin:auto}
+.card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.08)}
+.card img{width:100%;height:180px;object-fit:cover}
+.card-body{padding:12px} .price{color:#b8860b;font-weight:800} .old{color:#999;text-decoration:line-through;font-size:13px;margin-left:5px}
+.order{width:100%;background:#25D366;color:#fff;border:none;padding:9px;border-radius:8px;font-weight:700;cursor:pointer;margin-top:8px}
+.admin{background:#fff8dc;border:2px dashed #d4af37;margin:15px auto;max-width:1100px;padding:15px;border-radius:12px;text-align:center;font-size:14px;line-height:1.6}
+footer{text-align:center;padding:20px;color:#888;font-size:13px}
+.whats{position:fixed;bottom:20px;right:20px;background:#25D366;color:#fff;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;text-decoration:none}
 </style>
 </head>
 <body>
-
-<div class="top-bar">FREE CASH ON DELIVERY IN KANGANPUR | AURELVO COLLECTIONS</div>
-
-<header>
-<h1>AURELVO</h1>
-<div class="top-row">
-<input type="text" id="searchInput" placeholder="Search... Watch, Suit, Jewelry, Shoes" oninput="doSearch()">
-<div>
-<button onclick="openModal('login')">Login</button>
-<button class="fill" onclick="openModal('signup')">Sign Up</button>
-</div>
-</div>
-<p id="welcome" style="color:#25D366;font-weight:bold;font-size:13px;margin-top:6px"></p>
-</header>
-
-<div class="hero">
-<img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=1200&q=80" alt="Aurelvo Banner">
-<div class="hero-text">
-<h2>AURELVO COLLECTIONS</h2>
-<p>Kanganpur Ki Trusted Online Shop - Premium Quality</p>
-</div>
-</div>
-
-<h3 class="cat-title">SHOP BY CATEGORY</h3>
-<div class="categories">
-<button class="active" onclick="filterCat('all',this)">All</button>
-<button onclick="filterCat('watch',this)">⌚ Watches</button>
-<button onclick="filterCat('suit',this)">👗 Suits</button>
-<button onclick="filterCat('jewelry',this)">💍 Jewelry</button>
-<button onclick="filterCat('shoes',this)">👟 Shoes</button>
-<button onclick="filterCat('coming',this)">🛍️ Coming Soon</button>
-</div>
-
-<div class="about">
-<h3>About Us</h3>
-<p>Welcome to Aurelvo Collections - Kanganpur Ki Trusted Online Shop. Hum Kanganpur, Punjab se kaam karte hain. Hamara maqsad achi quality ki cheezein munasib price me aap tak pohanchana hai. Order ke liye WhatsApp pe rabta karein.</p>
-</div>
-
-<div class="section" id="watchSection">
-<h3>⌚ WATCHES</h3><small>Premium Watches - Display Only</small>
-<div class="slider" id="watchSlider">
-<div class="card" data-name="classic watch" data-cat="watch"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80"><h4>Classic Watch</h4><p>Watch</p></div>
-<div class="card" data-name="luxury watch" data-cat="watch"><img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&q=80"><h4>Luxury Watch</h4><p>Watch</p></div>
-<div class="card" data-name="smart watch" data-cat="watch"><img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=600&q=80"><h4>Smart Watch</h4><p>Watch</p></div>
-<div class="card" data-name="men watch" data-cat="watch"><img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&q=80"><h4>Men Watch</h4><p>Watch</p></div>
-</div>
-</div>
-
-<div class="section" id="suitSection">
-<h3>👗 SUITS</h3><small>Beautiful Suits - Display Only</small>
-<div class="slider" id="suitSlider">
-<div class="card" data-name="premium suit" data-cat="suit"><img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&q=80"><h4>Premium Suit</h4><p>Suit</p></div>
-<div class="card" data-name="elegant suit" data-cat="suit"><img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&q=80"><h4>Elegant Suit</h4><p>Suit</p></div>
-<div class="card" data-name="luxury suit" data-cat="suit"><img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&q=80"><h4>Luxury Suit</h4><p>Suit</p></div>
-<div class="card" data-name="trending suit" data-cat="suit"><img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80"><h4>Trending Suit</h4><p>Suit</p></div>
-</div>
-</div>
-
-<div class="section" id="jewelrySection">
-<h3>💍 JEWELRY</h3><small>Elegant Jewelry - Display Only</small>
-<div class="slider" id="jewelrySlider">
-<div class="card" data-name="gold necklace" data-cat="jewelry"><img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80"><h4>Gold Necklace</h4><p>Jewelry</p></div>
-<div class="card" data-name="diamond ring" data-cat="jewelry"><img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600&q=80"><h4>Diamond Ring</h4><p>Jewelry</p></div>
-<div class="card" data-name="gold earrings" data-cat="jewelry"><img src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=600&q=80"><h4>Gold Earrings</h4><p>Jewelry</p></div>
-<div class="card" data-name="pearl set" data-cat="jewelry"><img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=80"><h4>Pearl Set</h4><p>Jewelry</p></div>
-</div>
-</div>
-
-<div class="section" id="shoesSection">
-<h3>👟 SHOES</h3><small>Stylish Shoes - Display Only</small>
-<div class="slider" id="shoesSlider">
-<div class="card" data-name="sneakers shoes" data-cat="shoes"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80"><h4>Sneakers</h4><p>Shoes</p></div>
-<div class="card" data-name="heels shoes" data-cat="shoes"><img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&q=80"><h4>Heels</h4><p>Shoes</p></div>
-<div class="card" data-name="formal shoes" data-cat="shoes"><img src="https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=600&q=80"><h4>Formal Shoes</h4><p>Shoes</p></div>
-<div class="card" data-name="running shoes" data-cat="shoes"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80"><h4>Running Shoes</h4><p>Shoes</p></div>
-</div>
-</div>
-
-<div class="section" id="comingSection">
-<h3>🛍️ OUR PRODUCTS</h3>
-<div id="comingSoon" class="coming"><h2>Products Coming Soon</h2><p>Naye products jald aa rahe hain. Jab aap apna product add karenge, ye khud hi gayab ho jayega aur aapka product live ho jayega.</p></div>
-<div id="myProducts" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:10px"></div>
-<p id="noResult" style="display:none;text-align:center;color:#888;padding:20px">Koi product nahi mila. Dobara search karein.</p>
-</div>
-
-<div class="payment">
-<h3>PAYMENT METHOD</h3>
-<div class="pay-box">
-<div class="pay"><b>JazzCash</b><span>03098890935</span><small>Zeeshan Ali</small></div>
-<div class="pay"><b>Easypaisa</b><span>03289598403</span><small>Zeeshan Ali</small></div>
-<div class="pay"><b>Cash on Delivery</b><span>Available</span><small>Kanganpur, Punjab</small></div>
-</div>
-<p style="margin-top:12px;font-size:12px;color:#888">Payment ke baad screenshot WhatsApp pe bhejein: 03098890935</p>
-</div>
-
-<div class="contact">
-<h3>CONTACT US</h3>
-<p>Koi sawal hai? Hum se rabta karein!</p>
-<div class="contact-box">
-<div class="contact-card">
-<b>💬 WhatsApp</b>
-<span>03098890935</span>
-<span>Subah 9 se Raat 10 baje tak</span>
-<a class="wa-btn" href="https://wa.me/923098890935?text=Assalam-o-Alaikum!%20Aurelvo%20Collections%20se%20rabta%20karna%20hai" target="_blank">WhatsApp Karein</a>
-</div>
-<div class="contact-card">
-<b>📧 Email</b>
-<span>aurelvo.collections@gmail.com</span>
-<span>24 Hours me jawab milega</span>
-<a class="mail-btn" href="mailto:aurelvo.collections@gmail.com?subject=Aurelvo Collections - Inquiry">Email Karein</a>
-</div>
-<div class="contact-card">
-<b>📍 Address</b>
-<span>Kanganpur, Punjab, Pakistan</span>
-<span>Cash on Delivery Available</span>
-<a class="wa-btn" href="https://wa.me/923098890935" target="_blank">Location Pe Rabta Karein</a>
-</div>
-</div>
-<div class="contact-form">
-<input type="text" id="cName" placeholder="Apna Naam">
-<input type="text" id="cPhone" placeholder="Apna Mobile Number">
-<textarea id="cMsg" rows="3" placeholder="Apna Message likhein..."></textarea>
-<button onclick="sendContact()">WhatsApp Pe Message Bhejein</button>
-</div>
-</div>
-
-<footer>
-<b>AURELVO</b><br>
-Kanganpur, Punjab, Pakistan<br>
-WhatsApp: 03098890935 | Email: aurelvo.collections@gmail.com<br>
-JazzCash: 03098890935 | Easypaisa: 03289598403<br>
-© 2026 Aurelvo Collections - All Rights Reserved
-</footer>
-
-<a class="whatsapp" href="https://wa.me/923098890935" target="_blank">💬</a>
-
-<div class="modal" id="loginModal"><div class="modal-box"><h3>Login</h3><input id="loginEmail" placeholder="Email ya Mobile Number"><input type="password" id="loginPass" placeholder="Password"><button class="btn-dark" onclick="doLogin()">Login</button><span class="close" onclick="closeModal()">Cancel</span><p style="font-size:13px;margin-top:10px">Account nahi hai? <b style="color:#111;cursor:pointer" onclick="openModal('signup')">Sign Up karein</b></p></div></div>
-<div class="modal" id="signupModal"><div class="modal-box"><h3>Create Account</h3><input id="signupName" placeholder="Apna Naam"><input id="signupEmail" placeholder="Email ya Mobile Number"><input type="password" id="signupPass" placeholder="Password Banayein"><button class="btn-green" onclick="doSignup()">Sign Up</button><span class="close" onclick="closeModal()">Cancel</span><p style="font-size:13px;margin-top:10px">Pehle se account hai? <b style="color:#111;cursor:pointer" onclick="openModal('login')">Login karein</b></p></div></div>
-
+<header><h1>AURELVO <span>COLLECTIONS • KANGANPUR</span></h1><a class="btn" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pubhtml" target="_blank">＋ Add Product</a></header>
+<div class="hero"><h2>Kanganpur Ki Trusted Shop ✨</h2><p>Watches • Suits • Jewelry • Shoes | Free Cash on Delivery in Kanganpur</p><p style="margin-top:8px;font-size:13px">Order on WhatsApp: 0300-1234567</p></div>
+<div class="admin">👋 <b>Admin ke liye:</b> Naya product daalne ke liye upar <b>"＋ Add Product"</b> pe click karo → Sheet me nayi line likho → Website pe khud aa jayega! <button onclick="loadProducts()" style="background:#111;color:#fff;border:none;padding:6px 12px;border-radius:10px;cursor:pointer;margin-left:5px">Refresh 🔄</button></div>
+<div class="cats" id="cats"></div>
+<div class="grid" id="grid"><p style="text-align:center;padding:30px">Products load ho rahe hain...</p></div>
+<footer>Aurelvo Collections © 2026 | Kanganpur, Pakistan | Free Delivery in Kanganpur</footer>
+<a class="whats" href="https://wa.me/923001234567" target="_blank">💬</a>
 <script>
-let MY_PRODUCTS = [];
-function loadProducts(){
-  let box=document.getElementById('myProducts');
-  let coming=document.getElementById('comingSoon');
-  if(MY_PRODUCTS.length==0){ coming.style.display='block'; box.innerHTML=''; }
-  else{ coming.style.display='none'; box.innerHTML=''; MY_PRODUCTS.forEach(p=>{ box.innerHTML += `<div class="card" style="min-width:100%;max-width:100%" data-name="${p.name.toLowerCase()}" data-cat="${p.cat}"><img src="${p.img}"><h4>${p.name}</h4><p>${p.cat}</p></div>`; }); }
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pub?output=csv";
+let products=[]; let currentCat='All'; let cats=['All','Watches','Suits','Jewelry','Shoes','Other'];
+function renderCats(){document.getElementById('cats').innerHTML=cats.map(c=>`<button class="${c===currentCat?'active':''}" onclick="showCat('${c}')">${c}</button>`).join('')}
+function showCat(c){currentCat=c;renderCats();render()}
+function render(){
+let f=currentCat==='All'?products:products.filter(p=>p.cat===currentCat);
+document.getElementById('grid').innerHTML=f.map(p=>`
+<div class="card"><img src="${p.img}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${p.price}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:12px;color:#777">${p.cat} • ${p.desc||''}</p><button class="order" onclick="order('${p.name}',${p.price})">Order on WhatsApp</button></div></div>`).join('')||'<p style="text-align:center;padding:30px">Abhi koi product nahi hai, Sheet me add karo!</p>';
+}
+function order(n,pr){window.open(`https://wa.me/923001234567?text=${encodeURIComponent('Assalam-o-Alaikum! Mujhe ye chahiye: '+n+' - Rs '+pr+' (Aurelvo Collections)')}`)}
+async function loadProducts(){
+try{
+let res=await fetch(SHEET_CSV_URL); let text=await res.text();
+let lines=text.split('\n'); let headers=lines[0].split(',').map(h=>h.trim().toLowerCase().replace(/"/g,''));
+products=lines.slice(1).filter(l=>l.trim()).map(line=>{
+let vals=line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)||[];
+let o={}; headers.forEach((h,i)=>{o[h]=(vals[i]||'').replace(/^"|"$/g,'').trim()}); return o;
+}).filter(p=>p.name);
+renderCats(); render();
+}catch(e){document.getElementById('grid').innerHTML='<p style="text-align:center;padding:30px">Sheet link sahi nahi hai! Sheet ko Publish to web karna zaroori hai.</p>'}
 }
 loadProducts();
-function doSearch(){
-  let q=document.getElementById('searchInput').value.toLowerCase().trim();
-  let cards=document.querySelectorAll('.card'); let found=0;
-  cards.forEach(c=>{ let n=c.getAttribute('data-name')||''; if(n.includes(q)){c.style.display='block'; found++;} else{c.style.display='none';} });
-  document.getElementById('noResult').style.display = found==0 ? 'block':'none';
-  if(q){['watchSection','suitSection','jewelrySection','shoesSection'].forEach(id=>document.getElementById(id).style.display='block');}
-}
-function filterCat(cat,btn){
-  document.querySelectorAll('.categories button').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
-  document.getElementById('searchInput').value='';
-  document.querySelectorAll('.card').forEach(c=>c.style.display='block');
-  document.getElementById('noResult').style.display='none';
-  let map={watch:['watchSection'],suit:['suitSection'],jewelry:['jewelrySection'],shoes:['shoesSection'],coming:['comingSection'],all:['watchSection','suitSection','jewelrySection','shoesSection','comingSection']};
-  ['watchSection','suitSection','jewelrySection','shoesSection','comingSection'].forEach(id=>document.getElementById(id).style.display='none');
-  map[cat].forEach(id=>document.getElementById(id).style.display='block');
-}
-function autoSlide(id){let s=document.getElementById(id); if(!s) return; let dir=1; setInterval(()=>{ if(s.scrollLeft + s.clientWidth >= s.scrollWidth - 10) dir=-1; if(s.scrollLeft<=0) dir=1; s.scrollLeft += dir*200; },2600);}
-autoSlide('watchSlider'); autoSlide('suitSlider'); autoSlide('jewelrySlider'); autoSlide('shoesSlider');
-function sendContact(){
-  let n=document.getElementById('cName').value;
-  let ph=document.getElementById('cPhone').value;
-  let m=document.getElementById('cMsg').value;
-  if(!n||!m){alert('Please Naam aur Message likhein');return;}
-  let msg=encodeURIComponent("Assalam-o-Alaikum! Aurelvo Collections\nNaam: "+n+"\nMobile: "+ph+"\nMessage: "+m);
-  window.open("https://wa.me/923098890935?text="+msg,"_blank");
-}
-function openModal(t){closeModal(); if(t=='login') document.getElementById('loginModal').style.display='flex'; if(t=='signup') document.getElementById('signupModal').style.display='flex';}
-function closeModal(){['loginModal','signupModal'].forEach(id=>document.getElementById(id).style.display='none');}
-function doSignup(){let n=document.getElementById('signupName').value; let e=document.getElementById('signupEmail').value; let p=document.getElementById('signupPass').value; if(!n||!e||!p){alert('Please sab fields bharein');return;} localStorage.setItem('aurelvo_name',n); localStorage.setItem('aurelvo_pass_'+e,p); document.getElementById('welcome').innerText='Welcome, '+n+'! Account ban gaya ✅'; closeModal(); alert('Sign Up Ho Gaya!');}
-function doLogin(){let e=document.getElementById('loginEmail').value; let p=document.getElementById('loginPass').value; let saved=localStorage.getItem('aurelvo_pass_'+e); let name=localStorage.getItem('aurelvo_name'); if(saved && saved==p){document.getElementById('welcome').innerText='Welcome Back, '+(name||'')+'! ✅'; closeModal();} else{alert('Email ya Password galat hai. Pehle Sign Up karein.');}}
 </script>
 </body>
 </html>
