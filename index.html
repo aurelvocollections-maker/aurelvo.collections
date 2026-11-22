@@ -18,7 +18,7 @@ header h1{font-size:32px;color:#d4af37;line-height:1} header h1 span{font-size:1
 .card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.08);position:relative}
 .card img{width:100%;height:230px;object-fit:cover}
 .card-body{padding:16px} .card-body h3{font-size:19px} .price{color:#b8860b;font-weight:800;font-size:18px} .old{color:#999;text-decoration:line-through;font-size:14px;margin-left:5px}
-.order{width:100%;background:#25D366;color:#fff;border:none;padding:13px;border-radius:10px;font-weight:700;font-size:16px;cursor:pointer;margin-top:10px}
+.order{width:100%;background:#111;color:#D4AF37;border:none;padding:13px;border-radius:10px;font-weight:700;font-size:16px;cursor:pointer;margin-top:10px}
 .info-box{background:#fff;border-radius:18px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,.06);line-height:1.9;margin:0 18px 18px;font-size:16px}
 .info-box h3{color:#b8860b;margin-bottom:8px;font-size:20px}
 .pay-box{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:15px;padding:0 18px 12px;max-width:1200px;margin:auto}
@@ -54,6 +54,16 @@ footer b{color:#d4af37;font-size:17px}
 .cat-big{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;padding:0 18px;max-width:1200px;margin:auto}
 .cat-big div{background:#fff;padding:30px;border-radius:18px;text-align:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.06);font-weight:800;font-size:21px}
 .cat-big div span{display:block;font-size:15px;color:#888;font-weight:400;margin-top:8px}
+/* --- ORDER NOW MODAL - NAYA ADDED --- */
+#orderModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;justify-content:center;align-items:center;padding:15px}
+.modalBox{background:#fff;width:100%;max-width:420px;border-radius:18px;padding:22px}
+.modalBox h2{text-align:center;margin-bottom:4px}
+.modalBox p{text-align:center;color:#777;font-size:13px;margin-bottom:12px}
+.modalBox input,.modalBox select,.modalBox textarea{width:100%;padding:13px;margin:6px 0;border:1px solid #ddd;border-radius:10px;font-size:15px;outline:none}
+.confirmBtn{background:#111;color:#D4AF37;border:none;padding:14px;width:100%;border-radius:10px;font-weight:800;font-size:16px;margin-top:8px;cursor:pointer}
+.closeBtn{background:#eee;border:none;padding:11px;width:100%;border-radius:10px;margin-top:6px;cursor:pointer}
+.success{text-align:center;padding:15px;display:none}
+.success h2{color:green}
 @media(max-width:700px){.top-row{justify-content:center} .header-search{order:3;max-width:100%;flex-basis:100%} header h1{font-size:26px} .slide img{height:280px} .hero{padding:60px 15px 65px} .hero h2{font-size:36px} .grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))} .nav-bar button{font-size:15px;padding:11px 16px}}
 </style>
 </head>
@@ -149,17 +159,46 @@ footer b{color:#d4af37;font-size:17px}
 <!-- HELP -->
 <div id="page-help" class="page">
 <div class="section"><h2>Help Center</h2></div>
-<div class="info-box"><p><b>How to order?</b> Click `Order on WhatsApp` on any product.</p><p><b>Payment?</b> JazzCash / EasyPaisa / Cash on Delivery</p><p><b>Delivery?</b> 3 to 5 days, All Pakistan</p><p><b>Return?</b> Contact us on WhatsApp: 03098890935</p></div>
+<div class="info-box"><p><b>How to order?</b> Click `Order Now` on any product, fill your Name, Phone, City, Address and Confirm.</p><p><b>Payment?</b> JazzCash / EasyPaisa / Cash on Delivery</p><p><b>Delivery?</b> 3 to 5 days, All Pakistan</p><p><b>Return?</b> Contact us on WhatsApp: 03098890935</p></div>
+</div>
+
+<!-- ORDER NOW MODAL - NAYA ADDED -->
+<div id="orderModal">
+  <div class="modalBox">
+    <div id="formBox">
+      <h2>Order Karain</h2>
+      <p id="selectedProduct">Product - Rs 0</p>
+      <input id="cName" placeholder="Apna Naam *">
+      <input id="cPhone" placeholder="Mobile Number * - 0300-1234567" type="tel">
+      <input id="cCity" placeholder="City * - Kanganpur">
+      <textarea id="cAddress" placeholder="Mukammal Address * - Ghar / Mohalla / Street" rows="2"></textarea>
+      <select id="cPayment">
+        <option value="COD">Cash on Delivery (COD)</option>
+        <option value="JazzCash">JazzCash</option>
+        <option value="Easypaisa">Easypaisa</option>
+      </select>
+      <button class="confirmBtn" id="confirmBtn" onclick="confirmOrder()">Order Confirm Karain ✅</button>
+      <button class="closeBtn" onclick="closeModal()">Cancel</button>
+    </div>
+    <div id="successBox" class="success">
+      <h2>✅ Order Mil Gaya!</h2>
+      <p>Shukriya! Hum jald aap se rabta karenge.</p>
+      <p style="font-size:12px;color:#999">Order ID: <span id="showOrderId"></span></p>
+      <button class="confirmBtn" onclick="closeModal()">Shopping Jari Rakhein</button>
+    </div>
+  </div>
 </div>
 
 <footer><b>AURELVO COLLECTIONS</b><br>Kanganpur, Pakistan | WhatsApp: 03098890935<br>© 2026 Aurelvo Collections - All Rights Reserved</footer>
 <script>
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pub?gid=2032873731&single=true&output=csv";
 const SHEET_EDIT_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pubhtml";
+const ORDER_URL = "https://script.google.com/macros/s/AKfycbxFRtzmweTKyS-ZCJMlcvY2S4fh_E83eI1gsu4xc8o6lFw3899vYOIg0-bltt5QBA_i/exec";
 const MY_PASSWORD = "Aurelvo123";
 let allProducts = [];
 let currentCat = 'all';
 let currentMode = 'all';
+let currentProduct = null;
 function checkPassword(){ let p = prompt("Enter Admin Password:"); if(p === MY_PASSWORD){ window.open(SHEET_EDIT_URL, "_blank"); } else if(p !== null){ alert("Wrong Password! Only Admin can add."); } }
 let idx=0;
 function showSlide(n){ let s=document.getElementById('mySlides'); idx=(n+4)%4; s.style.transform=`translateX(-${idx*100}%)`; document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx)); }
@@ -205,7 +244,8 @@ function updateCatCounts(){
   document.getElementById('c-shoes').innerText=counts.shoes+' Products';
 }
 function cardHTML(p,i,showBest){
-  return `<div class="card">${showBest&&i<4?'<span class="best-badge">BEST SELLER</span>':''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${p.price}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:13px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="order" onclick="orderNow('${p.name}',${p.price})">Order on WhatsApp</button></div></div>`;
+  let safeName = (p.name||'').replace(/'/g,"");
+  return `<div class="card">${showBest&&i<4?'<span class="best-badge">BEST SELLER</span>':''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${p.price}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:13px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="order" onclick="orderNow('${safeName}',${p.price})">Order Now 🛒</button></div></div>`;
 }
 function renderBestPage(){
   let best=[...allProducts].sort((a,b)=>b.sales-a.sales).slice(0,8);
@@ -247,7 +287,43 @@ document.getElementById('bestGrid').innerHTML = best.length? best.map((p,i)=>car
 updateCatCounts(); renderBestPage(); renderHomeOnly();
 }catch(e){document.getElementById('grid').innerHTML='<p style="padding:10px;color:red">Error: '+e.message+'</p>';}
 }
-function orderNow(n,pr){window.open(`https://wa.me/923098890935?text=${encodeURIComponent('Hello! I want this: '+n+' - Rs '+pr)}`)}
+
+// --- NAYA ORDER SYSTEM - WEBSITE SE DIRECT SHEET ME ---
+function orderNow(n, pr){
+  currentProduct = {name:n, price:pr};
+  document.getElementById("selectedProduct").innerText = n + " - Rs " + pr;
+  document.getElementById("formBox").style.display = "block";
+  document.getElementById("successBox").style.display = "none";
+  document.getElementById("orderModal").style.display = "flex";
+}
+function closeModal(){
+  document.getElementById("orderModal").style.display = "none";
+}
+function confirmOrder(){
+  let name = document.getElementById("cName").value.trim();
+  let phone = document.getElementById("cPhone").value.trim();
+  let city = document.getElementById("cCity").value.trim();
+  let address = document.getElementById("cAddress").value.trim();
+  let payment = document.getElementById("cPayment").value;
+  if(!name || !phone || !city || !address){ alert("Bhai saari cheezein bharo - Naam, Number, City, Address zaroori hai!"); return; }
+  let btn = document.getElementById("confirmBtn");
+  btn.innerText = "Order Bheja Ja Raha Hai...";
+  fetch(ORDER_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({name:name, phone:phone, address:address, city:city, product:currentProduct.name, price:currentProduct.price, payment:payment})
+  }).then(()=>{
+    document.getElementById("formBox").style.display = "none";
+    document.getElementById("successBox").style.display = "block";
+    document.getElementById("showOrderId").innerText = "ORD-" + Date.now();
+    document.getElementById("cName").value=""; document.getElementById("cPhone").value=""; document.getElementById("cCity").value=""; document.getElementById("cAddress").value="";
+    btn.innerText = "Order Confirm Karain ✅";
+  }).catch(()=>{
+    alert("Order bhej diya gaya hai! Sheet me check karain.");
+    closeModal();
+  });
+}
 loadSheet();
 </script>
 </body>
