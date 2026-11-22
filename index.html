@@ -14,7 +14,7 @@ header h1{font-size:22px;color:#d4af37;line-height:1} header h1 span{font-size:1
 .section{max-width:1100px;margin:auto;padding:20px 15px 5px}
 .section h2{font-size:22px;margin-bottom:12px;border-left:5px solid #d4af37;padding-left:10px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:15px;padding:0 15px 10px;max-width:1100px;margin:auto}
-.card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.08)}
+.card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.08);position:relative}
 .card img{width:100%;height:180px;object-fit:cover}
 .card-body{padding:12px} .price{color:#b8860b;font-weight:800} .old{color:#999;text-decoration:line-through;font-size:13px;margin-left:5px}
 .order{width:100%;background:#25D366;color:#fff;border:none;padding:10px;border-radius:8px;font-weight:700;cursor:pointer;margin-top:8px}
@@ -26,7 +26,7 @@ header h1{font-size:22px;color:#d4af37;line-height:1} header h1 span{font-size:1
 footer{background:#111;color:#aaa;text-align:center;padding:22px 15px;font-size:13px;line-height:1.8}
 footer b{color:#d4af37}
 .live{color:#22c55e;font-size:12px;font-weight:800}
-/* SLIDER STYLE */
+.best-badge{position:absolute;top:10px;left:10px;background:#ff3b30;color:#fff;font-size:11px;font-weight:800;padding:5px 10px;border-radius:20px;z-index:2}
 .slider-box{max-width:1100px;margin:0 15px;overflow:hidden;border-radius:18px;position:relative;background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.1)}
 .slides{display:flex;transition:transform .7s ease}
 .slide{min-width:100%;text-align:center;padding:12px 12px 16px}
@@ -67,6 +67,15 @@ footer b{color:#d4af37}
 
 <div class="section"><h2>🛍️ Our Live Products <span class="live">● LIVE FROM SHEET</span></h2><p style="color:#888;font-size:13px;margin-bottom:12px">Sheet me add karo to yahan LIVE aa jayega!</p></div>
 <div class="grid" id="grid"><p style="padding:10px;color:#888">Loading products...</p></div>
+
+<div class="section"><h2>🔥 Best Seller</h2><p style="color:#888;font-size:13px;margin-bottom:12px">Sab se zyada pasand kiye jane wale products!</p></div>
+<div class="grid">
+<div class="card"><span class="best-badge">🔥 BEST SELLER</span><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80"><div class="card-body"><h3>Luxury Watch</h3><div><span class="price">Rs 2,499</span> <span class="old">Rs 3,999</span></div><p style="font-size:12px;color:#777">Watches • Premium Quality</p><button class="order" onclick="orderNow('Luxury Watch',2499)">Order on WhatsApp</button></div></div>
+<div class="card"><span class="best-badge">🔥 BEST SELLER</span><img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80"><div class="card-body"><h3>Elegant Suit</h3><div><span class="price">Rs 4,999</span> <span class="old">Rs 6,999</span></div><p style="font-size:12px;color:#777">Suits • Stylish & Premium</p><button class="order" onclick="orderNow('Elegant Suit',4999)">Order on WhatsApp</button></div></div>
+<div class="card"><span class="best-badge">🔥 BEST SELLER</span><img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=600&q=80"><div class="card-body"><h3>Beautiful Jewelry Set</h3><div><span class="price">Rs 1,999</span> <span class="old">Rs 2,999</span></div><p style="font-size:12px;color:#777">Jewelry • Gold & Artificial</p><button class="order" onclick="orderNow('Beautiful Jewelry Set',1999)">Order on WhatsApp</button></div></div>
+<div class="card"><span class="best-badge">🔥 BEST SELLER</span><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80"><div class="card-body"><h3>Trendy Shoes</h3><div><span class="price">Rs 3,499</span> <span class="old">Rs 4,999</span></div><p style="font-size:12px;color:#777">Shoes • Comfortable & Stylish</p><button class="order" onclick="orderNow('Trendy Shoes',3499)">Order on WhatsApp</button></div></div>
+</div>
+
 <div class="section"><h2>About Us</h2></div>
 <div class="info-box"><h3>Aurelvo Collections</h3>
 <p>Aurelvo Collections Kanganpur ki trusted online shop hai. Hum apne customers ko best quality Watches, Suits, Jewelry aur Shoes dete hain, wo bhi munasib price me.</p>
@@ -103,7 +112,6 @@ function checkPassword(){
   if(p === MY_PASSWORD){ window.open(SHEET_EDIT_URL, "_blank"); }
   else if(p !== null){ alert("Galat Password! Sirf Admin add kar sakta hai."); }
 }
-// SLIDER LOGIC - 4 SECOND
 let idx=0;
 function showSlide(n){
   let s=document.getElementById('mySlides');
@@ -115,7 +123,6 @@ function moveSlide(n){showSlide(idx+n);resetTimer();}
 function goSlide(n){showSlide(n);resetTimer();}
 let timer=setInterval(()=>showSlide(idx+1),4000);
 function resetTimer(){clearInterval(timer);timer=setInterval(()=>showSlide(idx+1),4000);}
-
 async function loadSheet(){
 try{
 let res=await fetch(SHEET_CSV_URL + "&t=" + Date.now());
