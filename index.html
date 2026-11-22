@@ -27,6 +27,7 @@ footer{background:#111;color:#aaa;text-align:center;padding:22px 15px;font-size:
 footer b{color:#d4af37}
 .live{color:#22c55e;font-size:12px;font-weight:800}
 .best-badge{position:absolute;top:10px;left:10px;background:#ff3b30;color:#fff;font-size:11px;font-weight:800;padding:5px 10px;border-radius:20px;z-index:2}
+.rank-badge{position:absolute;top:10px;right:10px;background:#d4af37;color:#000;font-size:11px;font-weight:800;padding:5px 10px;border-radius:20px;z-index:2}
 .slider-box{max-width:1100px;margin:0 15px;overflow:hidden;border-radius:18px;position:relative;background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.1)}
 .slides{display:flex;transition:transform .7s ease}
 .slide{min-width:100%;text-align:center;padding:12px 12px 16px}
@@ -65,16 +66,11 @@ footer b{color:#d4af37}
 </div>
 </div>
 
-<div class="section"><h2>🛍️ Our Live Products <span class="live">● LIVE FROM SHEET</span></h2><p style="color:#888;font-size:13px;margin-bottom:12px">Sheet me add karo to yahan LIVE aa jayega!</p></div>
-<div class="grid" id="grid"><p style="padding:10px;color:#888">Loading products...</p></div>
+<div class="section"><h2>🔥 Best Seller</h2><p style="color:#888;font-size:13px;margin-bottom:12px">Sab se zyada bikne wale products - Auto Update!</p></div>
+<div class="grid" id="bestGrid"><p style="padding:10px;color:#888">Best Seller load ho raha hai...</p></div>
 
-<div class="section"><h2>🔥 Best Seller</h2><p style="color:#888;font-size:13px;margin-bottom:12px">Sab se zyada pasand kiye jane wale options!</p></div>
-<div class="grid">
-<div class="card"><span class="best-badge">🔥 BEST SELLER</span><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80"><div class="card-body"><h3>Luxury Watches</h3><p style="font-size:12px;color:#777">Premium Quality Collection</p></div></div>
-<div class="card"><span class="best-badge">🔥 BEST SELLER</span><img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80"><div class="card-body"><h3>Elegant Suits</h3><p style="font-size:12px;color:#777">Stylish & Premium Suits</p></div></div>
-<div class="card"><span class="best-badge">🔥 BEST SELLER</span><img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=600&q=80"><div class="card-body"><h3>Beautiful Jewelry</h3><p style="font-size:12px;color:#777">Gold & Artificial Jewelry</p></div></div>
-<div class="card"><span class="best-badge">🔥 BEST SELLER</span><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80"><div class="card-body"><h3>Trendy Shoes</h3><p style="font-size:12px;color:#777">Comfortable & Stylish</p></div></div>
-</div>
+<div class="section"><h2>🛍️ Our Live Products <span class="live">● LIVE FROM SHEET</span></h2><p style="color:#888;font-size:13px;margin-bottom:12px">Zyada bikne wala upar, kam bikne wala neeche - Auto Ranking!</p></div>
+<div class="grid" id="grid"><p style="padding:10px;color:#888">Loading products...</p></div>
 
 <div class="section"><h2>About Us</h2></div>
 <div class="info-box"><h3>Aurelvo Collections</h3>
@@ -133,8 +129,19 @@ let products=lines.slice(1).filter(l=>l.trim()).map(line=>{
 let vals=line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)||[];
 let o={}; headers.forEach((h,i)=>{o[h]=(vals[i]||'').replace(/^"|"$/g,'').trim()}); return o;
 }).filter(p=>p.name && p.name.toLowerCase()!=='name');
-if(products.length===0){document.getElementById('grid').innerHTML='<p style="padding:10px;color:#888">Abhi koi product nahi hai. Sheet me add karo!</p>'; return;}
-document.getElementById('grid').innerHTML=products.map(p=>`<div class="card"><img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${p.price}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:12px;color:#777">${p.cat||''} • ${p.desc||''}</p><button class="order" onclick="orderNow('${p.name}',${p.price})">Order on WhatsApp</button></div></div>`).join('');
+// AUTO RANKING - Zyada sales wala upar
+products.forEach(p=>{ p.sales = parseInt(p.sales||0) || 0; });
+products.sort((a,b)=> b.sales - a.sales);
+// BEST SELLER - Top 4 auto
+let best = products.slice(0,4);
+if(best.length===0){
+  document.getElementById('bestGrid').innerHTML='<p style="padding:10px;color:#888">Abhi koi Best Seller nahi hai. Jab sale hogi to yahan khud aa jayega!</p>';
+  document.getElementById('grid').innerHTML='<p style="padding:10px;color:#888">Abhi koi product nahi hai. Sheet me add karo!</p>';
+  return;
+}
+document.getElementById('bestGrid').innerHTML=best.map((p,i)=>`<div class="card"><span class="best-badge">🔥 BEST SELLER</span><span class="rank-badge">#${i+1} • ${p.sales} Sold</span><img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${p.price}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:12px;color:#777">${p.cat||''} • ${p.desc||''}</p><button class="order" onclick="orderNow('${p.name}',${p.price})">Order on WhatsApp</button></div></div>`).join('');
+// LIVE PRODUCTS - Bhi sales ke hisab se tarteeb me
+document.getElementById('grid').innerHTML=products.map((p,i)=>`<div class="card">${i<4?'<span class="best-badge">🔥 BEST SELLER</span>':''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${p.price}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:12px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="order" onclick="orderNow('${p.name}',${p.price})">Order on WhatsApp</button></div></div>`).join('');
 }catch(e){document.getElementById('grid').innerHTML='<p style="padding:10px;color:red">Error: '+e.message+'</p>';}
 }
 function orderNow(n,pr){window.open(`https://wa.me/923098890935?text=${encodeURIComponent('Assalam-o-Alaikum! Mujhe ye chahiye: '+n+' - Rs '+pr)}`)}
