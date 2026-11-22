@@ -66,23 +66,23 @@ footer b{color:#d4af37}
 </div>
 </div>
 
-<div class="section"><h2>🔥 Best Seller</h2><p style="color:#888;font-size:13px;margin-bottom:12px">Sab se zyada bikne wale products - Auto Update!</p></div>
-<div class="grid" id="bestGrid"><p style="padding:10px;color:#888">Best Seller load ho raha hai...</p></div>
+<div class="section"><h2>🔥 Best Seller</h2><p style="color:#888;font-size:13px;margin-bottom:12px">Our most selling products - Auto Update!</p></div>
+<div class="grid" id="bestGrid"><p style="padding:10px;color:#888">Loading Best Sellers...</p></div>
 
-<div class="section"><h2>🛍️ Our Live Products <span class="live">● LIVE FROM SHEET</span></h2><p style="color:#888;font-size:13px;margin-bottom:12px">Zyada bikne wala upar, kam bikne wala neeche - Auto Ranking!</p></div>
+<div class="section"><h2>🛍️ Our Live Products <span class="live">● LIVE FROM SHEET</span></h2><p style="color:#888;font-size:13px;margin-bottom:12px">Most sold on top, less sold below - Auto Ranking!</p></div>
 <div class="grid" id="grid"><p style="padding:10px;color:#888">Loading products...</p></div>
 
 <div class="section"><h2>About Us</h2></div>
 <div class="info-box"><h3>Aurelvo Collections</h3>
-<p>Aurelvo Collections Kanganpur ki trusted online shop hai. Hum apne customers ko best quality Watches, Suits, Jewelry aur Shoes dete hain, wo bhi munasib price me.</p>
-<p>Hamara maqsad hai ke Kanganpur ke har ghar tak achi cheez pohnche, wo bhi ghar baithe!</p>
-<p>Shukriya ke aapne Aurelvo ko chuna! ❤️</p>
+<p>Aurelvo Collections is a trusted online shop from Kanganpur. We provide our customers with best quality Watches, Suits, Jewelry and Shoes at affordable prices.</p>
+<p>Our goal is to deliver good quality products to every home in Kanganpur, right at your doorstep!</p>
+<p>Thank you for choosing Aurelvo! ❤️</p>
 </div>
 <div class="section"><h2>💳 Payment Method</h2></div>
 <div class="pay-box">
-<div class="pay-card"><b>📱 JazzCash</b><br>Number: 03098890935<br><span style="color:#777;font-size:13px">Payment ka screenshot WhatsApp pe bhejein</span></div>
-<div class="pay-card"><b>📱 EasyPaisa</b><br>Number: 03289598403<br><span style="color:#777;font-size:13px">Payment ka screenshot WhatsApp pe bhejein</span></div>
-<div class="pay-card"><b>💵 Cash on Delivery</b><br>Ghar pe paisa dein<br><span style="color:#777;font-size:13px">Product milne par payment karein</span></div>
+<div class="pay-card"><b>📱 JazzCash</b><br>Number: 03098890935<br><span style="color:#777;font-size:13px">Send payment screenshot on WhatsApp</span></div>
+<div class="pay-card"><b>📱 EasyPaisa</b><br>Number: 03289598403<br><span style="color:#777;font-size:13px">Send payment screenshot on WhatsApp</span></div>
+<div class="pay-card"><b>💵 Cash on Delivery</b><br>Pay at your home<br><span style="color:#777;font-size:13px">Pay when you receive your product</span></div>
 </div>
 <div class="section"><h2>🚚 Delivery Info</h2></div>
 <div class="info-box">
@@ -95,8 +95,8 @@ footer b{color:#d4af37}
 <p>📧 Email: aurelvo.collections@gmial.com</p>
 <p>📱 WhatsApp: 03098890935</p>
 <p>📍 Location: Kanganpur, Pakistan</p>
-<p>🕒 Timing: Subha 9:00 se Raat 9:00 tak</p>
-<p style="margin-top:10px"><a href="https://wa.me/923098890935?text=Assalam-o-Alaikum! Mujhe Aurelvo Collections se order karna hai." style="background:#25D366;color:#fff;padding:10px 20px;border-radius:20px;text-decoration:none;font-weight:700;display:inline-block">WhatsApp Pe Baat Karein</a></p>
+<p>🕒 Timing: 9:00 AM to 9:00 PM</p>
+<p style="margin-top:10px"><a href="https://wa.me/923098890935?text=Hello! I want to order from Aurelvo Collections." style="background:#25D366;color:#fff;padding:10px 20px;border-radius:20px;text-decoration:none;font-weight:700;display:inline-block">Chat on WhatsApp</a></p>
 </div>
 <footer><b>AURELVO COLLECTIONS</b><br>Kanganpur, Pakistan | WhatsApp: 03098890935<br>© 2026 Aurelvo Collections - All Rights Reserved</footer>
 <script>
@@ -104,9 +104,9 @@ const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCY
 const SHEET_EDIT_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pubhtml";
 const MY_PASSWORD = "Aurelvo123";
 function checkPassword(){
-  let p = prompt("Admin Password Dalein:");
+  let p = prompt("Enter Admin Password:");
   if(p === MY_PASSWORD){ window.open(SHEET_EDIT_URL, "_blank"); }
-  else if(p !== null){ alert("Galat Password! Sirf Admin add kar sakta hai."); }
+  else if(p !== null){ alert("Wrong Password! Only Admin can add."); }
 }
 let idx=0;
 function showSlide(n){
@@ -133,15 +133,15 @@ products.forEach(p=>{ p.sales = parseInt(p.sales||0) || 0; });
 products.sort((a,b)=> b.sales - a.sales);
 let best = products.slice(0,4);
 if(best.length===0){
-  document.getElementById('bestGrid').innerHTML='<p style="padding:10px;color:#888">Abhi koi Best Seller nahi hai. Jab sale hogi to yahan khud aa jayega!</p>';
-  document.getElementById('grid').innerHTML='<p style="padding:10px;color:#888">Abhi koi product nahi hai. Sheet me add karo!</p>';
+  document.getElementById('bestGrid').innerHTML='<p style="padding:10px;color:#888">No Best Seller yet. It will appear here automatically after sales!</p>';
+  document.getElementById('grid').innerHTML='<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';
   return;
 }
 document.getElementById('bestGrid').innerHTML=best.map((p,i)=>`<div class="card"><span class="best-badge">🔥 BEST SELLER</span><span class="rank-badge">#${i+1} • ${p.sales} Sold</span><img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${p.price}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:12px;color:#777">${p.cat||''} • ${p.desc||''}</p><button class="order" onclick="orderNow('${p.name}',${p.price})">Order on WhatsApp</button></div></div>`).join('');
 document.getElementById('grid').innerHTML=products.map((p,i)=>`<div class="card">${i<4?'<span class="best-badge">🔥 BEST SELLER</span>':''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${p.price}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:12px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="order" onclick="orderNow('${p.name}',${p.price})">Order on WhatsApp</button></div></div>`).join('');
 }catch(e){document.getElementById('grid').innerHTML='<p style="padding:10px;color:red">Error: '+e.message+'</p>';}
 }
-function orderNow(n,pr){window.open(`https://wa.me/923098890935?text=${encodeURIComponent('Assalam-o-Alaikum! Mujhe ye chahiye: '+n+' - Rs '+pr)}`)}
+function orderNow(n,pr){window.open(`https://wa.me/923098890935?text=${encodeURIComponent('Hello! I want this: '+n+' - Rs '+pr)}`)}
 loadSheet();
 </script>
 </body>
