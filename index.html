@@ -43,13 +43,16 @@ footer b{color:#d4af37}
 .header-search{flex:1;max-width:450px}
 .header-search input{width:100%;padding:11px 16px;border:none;border-radius:25px;font-size:14px;outline:none;background:#fff}
 .header-search input:focus{box-shadow:0 0 0 3px rgba(212,175,55,.5)}
-/* HEADER MENU - Teri pic jaisa */
 .nav-bar{display:flex;gap:4px;overflow-x:auto;white-space:nowrap;background:#fff;padding:8px 10px;margin:0 -18px;border-top:1px solid #eee}
 .nav-bar button{border:none;background:transparent;padding:9px 13px;cursor:pointer;font-weight:600;font-size:14px;color:#333;border-radius:20px;white-space:nowrap}
 .nav-bar button:hover,.nav-bar button.active{background:#111;color:#d4af37}
 .cat-bar{display:flex;gap:8px;overflow-x:auto;white-space:nowrap;padding:10px 15px;max-width:1100px;margin:auto}
 .cat-btn{padding:9px 18px;border:1px solid #ddd;background:#fff;border-radius:20px;cursor:pointer;font-weight:700;font-size:14px;white-space:nowrap}
 .cat-btn.active{background:#111;color:#d4af37;border-color:#111}
+.page{display:none} .page.active{display:block}
+.cat-big{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;padding:0 15px;max-width:1100px;margin:auto}
+.cat-big div{background:#fff;padding:22px;border-radius:15px;text-align:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.06);font-weight:800;font-size:18px}
+.cat-big div span{display:block;font-size:13px;color:#888;font-weight:400;margin-top:6px}
 @media(max-width:700px){.top-row{justify-content:center} .header-search{order:3;max-width:100%;flex-basis:100%} header h1{font-size:22px} .slide img{height:260px} .hero{padding:55px 15px 60px} .hero h2{font-size:32px}}
 </style>
 </head>
@@ -60,22 +63,20 @@ footer b{color:#d4af37}
 <div class="header-search"><input type="text" id="searchInput" placeholder="🔍 Search by product name..." oninput="filterProducts()"></div>
 <button class="btn" onclick="checkPassword()">＋ Add Product</button>
 </div>
-<!-- HEADER MENU - TERI PIC JAISA -->
 <div class="nav-bar" id="navBar">
 <button class="active" onclick="goNav('home',this)">Home</button>
 <button onclick="goNav('all',this)">Shop All Products</button>
 <button onclick="goNav('categories',this)">Categories</button>
 <button onclick="goNav('best',this)">Best Sellers</button>
-<button onclick="goNav('new',this)">New Arrivals</button>
 <button onclick="goNav('free',this)">Free Products</button>
-<button onclick="goNav('offer',this)">Special Offers</button>
 <button onclick="goNav('about',this)">About Us</button>
 <button onclick="goNav('contact',this)">Contact Us</button>
 <button onclick="goNav('help',this)">Help Center</button>
 </div>
 </header>
-<div class="hero"><h2>Aurelvo Collections ✨</h2><p>Watches • Suits • Jewelry • Shoes</p><p style="margin-top:12px;font-size:15px;color:#fff">WhatsApp: 03098890935 • <span class="live">● LIVE</span></p></div>
 
+<div id="page-home" class="page active">
+<div class="hero"><h2>Aurelvo Collections ✨</h2><p>Watches • Suits • Jewelry • Shoes</p><p style="margin-top:12px;font-size:15px;color:#fff">WhatsApp: 03098890935 • <span class="live">● LIVE</span></p></div>
 <div class="section"><h2>✨ Our Collection</h2></div>
 <div style="max-width:1100px;margin:auto">
 <div class="slider-box">
@@ -88,18 +89,16 @@ footer b{color:#d4af37}
   <button class="arrow prev" onclick="moveSlide(-1)">❮</button>
   <button class="arrow next" onclick="moveSlide(1)">❯</button>
 </div>
-<div class="dots">
-  <span class="dot active" onclick="goSlide(0)"></span>
-  <span class="dot" onclick="goSlide(1)"></span>
-  <span class="dot" onclick="goSlide(2)"></span>
-  <span class="dot" onclick="goSlide(3)"></span>
+<div class="dots"><span class="dot active" onclick="goSlide(0)"></span><span class="dot" onclick="goSlide(1)"></span><span class="dot" onclick="goSlide(2)"></span><span class="dot" onclick="goSlide(3)"></span></div>
 </div>
-</div>
-
-<div class="section" id="bestSection"><h2>🔥 Best Seller</h2><p style="color:#888;font-size:13px;margin-bottom:12px">Our most selling products - Auto Update!</p></div>
+<div class="section"><h2>🔥 Best Seller</h2><p style="color:#888;font-size:13px;margin-bottom:12px">Our most selling products - Auto Update!</p></div>
 <div class="grid" id="bestGrid"><p style="padding:10px;color:#888">Loading Best Sellers...</p></div>
+<div class="section"><h2>🛍️ Our Live Products</h2></div>
+<div class="grid" id="homeGrid"></div>
+</div>
 
-<div class="section" id="liveSection"><h2>🛍️ Our Live Products <span class="live">● LIVE FROM SHEET</span></h2><p style="color:#888;font-size:13px;margin-bottom:5px">Most sold on top, less sold below - Auto Ranking!</p></div>
+<div id="page-shop" class="page">
+<div class="section"><h2 id="shopTitle">🛍️ Shop All Products</h2><p style="color:#888;font-size:13px">Most sold on top - Auto Ranking!</p></div>
 <div class="cat-bar" id="catBar">
   <button class="cat-btn active" data-cat="all" onclick="setCat('all',this)">All</button>
   <button class="cat-btn" data-cat="watches" onclick="setCat('watches',this)">⌚ Watches</button>
@@ -109,168 +108,130 @@ footer b{color:#d4af37}
 </div>
 <p id="resultCount" style="max-width:1100px;margin:auto;padding:0 15px 10px;color:#888;font-size:13px"></p>
 <div class="grid" id="grid"><p style="padding:10px;color:#888">Loading products...</p></div>
+</div>
 
-<div class="section" id="aboutSection"><h2>About Us</h2></div>
-<div class="info-box"><h3>Aurelvo Collections</h3>
-<p>Aurelvo Collections is a trusted online shop from Kanganpur. We provide our customers with best quality Watches, Suits, Jewelry and Shoes at affordable prices.</p>
-<p>Our goal is to deliver good quality products to every home in Kanganpur, right at your doorstep!</p>
-<p>Thank you for choosing Aurelvo! ❤️</p>
+<div id="page-categories" class="page">
+<div class="section"><h2>📂 Categories</h2><p style="color:#888;font-size:13px">Kisi bhi category pe click karo, usi ki products khulengi!</p></div>
+<div class="cat-big">
+<div onclick="openCat('watches')">⌚ Watches<span id="c-watches">0 Products</span></div>
+<div onclick="openCat('suits')">👔 Suits<span id="c-suits">0 Products</span></div>
+<div onclick="openCat('jewelry')">💎 Jewelry<span id="c-jewelry">0 Products</span></div>
+<div onclick="openCat('shoes')">👟 Shoes<span id="c-shoes">0 Products</span></div>
 </div>
+</div>
+
+<div id="page-best" class="page">
+<div class="section"><h2>🔥 Best Sellers</h2><p style="color:#888;font-size:13px">Sab se zyada bikne wali products!</p></div>
+<div class="grid" id="bestPageGrid"></div>
+</div>
+
+<div id="page-about" class="page">
+<div class="section"><h2>About Us</h2></div>
+<div class="info-box"><h3>Aurelvo Collections</h3><p>Aurelvo Collections is a trusted online shop from Kanganpur. We provide our customers with best quality Watches, Suits, Jewelry and Shoes at affordable prices.</p><p>Our goal is to deliver good quality products to every home in Kanganpur, right at your doorstep!</p><p>Thank you for choosing Aurelvo! ❤️</p></div>
 <div class="section"><h2>💳 Payment Method</h2></div>
-<div class="pay-box">
-<div class="pay-card"><b>📱 JazzCash</b><br>Number: 03098890935<br><span style="color:#777;font-size:13px">Send payment screenshot on WhatsApp</span></div>
-<div class="pay-card"><b>📱 EasyPaisa</b><br>Number: 03289598403<br><span style="color:#777;font-size:13px">Send payment screenshot on WhatsApp</span></div>
-<div class="pay-card"><b>💵 Cash on Delivery</b><br>Pay at your home<br><span style="color:#777;font-size:13px">Pay when you receive your product</span></div>
-</div>
+<div class="pay-box"><div class="pay-card"><b>📱 JazzCash</b><br>Number: 03098890935<br><span style="color:#777;font-size:13px">Send payment screenshot on WhatsApp</span></div><div class="pay-card"><b>📱 EasyPaisa</b><br>Number: 03289598403<br><span style="color:#777;font-size:13px">Send payment screenshot on WhatsApp</span></div><div class="pay-card"><b>💵 Cash on Delivery</b><br>Pay at your home<br><span style="color:#777;font-size:13px">Pay when you receive your product</span></div></div>
 <div class="section"><h2>🚚 Delivery Info</h2></div>
-<div class="info-box">
-<p><b>Delivery Charges:</b> Rs 250</p>
-<p><b>Delivery Time:</b> 3 to 5 Business Days</p>
-<p><b>Delivery:</b> All Pakistan Delivery Available</p>
+<div class="info-box"><p><b>Delivery Charges:</b> Rs 250</p><p><b>Delivery Time:</b> 3 to 5 Business Days</p><p><b>Delivery:</b> All Pakistan Delivery Available</p></div>
 </div>
-<div class="section" id="contactSection"><h2>📞 Contact Us</h2></div>
-<div class="info-box">
-<p>📧 Email: aurelvo.collections@gmial.com</p>
-<p>📱 WhatsApp: 03098890935</p>
-<p>📍 Location: Kanganpur, Pakistan</p>
-<p>🕒 Timing: 9:00 AM to 9:00 PM</p>
-<p style="margin-top:10px"><a href="https://wa.me/923098890935?text=Hello! I want to order from Aurelvo Collections." style="background:#25D366;color:#fff;padding:10px 20px;border-radius:20px;text-decoration:none;font-weight:700;display:inline-block">Chat on WhatsApp</a></p>
+
+<div id="page-contact" class="page">
+<div class="section"><h2>📞 Contact Us</h2></div>
+<div class="info-box"><p>📧 Email: aurelvo.collections@gmial.com</p><p>📱 WhatsApp: 03098890935</p><p>📍 Location: Kanganpur, Pakistan</p><p>🕒 Timing: 9:00 AM to 9:00 PM</p><p style="margin-top:10px"><a href="https://wa.me/923098890935?text=Hello! I want to order from Aurelvo Collections." style="background:#25D366;color:#fff;padding:10px 20px;border-radius:20px;text-decoration:none;font-weight:700;display:inline-block">Chat on WhatsApp</a></p></div>
 </div>
-<div class="section" id="helpSection"><h2>❓ Help Center</h2></div>
-<div class="info-box">
-<p><b>Order kaise karein?</b> Product pe `Order on WhatsApp` dabayein.</p>
-<p><b>Payment?</b> JazzCash / EasyPaisa / Cash on Delivery</p>
-<p><b>Delivery?</b> 3 to 5 din me All Pakistan</p>
-<p><b>Return?</b> WhatsApp pe rabta karein: 03098890935</p>
+
+<div id="page-help" class="page">
+<div class="section"><h2>❓ Help Center</h2></div>
+<div class="info-box"><p><b>Order kaise karein?</b> Product pe `Order on WhatsApp` dabayein.</p><p><b>Payment?</b> JazzCash / EasyPaisa / Cash on Delivery</p><p><b>Delivery?</b> 3 to 5 din me All Pakistan</p><p><b>Return?</b> WhatsApp pe rabta karein: 03098890935</p></div>
 </div>
+
 <footer><b>AURELVO COLLECTIONS</b><br>Kanganpur, Pakistan | WhatsApp: 03098890935<br>© 2026 Aurelvo Collections - All Rights Reserved</footer>
 <script>
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pub?gid=2032873731&single=true&output=csv";
 const SHEET_EDIT_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pubhtml";
 const MY_PASSWORD = "Aurelvo123";
 let allProducts = [];
-let originalOrder = [];
 let currentCat = 'all';
-let currentMode = 'all'; // all, best, new, free, offer
-function checkPassword(){
-  let p = prompt("Enter Admin Password:");
-  if(p === MY_PASSWORD){ window.open(SHEET_EDIT_URL, "_blank"); }
-  else if(p !== null){ alert("Wrong Password! Only Admin can add."); }
-}
+let currentMode = 'all';
+function checkPassword(){ let p = prompt("Enter Admin Password:"); if(p === MY_PASSWORD){ window.open(SHEET_EDIT_URL, "_blank"); } else if(p !== null){ alert("Wrong Password! Only Admin can add."); } }
 let idx=0;
-function showSlide(n){
-  let s=document.getElementById('mySlides');
-  idx=(n+4)%4;
-  s.style.transform=`translateX(-${idx*100}%)`;
-  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
-}
+function showSlide(n){ let s=document.getElementById('mySlides'); idx=(n+4)%4; s.style.transform=`translateX(-${idx*100}%)`; document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx)); }
 function moveSlide(n){showSlide(idx+n);resetTimer();}
 function goSlide(n){showSlide(n);resetTimer();}
 let timer=setInterval(()=>showSlide(idx+1),4000);
 function resetTimer(){clearInterval(timer);timer=setInterval(()=>showSlide(idx+1),4000);}
 
-// HEADER MENU - Jis ko dabao wahi filter / khulega
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 function goNav(type,btn){
   document.querySelectorAll('.nav-bar button').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
-  document.getElementById('searchInput').value = '';
-  if(type==='home'){ currentMode='all'; currentCat='all'; syncCatBtn(); filterProducts(); window.scrollTo({top:0,behavior:'smooth'}); return; }
-  if(type==='all'){ currentMode='all'; currentCat='all'; syncCatBtn(); filterProducts(); document.getElementById('grid').scrollIntoView({behavior:'smooth'}); return; }
-  if(type==='categories'){ document.getElementById('catBar').scrollIntoView({behavior:'smooth'}); return; }
-  if(type==='best'){ currentMode='all'; document.getElementById('bestSection').scrollIntoView({behavior:'smooth'}); return; }
-  if(type==='new'){ currentMode='new'; filterProducts(); document.getElementById('grid').scrollIntoView({behavior:'smooth'}); return; }
-  if(type==='free'){ currentMode='free'; filterProducts(); document.getElementById('grid').scrollIntoView({behavior:'smooth'}); return; }
-  if(type==='offer'){ currentMode='offer'; filterProducts(); document.getElementById('grid').scrollIntoView({behavior:'smooth'}); return; }
-  if(type==='about'){ document.getElementById('aboutSection').scrollIntoView({behavior:'smooth'}); return; }
-  if(type==='contact'){ document.getElementById('contactSection').scrollIntoView({behavior:'smooth'}); return; }
-  if(type==='help'){ document.getElementById('helpSection').scrollIntoView({behavior:'smooth'}); return; }
+  document.getElementById('searchInput').value='';
+  if(type==='home'){ showPage('page-home'); return; }
+  if(type==='categories'){ showPage('page-categories'); return; }
+  if(type==='best'){ currentMode='best'; showPage('page-best'); renderBestPage(); return; }
+  if(type==='about'){ showPage('page-about'); return; }
+  if(type==='contact'){ showPage('page-contact'); return; }
+  if(type==='help'){ showPage('page-help'); return; }
+  if(type==='all'){ currentMode='all'; currentCat='all'; document.getElementById('shopTitle').innerText='🛍️ Shop All Products'; }
+  if(type==='free'){ currentMode='free'; document.getElementById('shopTitle').innerText='🎁 Free Products'; }
+  syncCatBtn(); showPage('page-shop'); filterProducts();
 }
-function syncCatBtn(){
-  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('active', b.getAttribute('data-cat')===currentCat));
+function openCat(cat){
+  currentCat=cat; currentMode='all';
+  document.getElementById('shopTitle').innerText='🛍️ '+cat;
+  syncCatBtn(); showPage('page-shop'); filterProducts();
+  document.querySelectorAll('.nav-bar button').forEach(b=>b.classList.remove('active'));
 }
-function setCat(cat,btn){
-  currentCat = cat; currentMode='all';
-  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  filterProducts();
-}
+function syncCatBtn(){ document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('active', b.getAttribute('data-cat')===currentCat)); }
+function setCat(cat,btn){ currentCat=cat; currentMode='all'; document.getElementById('shopTitle').innerText='🛍️ Shop All Products'; document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); filterProducts(); }
 function updateCatCounts(){
-  let counts = {all: allProducts.length, watches:0, suits:0, jewelry:0, shoes:0};
-  allProducts.forEach(p=>{
-    let c = (p.cat||'').toLowerCase();
-    if(c.includes('watch')) counts.watches++;
-    else if(c.includes('suit')) counts.suits++;
-    else if(c.includes('jewel')) counts.jewelry++;
-    else if(c.includes('shoe')) counts.shoes++;
-  });
-  document.querySelectorAll('.cat-btn').forEach(b=>{
-    let cat = b.getAttribute('data-cat');
-    let label = b.innerText.split(' (')[0];
-    b.innerText = label + ' (' + counts[cat] + ')';
-  });
+  let counts={watches:0,suits:0,jewelry:0,shoes:0};
+  allProducts.forEach(p=>{ let c=(p.cat||'').toLowerCase(); if(c.includes('watch')) counts.watches++; else if(c.includes('suit')) counts.suits++; else if(c.includes('jewel')) counts.jewelry++; else if(c.includes('shoe')) counts.shoes++; });
+  document.querySelectorAll('.cat-btn').forEach(b=>{ let cat=b.getAttribute('data-cat'); let label=b.innerText.split(' (')[0]; let n = cat==='all'?allProducts.length:counts[cat]; b.innerText=label+' ('+n+')'; });
+  document.getElementById('c-watches').innerText=counts.watches+' Products';
+  document.getElementById('c-suits').innerText=counts.suits+' Products';
+  document.getElementById('c-jewelry').innerText=counts.jewelry+' Products';
+  document.getElementById('c-shoes').innerText=counts.shoes+' Products';
+}
+function cardHTML(p,i,showBest){
+  return `<div class="card">${showBest&&i<4?'<span class="best-badge">🔥 BEST SELLER</span>':''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${p.price}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:12px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="order" onclick="orderNow('${p.name}',${p.price})">Order on WhatsApp</button></div></div>`;
+}
+function renderBestPage(){
+  let best=[...allProducts].sort((a,b)=>b.sales-a.sales).slice(0,8);
+  document.getElementById('bestPageGrid').innerHTML = best.length? best.map((p,i)=>cardHTML(p,i,true)).join('') : '<p style="padding:15px;color:#888">No Best Seller yet.</p>';
 }
 function filterProducts(){
-  let q = document.getElementById('searchInput').value.toLowerCase().trim();
-  if(allProducts.length===0){
-    document.getElementById('resultCount').innerText = '';
-    return;
-  }
-  let list = [...allProducts];
-  // MODE FILTER - Header Menu se
-  if(currentMode==='new'){ list = [...originalOrder].reverse(); } // Sheet me sab se last wali = New
-  if(currentMode==='free'){ list = list.filter(p=> parseInt(p.price||0)===0); }
-  if(currentMode==='offer'){ list = list.filter(p=> p.old && parseInt(p.old||0) > parseInt(p.price||0)); }
-  let filtered = list.filter(p=>{
-    let matchCat = currentCat==='all' || (p.cat||'').toLowerCase().includes(currentCat);
-    let name = (p.name||'').toLowerCase();
-    let desc = (p.desc||'').toLowerCase();
-    let cat = (p.cat||'').toLowerCase();
-    let matchSearch = !q || name.includes(q) || desc.includes(q) || cat.includes(q);
-    return matchCat && matchSearch;
+  let q=document.getElementById('searchInput').value.toLowerCase().trim();
+  if(q){ showPage('page-shop'); }
+  let list=[...allProducts];
+  if(currentMode==='free'){ list=list.filter(p=>parseInt(p.price||0)===0); }
+  if(currentMode==='best'){ list=[...allProducts].sort((a,b)=>b.sales-a.sales).slice(0,8); }
+  let filtered=list.filter(p=>{
+    let matchCat=currentCat==='all'||(p.cat||'').toLowerCase().includes(currentCat);
+    let matchSearch=!q||(p.name||'').toLowerCase().includes(q)||(p.desc||'').toLowerCase().includes(q)||(p.cat||'').toLowerCase().includes(q);
+    return matchCat&&matchSearch;
   });
-  let modeText = currentMode==='new' ? ' - New Arrivals' : currentMode==='free' ? ' - Free Products' : currentMode==='offer' ? ' - Special Offers' : '';
-  if(q){
-    document.getElementById('resultCount').innerText = `Showing ${filtered.length} product${filtered.length===1?'':'s'} for "${q}"` + (currentCat!=='all' ? ` in ${currentCat}` : '') + modeText;
-  } else if(currentCat==='all' && currentMode==='all'){
-    document.getElementById('resultCount').innerText = `Showing ${filtered.length} product${filtered.length===1?'':'s'}`;
-  } else {
-    document.getElementById('resultCount').innerText = `Showing ${filtered.length} product${filtered.length===1?'':'s'}` + (currentCat!=='all' ? ` in ${currentCat}` : '') + modeText;
-  }
-  if(filtered.length===0){
-    document.getElementById('grid').innerHTML='<p style="padding:15px;color:#888">No product found. Try another search or category!</p>';
-    return;
-  }
-  document.getElementById('grid').innerHTML=filtered.map((p,i)=>`<div class="card">${i<4 && currentCat==='all' && !q && currentMode==='all'?'<span class="best-badge">🔥 BEST SELLER</span>':''}${p.old?'<span class="best-badge" style="background:#ff9500">🏷️ OFFER</span>':''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${p.price}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:12px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="order" onclick="orderNow('${p.name}',${p.price})">Order on WhatsApp</button></div></div>`).join('');
-  if(q){
-    let g = document.getElementById('grid');
-    if(g) g.scrollIntoView({behavior:'smooth', block:'start'});
-  }
+  document.getElementById('homeGrid').innerHTML = allProducts.length? allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join('') : '<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';
+  let modeText=currentMode==='free'?' - Free Products':'';
+  document.getElementById('resultCount').innerText = `Showing ${filtered.length} product${filtered.length===1?'':'s'}`+(currentCat!=='all'?` in ${currentCat}`:'')+modeText+(q?` for "${q}"`:'');
+  document.getElementById('grid').innerHTML = filtered.length? filtered.map((p,i)=>cardHTML(p,i,currentMode==='all')).join('') : '<p style="padding:15px;color:#888">No product found. Try another search or category!</p>';
 }
-
 async function loadSheet(){
 try{
 let res=await fetch(SHEET_CSV_URL + "&t=" + Date.now());
 let text=await res.text();
 let lines=text.trim().split('\n');
 let headers=lines[0].split(',').map(h=>h.trim().toLowerCase().replace(/"/g,''));
-let products=lines.slice(1).filter(l=>l.trim()).map(line=>{
-let vals=line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)||[];
-let o={}; headers.forEach((h,i)=>{o[h]=(vals[i]||'').replace(/^"|"$/g,'').trim()}); return o;
-}).filter(p=>p.name && p.name.toLowerCase()!=='name');
-products.forEach(p=>{ p.sales = parseInt(p.sales||0) || 0; });
-originalOrder = [...products];
-products.sort((a,b)=> b.sales - a.sales);
-allProducts = products;
-let best = products.slice(0,4);
-if(best.length===0){
-  document.getElementById('bestGrid').innerHTML='<p style="padding:10px;color:#888">No Best Seller yet. It will appear here automatically after sales!</p>';
-  document.getElementById('grid').innerHTML='<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';
-  document.getElementById('resultCount').innerText = '';
-  return;
-}
-document.getElementById('bestGrid').innerHTML=best.map((p,i)=>`<div class="card"><span class="best-badge">🔥 BEST SELLER</span><span class="rank-badge">#${i+1} • ${p.sales} Sold</span><img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${p.price}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:12px;color:#777">${p.cat||''} • ${p.desc||''}</p><button class="order" onclick="orderNow('${p.name}',${p.price})">Order on WhatsApp</button></div></div>`).join('');
-updateCatCounts();
-filterProducts();
+let products=lines.slice(1).filter(l=>l.trim()).map(line=>{ let vals=line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)||[]; let o={}; headers.forEach((h,i)=>{o[h]=(vals[i]||'').replace(/^"|"$/g,'').trim()}); return o; }).filter(p=>p.name && p.name.toLowerCase()!=='name');
+products.forEach(p=>{ p.sales=parseInt(p.sales||0)||0; });
+products.sort((a,b)=>b.sales-a.sales);
+allProducts=products;
+let best=products.slice(0,4);
+document.getElementById('bestGrid').innerHTML = best.length? best.map((p,i)=>cardHTML(p,i,true)).join('') : '<p style="padding:10px;color:#888">No Best Seller yet.</p>';
+updateCatCounts(); renderBestPage(); filterProducts();
 }catch(e){document.getElementById('grid').innerHTML='<p style="padding:10px;color:red">Error: '+e.message+'</p>';}
 }
 function orderNow(n,pr){window.open(`https://wa.me/923098890935?text=${encodeURIComponent('Hello! I want this: '+n+' - Rs '+pr)}`)}
