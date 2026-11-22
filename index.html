@@ -6,7 +6,8 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
 body{background:#fdf8f2;color:#222}
-header{background:#111;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;gap:12px;flex-wrap:wrap}
+header{background:#111;color:#fff;padding:14px 18px 10px;display:flex;flex-direction:column;gap:10px;position:sticky;top:0;z-index:100}
+.top-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 header h1{font-size:26px;color:#d4af37;line-height:1} header h1 span{font-size:12px;color:#ccc;display:block;margin-top:3px}
 .btn{background:#d4af37;color:#000;padding:12px 20px;border-radius:20px;font-weight:800;text-decoration:none;font-size:15px;cursor:pointer;border:none;white-space:nowrap}
 .hero{background:linear-gradient(135deg,#111,#3a2a00);color:#fff;text-align:center;padding:70px 15px 75px}
@@ -42,17 +43,27 @@ footer b{color:#d4af37}
 .header-search{flex:1;max-width:450px}
 .header-search input{width:100%;padding:11px 16px;border:none;border-radius:25px;font-size:14px;outline:none;background:#fff}
 .header-search input:focus{box-shadow:0 0 0 3px rgba(212,175,55,.5)}
-.cat-bar{max-width:1100px;margin:auto;padding:5px 15px 10px;display:flex;gap:8px;overflow-x:auto;white-space:nowrap}
-.cat-btn{padding:9px 18px;border:1px solid #ddd;background:#fff;border-radius:20px;cursor:pointer;font-weight:700;font-size:14px}
-.cat-btn.active{background:#111;color:#d4af37;border-color:#111}
-@media(max-width:700px){header{justify-content:center} .header-search{order:3;max-width:100%;flex-basis:100%} header h1{font-size:22px} .slide img{height:260px} .hero{padding:55px 15px 60px} .hero h2{font-size:32px}}
+.cat-bar{display:flex;gap:8px;overflow-x:auto;white-space:nowrap;padding-bottom:2px}
+.cat-btn{padding:9px 18px;border:1px solid #ddd;background:#fff;border-radius:20px;cursor:pointer;font-weight:700;font-size:14px;white-space:nowrap}
+.cat-btn.active{background:#d4af37;color:#000;border-color:#d4af37}
+@media(max-width:700px){.top-row{justify-content:center} .header-search{order:3;max-width:100%;flex-basis:100%} header h1{font-size:22px} .slide img{height:260px} .hero{padding:55px 15px 60px} .hero h2{font-size:32px}}
 </style>
 </head>
 <body>
 <header>
+<div class="top-row">
 <h1>AURELVO<span>COLLECTIONS • KANGANPUR</span></h1>
 <div class="header-search"><input type="text" id="searchInput" placeholder="🔍 Search by product name..." oninput="filterProducts()"></div>
 <button class="btn" onclick="checkPassword()">＋ Add Product</button>
+</div>
+<!-- CATEGORY AB UPAR SEARCH KE SAATH -->
+<div class="cat-bar" id="catBar">
+  <button class="cat-btn active" data-cat="all" onclick="setCat('all',this)">All</button>
+  <button class="cat-btn" data-cat="watches" onclick="setCat('watches',this)">⌚ Watches</button>
+  <button class="cat-btn" data-cat="suits" onclick="setCat('suits',this)">👔 Suits</button>
+  <button class="cat-btn" data-cat="jewelry" onclick="setCat('jewelry',this)">💎 Jewelry</button>
+  <button class="cat-btn" data-cat="shoes" onclick="setCat('shoes',this)">👟 Shoes</button>
+</div>
 </header>
 <div class="hero"><h2>Aurelvo Collections ✨</h2><p>Watches • Suits • Jewelry • Shoes</p><p style="margin-top:12px;font-size:15px;color:#fff">WhatsApp: 03098890935 • <span class="live">● LIVE</span></p></div>
 
@@ -80,14 +91,6 @@ footer b{color:#d4af37}
 <div class="grid" id="bestGrid"><p style="padding:10px;color:#888">Loading Best Sellers...</p></div>
 
 <div class="section"><h2>🛍️ Our Live Products <span class="live">● LIVE FROM SHEET</span></h2><p style="color:#888;font-size:13px;margin-bottom:5px">Most sold on top, less sold below - Auto Ranking!</p></div>
-
-<div class="cat-bar" id="catBar">
-  <button class="cat-btn active" data-cat="all" onclick="setCat('all',this)">All</button>
-  <button class="cat-btn" data-cat="watches" onclick="setCat('watches',this)">⌚ Watches</button>
-  <button class="cat-btn" data-cat="suits" onclick="setCat('suits',this)">👔 Suits</button>
-  <button class="cat-btn" data-cat="jewelry" onclick="setCat('jewelry',this)">💎 Jewelry</button>
-  <button class="cat-btn" data-cat="shoes" onclick="setCat('shoes',this)">👟 Shoes</button>
-</div>
 <p id="resultCount" style="max-width:1100px;margin:auto;padding:0 15px 10px;color:#888;font-size:13px"></p>
 
 <div class="grid" id="grid"><p style="padding:10px;color:#888">Loading products...</p></div>
@@ -147,6 +150,7 @@ function setCat(cat,btn){
   document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   filterProducts();
+  document.getElementById('grid').scrollIntoView({behavior:'smooth'});
 }
 function updateCatCounts(){
   let counts = {all: allProducts.length, watches:0, suits:0, jewelry:0, shoes:0};
@@ -171,11 +175,9 @@ function filterProducts(){
   }
   let filtered = allProducts.filter(p=>{
     let matchCat = currentCat==='all' || (p.cat||'').toLowerCase().includes(currentCat);
-    // SEARCH BY NAME - sab se pehle Name check hoga
     let name = (p.name||'').toLowerCase();
     let desc = (p.desc||'').toLowerCase();
     let cat = (p.cat||'').toLowerCase();
-    // Agar poora naam likha ya naam ka koi hissa likha to aa jayega
     let matchSearch = !q || name.includes(q) || desc.includes(q) || cat.includes(q);
     return matchCat && matchSearch;
   });
