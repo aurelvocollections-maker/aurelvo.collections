@@ -6,7 +6,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
 body{background:#fdf8f2;color:#222}
-header{background:#111;color:#fff;padding:14px 18px 10px;display:flex;flex-direction:column;gap:10px;position:sticky;top:0;z-index:100}
+header{background:#111;color:#fff;padding:14px 18px 0;display:flex;flex-direction:column;gap:10px;position:sticky;top:0;z-index:100}
 .top-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 header h1{font-size:26px;color:#d4af37;line-height:1} header h1 span{font-size:12px;color:#ccc;display:block;margin-top:3px}
 .btn{background:#d4af37;color:#000;padding:12px 20px;border-radius:20px;font-weight:800;text-decoration:none;font-size:15px;cursor:pointer;border:none;white-space:nowrap}
@@ -43,9 +43,13 @@ footer b{color:#d4af37}
 .header-search{flex:1;max-width:450px}
 .header-search input{width:100%;padding:11px 16px;border:none;border-radius:25px;font-size:14px;outline:none;background:#fff}
 .header-search input:focus{box-shadow:0 0 0 3px rgba(212,175,55,.5)}
-.cat-bar{display:flex;gap:8px;overflow-x:auto;white-space:nowrap;padding-bottom:2px}
+/* HEADER MENU - Teri pic jaisa */
+.nav-bar{display:flex;gap:4px;overflow-x:auto;white-space:nowrap;background:#fff;padding:8px 10px;margin:0 -18px;border-top:1px solid #eee}
+.nav-bar button{border:none;background:transparent;padding:9px 13px;cursor:pointer;font-weight:600;font-size:14px;color:#333;border-radius:20px;white-space:nowrap}
+.nav-bar button:hover,.nav-bar button.active{background:#111;color:#d4af37}
+.cat-bar{display:flex;gap:8px;overflow-x:auto;white-space:nowrap;padding:10px 15px;max-width:1100px;margin:auto}
 .cat-btn{padding:9px 18px;border:1px solid #ddd;background:#fff;border-radius:20px;cursor:pointer;font-weight:700;font-size:14px;white-space:nowrap}
-.cat-btn.active{background:#d4af37;color:#000;border-color:#d4af37}
+.cat-btn.active{background:#111;color:#d4af37;border-color:#111}
 @media(max-width:700px){.top-row{justify-content:center} .header-search{order:3;max-width:100%;flex-basis:100%} header h1{font-size:22px} .slide img{height:260px} .hero{padding:55px 15px 60px} .hero h2{font-size:32px}}
 </style>
 </head>
@@ -56,13 +60,18 @@ footer b{color:#d4af37}
 <div class="header-search"><input type="text" id="searchInput" placeholder="🔍 Search by product name..." oninput="filterProducts()"></div>
 <button class="btn" onclick="checkPassword()">＋ Add Product</button>
 </div>
-<!-- CATEGORY AB UPAR SEARCH KE SAATH -->
-<div class="cat-bar" id="catBar">
-  <button class="cat-btn active" data-cat="all" onclick="setCat('all',this)">All</button>
-  <button class="cat-btn" data-cat="watches" onclick="setCat('watches',this)">⌚ Watches</button>
-  <button class="cat-btn" data-cat="suits" onclick="setCat('suits',this)">👔 Suits</button>
-  <button class="cat-btn" data-cat="jewelry" onclick="setCat('jewelry',this)">💎 Jewelry</button>
-  <button class="cat-btn" data-cat="shoes" onclick="setCat('shoes',this)">👟 Shoes</button>
+<!-- HEADER MENU - TERI PIC JAISA -->
+<div class="nav-bar" id="navBar">
+<button class="active" onclick="goNav('home',this)">Home</button>
+<button onclick="goNav('all',this)">Shop All Products</button>
+<button onclick="goNav('categories',this)">Categories</button>
+<button onclick="goNav('best',this)">Best Sellers</button>
+<button onclick="goNav('new',this)">New Arrivals</button>
+<button onclick="goNav('free',this)">Free Products</button>
+<button onclick="goNav('offer',this)">Special Offers</button>
+<button onclick="goNav('about',this)">About Us</button>
+<button onclick="goNav('contact',this)">Contact Us</button>
+<button onclick="goNav('help',this)">Help Center</button>
 </div>
 </header>
 <div class="hero"><h2>Aurelvo Collections ✨</h2><p>Watches • Suits • Jewelry • Shoes</p><p style="margin-top:12px;font-size:15px;color:#fff">WhatsApp: 03098890935 • <span class="live">● LIVE</span></p></div>
@@ -87,15 +96,21 @@ footer b{color:#d4af37}
 </div>
 </div>
 
-<div class="section"><h2>🔥 Best Seller</h2><p style="color:#888;font-size:13px;margin-bottom:12px">Our most selling products - Auto Update!</p></div>
+<div class="section" id="bestSection"><h2>🔥 Best Seller</h2><p style="color:#888;font-size:13px;margin-bottom:12px">Our most selling products - Auto Update!</p></div>
 <div class="grid" id="bestGrid"><p style="padding:10px;color:#888">Loading Best Sellers...</p></div>
 
-<div class="section"><h2>🛍️ Our Live Products <span class="live">● LIVE FROM SHEET</span></h2><p style="color:#888;font-size:13px;margin-bottom:5px">Most sold on top, less sold below - Auto Ranking!</p></div>
+<div class="section" id="liveSection"><h2>🛍️ Our Live Products <span class="live">● LIVE FROM SHEET</span></h2><p style="color:#888;font-size:13px;margin-bottom:5px">Most sold on top, less sold below - Auto Ranking!</p></div>
+<div class="cat-bar" id="catBar">
+  <button class="cat-btn active" data-cat="all" onclick="setCat('all',this)">All</button>
+  <button class="cat-btn" data-cat="watches" onclick="setCat('watches',this)">⌚ Watches</button>
+  <button class="cat-btn" data-cat="suits" onclick="setCat('suits',this)">👔 Suits</button>
+  <button class="cat-btn" data-cat="jewelry" onclick="setCat('jewelry',this)">💎 Jewelry</button>
+  <button class="cat-btn" data-cat="shoes" onclick="setCat('shoes',this)">👟 Shoes</button>
+</div>
 <p id="resultCount" style="max-width:1100px;margin:auto;padding:0 15px 10px;color:#888;font-size:13px"></p>
-
 <div class="grid" id="grid"><p style="padding:10px;color:#888">Loading products...</p></div>
 
-<div class="section"><h2>About Us</h2></div>
+<div class="section" id="aboutSection"><h2>About Us</h2></div>
 <div class="info-box"><h3>Aurelvo Collections</h3>
 <p>Aurelvo Collections is a trusted online shop from Kanganpur. We provide our customers with best quality Watches, Suits, Jewelry and Shoes at affordable prices.</p>
 <p>Our goal is to deliver good quality products to every home in Kanganpur, right at your doorstep!</p>
@@ -113,7 +128,7 @@ footer b{color:#d4af37}
 <p><b>Delivery Time:</b> 3 to 5 Business Days</p>
 <p><b>Delivery:</b> All Pakistan Delivery Available</p>
 </div>
-<div class="section"><h2>📞 Contact Us</h2></div>
+<div class="section" id="contactSection"><h2>📞 Contact Us</h2></div>
 <div class="info-box">
 <p>📧 Email: aurelvo.collections@gmial.com</p>
 <p>📱 WhatsApp: 03098890935</p>
@@ -121,13 +136,22 @@ footer b{color:#d4af37}
 <p>🕒 Timing: 9:00 AM to 9:00 PM</p>
 <p style="margin-top:10px"><a href="https://wa.me/923098890935?text=Hello! I want to order from Aurelvo Collections." style="background:#25D366;color:#fff;padding:10px 20px;border-radius:20px;text-decoration:none;font-weight:700;display:inline-block">Chat on WhatsApp</a></p>
 </div>
+<div class="section" id="helpSection"><h2>❓ Help Center</h2></div>
+<div class="info-box">
+<p><b>Order kaise karein?</b> Product pe `Order on WhatsApp` dabayein.</p>
+<p><b>Payment?</b> JazzCash / EasyPaisa / Cash on Delivery</p>
+<p><b>Delivery?</b> 3 to 5 din me All Pakistan</p>
+<p><b>Return?</b> WhatsApp pe rabta karein: 03098890935</p>
+</div>
 <footer><b>AURELVO COLLECTIONS</b><br>Kanganpur, Pakistan | WhatsApp: 03098890935<br>© 2026 Aurelvo Collections - All Rights Reserved</footer>
 <script>
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pub?gid=2032873731&single=true&output=csv";
 const SHEET_EDIT_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pubhtml";
 const MY_PASSWORD = "Aurelvo123";
 let allProducts = [];
+let originalOrder = [];
 let currentCat = 'all';
+let currentMode = 'all'; // all, best, new, free, offer
 function checkPassword(){
   let p = prompt("Enter Admin Password:");
   if(p === MY_PASSWORD){ window.open(SHEET_EDIT_URL, "_blank"); }
@@ -145,12 +169,30 @@ function goSlide(n){showSlide(n);resetTimer();}
 let timer=setInterval(()=>showSlide(idx+1),4000);
 function resetTimer(){clearInterval(timer);timer=setInterval(()=>showSlide(idx+1),4000);}
 
+// HEADER MENU - Jis ko dabao wahi filter / khulega
+function goNav(type,btn){
+  document.querySelectorAll('.nav-bar button').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.getElementById('searchInput').value = '';
+  if(type==='home'){ currentMode='all'; currentCat='all'; syncCatBtn(); filterProducts(); window.scrollTo({top:0,behavior:'smooth'}); return; }
+  if(type==='all'){ currentMode='all'; currentCat='all'; syncCatBtn(); filterProducts(); document.getElementById('grid').scrollIntoView({behavior:'smooth'}); return; }
+  if(type==='categories'){ document.getElementById('catBar').scrollIntoView({behavior:'smooth'}); return; }
+  if(type==='best'){ currentMode='all'; document.getElementById('bestSection').scrollIntoView({behavior:'smooth'}); return; }
+  if(type==='new'){ currentMode='new'; filterProducts(); document.getElementById('grid').scrollIntoView({behavior:'smooth'}); return; }
+  if(type==='free'){ currentMode='free'; filterProducts(); document.getElementById('grid').scrollIntoView({behavior:'smooth'}); return; }
+  if(type==='offer'){ currentMode='offer'; filterProducts(); document.getElementById('grid').scrollIntoView({behavior:'smooth'}); return; }
+  if(type==='about'){ document.getElementById('aboutSection').scrollIntoView({behavior:'smooth'}); return; }
+  if(type==='contact'){ document.getElementById('contactSection').scrollIntoView({behavior:'smooth'}); return; }
+  if(type==='help'){ document.getElementById('helpSection').scrollIntoView({behavior:'smooth'}); return; }
+}
+function syncCatBtn(){
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('active', b.getAttribute('data-cat')===currentCat));
+}
 function setCat(cat,btn){
-  currentCat = cat;
+  currentCat = cat; currentMode='all';
   document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   filterProducts();
-  document.getElementById('grid').scrollIntoView({behavior:'smooth'});
 }
 function updateCatCounts(){
   let counts = {all: allProducts.length, watches:0, suits:0, jewelry:0, shoes:0};
@@ -173,7 +215,12 @@ function filterProducts(){
     document.getElementById('resultCount').innerText = '';
     return;
   }
-  let filtered = allProducts.filter(p=>{
+  let list = [...allProducts];
+  // MODE FILTER - Header Menu se
+  if(currentMode==='new'){ list = [...originalOrder].reverse(); } // Sheet me sab se last wali = New
+  if(currentMode==='free'){ list = list.filter(p=> parseInt(p.price||0)===0); }
+  if(currentMode==='offer'){ list = list.filter(p=> p.old && parseInt(p.old||0) > parseInt(p.price||0)); }
+  let filtered = list.filter(p=>{
     let matchCat = currentCat==='all' || (p.cat||'').toLowerCase().includes(currentCat);
     let name = (p.name||'').toLowerCase();
     let desc = (p.desc||'').toLowerCase();
@@ -181,18 +228,19 @@ function filterProducts(){
     let matchSearch = !q || name.includes(q) || desc.includes(q) || cat.includes(q);
     return matchCat && matchSearch;
   });
+  let modeText = currentMode==='new' ? ' - New Arrivals' : currentMode==='free' ? ' - Free Products' : currentMode==='offer' ? ' - Special Offers' : '';
   if(q){
-    document.getElementById('resultCount').innerText = `Showing ${filtered.length} product${filtered.length===1?'':'s'} for "${q}"` + (currentCat!=='all' ? ` in ${currentCat}` : '');
-  } else if(currentCat==='all'){
+    document.getElementById('resultCount').innerText = `Showing ${filtered.length} product${filtered.length===1?'':'s'} for "${q}"` + (currentCat!=='all' ? ` in ${currentCat}` : '') + modeText;
+  } else if(currentCat==='all' && currentMode==='all'){
     document.getElementById('resultCount').innerText = `Showing ${filtered.length} product${filtered.length===1?'':'s'}`;
   } else {
-    document.getElementById('resultCount').innerText = `Showing ${filtered.length} product${filtered.length===1?'':'s'} in ${currentCat}`;
+    document.getElementById('resultCount').innerText = `Showing ${filtered.length} product${filtered.length===1?'':'s'}` + (currentCat!=='all' ? ` in ${currentCat}` : '') + modeText;
   }
   if(filtered.length===0){
     document.getElementById('grid').innerHTML='<p style="padding:15px;color:#888">No product found. Try another search or category!</p>';
     return;
   }
-  document.getElementById('grid').innerHTML=filtered.map((p,i)=>`<div class="card">${i<4 && currentCat==='all' && !q?'<span class="best-badge">🔥 BEST SELLER</span>':''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${p.price}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:12px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="order" onclick="orderNow('${p.name}',${p.price})">Order on WhatsApp</button></div></div>`).join('');
+  document.getElementById('grid').innerHTML=filtered.map((p,i)=>`<div class="card">${i<4 && currentCat==='all' && !q && currentMode==='all'?'<span class="best-badge">🔥 BEST SELLER</span>':''}${p.old?'<span class="best-badge" style="background:#ff9500">🏷️ OFFER</span>':''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${p.price}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:12px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="order" onclick="orderNow('${p.name}',${p.price})">Order on WhatsApp</button></div></div>`).join('');
   if(q){
     let g = document.getElementById('grid');
     if(g) g.scrollIntoView({behavior:'smooth', block:'start'});
@@ -210,6 +258,7 @@ let vals=line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)||[];
 let o={}; headers.forEach((h,i)=>{o[h]=(vals[i]||'').replace(/^"|"$/g,'').trim()}); return o;
 }).filter(p=>p.name && p.name.toLowerCase()!=='name');
 products.forEach(p=>{ p.sales = parseInt(p.sales||0) || 0; });
+originalOrder = [...products];
 products.sort((a,b)=> b.sales - a.sales);
 allProducts = products;
 let best = products.slice(0,4);
