@@ -31,7 +31,6 @@ footer{background:#111;color:#aaa;text-align:center;padding:28px 15px;font-size:
 footer b{color:#d4af37;font-size:17px}
 .live{color:#22c55e;font-size:14px;font-weight:800}
 .best-badge{position:absolute;top:12px;left:12px;background:#ff3b30;color:#fff;font-size:12px;font-weight:800;padding:6px 12px;border-radius:20px;z-index:2}
-.rank-badge{position:absolute;top:12px;right:12px;background:#d4af37;color:#000;font-size:12px;font-weight:800;padding:6px 12px;border-radius:20px;z-index:2}
 .slider-box{max-width:1200px;margin:0 18px;overflow:hidden;border-radius:20px;position:relative;background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.1)}
 .slides{display:flex;transition:transform .7s ease}
 .slide{min-width:100%;text-align:center;padding:14px 14px 18px}
@@ -115,17 +114,13 @@ footer b{color:#d4af37;font-size:17px}
 </div>
 <div id="page-shop" class="page">
 <div class="section"><h2 id="shopTitle">Shop All Products</h2><p style="color:#888;font-size:14px">Most sold on top - Auto Ranking!</p></div>
-<div class="cat-bar" id="catBar">
-  <button class="cat-btn active" data-cat="all" onclick="setCat('all',this)">All (0)</button>
-</div>
+<div class="cat-bar" id="catBar"><button class="cat-btn active" data-cat="all" onclick="setCat('all',this)">All (0)</button></div>
 <p id="resultCount" style="max-width:1200px;margin:auto;padding:0 18px 10px;color:#888;font-size:14px"></p>
 <div class="grid" id="grid"><p style="padding:10px;color:#888">Loading products...</p></div>
 </div>
 <div id="page-categories" class="page">
 <div class="section"><h2>Categories</h2><p style="color:#888;font-size:14px">Click any category to see its products. Auto - Sheet se banti hain!</p></div>
-<div class="cat-big" id="catBig">
-<p style="padding:15px;color:#888">Loading categories...</p>
-</div>
+<div class="cat-big" id="catBig"><p style="padding:15px;color:#888">Loading categories...</p></div>
 </div>
 <div id="page-best" class="page">
 <div class="section"><h2>Best Sellers</h2><p style="color:#888;font-size:14px">Most selling products!</p></div>
@@ -154,6 +149,8 @@ footer b{color:#d4af37;font-size:17px}
       <p id="selectedProduct">Product - Rs 0</p>
       <div class="qty-row"><b>Quantity:</b><div class="qty-btns"><button type="button" onclick="changeQty(-1)">-</button><span id="qtyDisplay">1</span><button type="button" onclick="changeQty(1)">+</button></div></div>
       <p id="totalDisplay" style="font-weight:800;color:#111;font-size:16px">Total: Rs 0</p>
+      <input id="cSize" placeholder="Size (Optional) - M / L / XL / 42">
+      <input id="cColor" placeholder="Color (Optional) - Black / White">
       <input id="cName" placeholder="Apna Naam *">
       <input id="cPhone" placeholder="Mobile Number * - 0300-1234567" type="tel">
       <input id="cCity" placeholder="City * - Kanganpur">
@@ -169,7 +166,7 @@ footer b{color:#d4af37;font-size:17px}
 <script>
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pub?gid=2032873731&single=true&output=csv";
 const SHEET_EDIT_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pubhtml";
-const ORDER_URL = "https://script.google.com/macros/s/AKfycbxj3Ee17SPizTjTfCO2hIreBawshNZCMirtrDWnoYwV-FTlSbFsscQBFM4JcJ9M2A2t/exec";
+const ORDER_URL = "https://script.google.com/macros/s/AKfycbxeFVQWRD-uNZ9ioLa_HnFodJk3ZazpR5ShKPKl7u2afb-XVNUKwnYsOIaEiLLlkaAH/exec";
 const MY_PASSWORD = "Aurelvo123";
 let allProducts = []; let currentCat = 'all'; let currentMode = 'all'; let currentProduct = null; let currentQty = 1;
 function checkPassword(){ let p = prompt("Enter Admin Password:"); if(p === MY_PASSWORD){ window.open(SHEET_EDIT_URL, "_blank"); } else if(p !== null){ alert("Wrong Password! Only Admin can add."); } }
@@ -184,7 +181,6 @@ function goNav(type,btn){ document.querySelectorAll('.nav-bar button').forEach(b
 function openCat(cat){ currentCat=cat.toLowerCase(); currentMode='all'; document.getElementById('shopTitle').innerText=cat; syncCatBtn(); showPage('page-shop'); filterProducts(); document.querySelectorAll('.nav-bar button').forEach(b=>b.classList.remove('active')); }
 function syncCatBtn(){ document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('active', b.getAttribute('data-cat')===currentCat)); }
 function setCat(cat,btn){ currentCat=cat; currentMode='all'; document.getElementById('shopTitle').innerText='Shop All Products'; document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); filterProducts(); }
-// --- AUTO CATEGORIES - Sheet se banti hain ---
 function getCategories(){
   let map = {};
   allProducts.forEach(p=>{
@@ -220,7 +216,6 @@ function updateCatCounts(){
     }
   }
 }
-// --- PRODUCT DETAIL - New Tab Amazon jaisa ---
 function openProduct(name){
   window.open('product.html?name=' + encodeURIComponent(name), '_blank');
 }
@@ -232,7 +227,7 @@ async function loadSheet(){ try{ let res=await fetch(SHEET_CSV_URL + "&t=" + Dat
 function orderNow(n, pr){ currentProduct = {name:n, price:pr}; currentQty = 1; document.getElementById("qtyDisplay").innerText = "1"; document.getElementById("selectedProduct").innerText = n + " - Rs " + pr; document.getElementById("totalDisplay").innerText = "Total: Rs " + pr; document.getElementById("formBox").style.display = "block"; document.getElementById("successBox").style.display = "none"; document.getElementById("orderModal").style.display = "flex"; }
 function changeQty(val){ currentQty = currentQty + val; if(currentQty < 1) currentQty = 1; if(currentQty > 20) currentQty = 20; document.getElementById("qtyDisplay").innerText = currentQty; document.getElementById("totalDisplay").innerText = "Total: Rs " + (currentProduct.price * currentQty) + "  (" + currentQty + " x Rs " + currentProduct.price + ")"; }
 function closeModal(){ document.getElementById("orderModal").style.display = "none"; }
-function confirmOrder(){ let name = document.getElementById("cName").value.trim(); let phone = document.getElementById("cPhone").value.trim(); let city = document.getElementById("cCity").value.trim(); let address = document.getElementById("cAddress").value.trim(); let payment = document.getElementById("cPayment").value; if(!name || !phone || !city || !address){ alert("Bhai saari cheezein bharo - Naam, Number, City, Address zaroori hai!"); return; } let btn = document.getElementById("confirmBtn"); btn.innerText = "Order Bheja Ja Raha Hai..."; btn.disabled = true; fetch(ORDER_URL, { method: "POST", mode: "no-cors", headers: {"Content-Type":"text/plain"}, body: JSON.stringify({name:name, phone:phone, address:address, city:city, product:currentProduct.name, price:currentProduct.price, qty:currentQty, payment:payment}) }).then(()=>{ document.getElementById("formBox").style.display = "none"; document.getElementById("successBox").style.display = "block"; document.getElementById("successQtyText").innerText = "Aap ne " + currentQty + " x " + currentProduct.name + " order kiya hai. Total: Rs " + (currentProduct.price * currentQty) + ". Hum jald rabta karenge!"; document.getElementById("showOrderId").innerText = "ORD-" + Date.now(); document.getElementById("cName").value=""; document.getElementById("cPhone").value=""; document.getElementById("cCity").value=""; document.getElementById("cAddress").value=""; btn.innerText = "Order Confirm Karain ✅"; btn.disabled = false; }).catch(()=>{ alert("Order bhej diya gaya hai! Sheet me check karain."); closeModal(); }); }
+function confirmOrder(){ let name = document.getElementById("cName").value.trim(); let phone = document.getElementById("cPhone").value.trim(); let city = document.getElementById("cCity").value.trim(); let address = document.getElementById("cAddress").value.trim(); let payment = document.getElementById("cPayment").value; let size = document.getElementById("cSize").value.trim(); let color = document.getElementById("cColor").value.trim(); if(!name || !phone || !city || !address){ alert("Bhai saari cheezein bharo - Naam, Number, City, Address zaroori hai!"); return; } let btn = document.getElementById("confirmBtn"); btn.innerText = "Order Bheja Ja Raha Hai..."; btn.disabled = true; fetch(ORDER_URL, { method: "POST", mode: "no-cors", headers: {"Content-Type":"text/plain"}, body: JSON.stringify({name:name, phone:phone, address:address, city:city, product:currentProduct.name, price:currentProduct.price, qty:currentQty, payment:payment, size:size, color:color}) }).then(()=>{ document.getElementById("formBox").style.display = "none"; document.getElementById("successBox").style.display = "block"; document.getElementById("successQtyText").innerText = "Aap ne " + currentQty + " x " + currentProduct.name + (size?" ("+size+")":"") + (color?" - "+color:"") + " order kiya hai. Total: Rs " + (currentProduct.price * currentQty) + ". Hum jald rabta karenge!"; document.getElementById("showOrderId").innerText = "ORD-" + Date.now(); document.getElementById("cName").value=""; document.getElementById("cPhone").value=""; document.getElementById("cCity").value=""; document.getElementById("cAddress").value=""; document.getElementById("cSize").value=""; document.getElementById("cColor").value=""; btn.innerText = "Order Confirm Karain ✅"; btn.disabled = false; }).catch(()=>{ alert("Order bhej diya gaya hai! Sheet me check karain."); closeModal(); }); }
 loadSheet();
 </script>
 </body>
