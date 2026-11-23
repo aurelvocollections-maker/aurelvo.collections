@@ -16,9 +16,12 @@ header h1{font-size:32px;color:#d4af37;line-height:1} header h1 span{font-size:1
 .section h2{font-size:28px;margin-bottom:14px;border-left:6px solid #d4af37;padding-left:12px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px;padding:0 18px 12px;max-width:1200px;margin:auto}
 .card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.08);position:relative}
-.card img{width:100%;height:230px;object-fit:cover}
-.card-body{padding:16px} .card-body h3{font-size:19px} .price{color:#b8860b;font-weight:800;font-size:18px} .old{color:#999;text-decoration:line-through;font-size:14px;margin-left:5px}
+.card img{width:100%;height:230px;object-fit:cover;cursor:pointer}
+.card-body{padding:16px} .card-body h3{font-size:19px;cursor:pointer} .card-body h3:hover{color:#b8860b}
+.price{color:#b8860b;font-weight:800;font-size:18px} .old{color:#999;text-decoration:line-through;font-size:14px;margin-left:5px}
 .order{width:100%;background:#111;color:#D4AF37;border:none;padding:13px;border-radius:10px;font-weight:700;font-size:16px;cursor:pointer;margin-top:10px}
+.view-btn{width:100%;background:#fff;color:#111;border:1px solid #ddd;padding:11px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px}
+.view-btn:hover{background:#fdf8f2;border-color:#d4af37}
 .info-box{background:#fff;border-radius:18px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,.06);line-height:1.9;margin:0 18px 18px;font-size:16px}
 .info-box h3{color:#b8860b;margin-bottom:8px;font-size:20px}
 .pay-box{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:15px;padding:0 18px 12px;max-width:1200px;margin:auto}
@@ -195,10 +198,8 @@ function getCategories(){
 }
 function updateCatCounts(){
   let cats = getCategories();
-  // Hero text auto
   let heroEl = document.getElementById('heroCats');
   if(heroEl && cats.length) heroEl.innerText = cats.map(c=>c.name).join(' • ');
-  // Shop top filter bar - AUTO
   let bar = document.getElementById('catBar');
   if(bar){
     let html = `<button class="cat-btn ${currentCat==='all'?'active':''}" data-cat="all" onclick="setCat('all',this)">All (${allProducts.length})</button>`;
@@ -208,7 +209,6 @@ function updateCatCounts(){
     });
     bar.innerHTML = html;
   }
-  // Categories Page - AUTO
   let big = document.getElementById('catBig');
   if(big){
     if(!cats.length){ big.innerHTML = '<p style="padding:15px;color:#888">No category yet. Add product from Sheet!</p>'; }
@@ -220,7 +220,11 @@ function updateCatCounts(){
     }
   }
 }
-function cardHTML(p,i,showBest){ let cleanPrice = parseInt(String(p.price||0).replace(/[^0-9]/g,'')) || 0; let safeName = (p.name||'').replace(/'/g,"").replace(/"/g,''); return `<div class="card">${showBest&&i<4?'<span class="best-badge">BEST SELLER</span>':''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${cleanPrice}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:13px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="order" data-name="${safeName}" data-price="${cleanPrice}" onclick="orderNow(this.getAttribute('data-name'), parseInt(this.getAttribute('data-price')))">Order Now 🛒</button></div></div>`; }
+// --- PRODUCT DETAIL - New Tab Amazon jaisa ---
+function openProduct(name){
+  window.open('product.html?name=' + encodeURIComponent(name), '_blank');
+}
+function cardHTML(p,i,showBest){ let cleanPrice = parseInt(String(p.price||0).replace(/[^0-9]/g,'')) || 0; let safeName = (p.name||'').replace(/'/g,"").replace(/"/g,''); return `<div class="card">${showBest&&i<4?'<span class="best-badge">BEST SELLER</span>':''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'" onclick="openProduct('${safeName}')" title="Click to view detail"><div class="card-body"><h3 onclick="openProduct('${safeName}')">${p.name}</h3><div><span class="price">Rs ${cleanPrice}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:13px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="view-btn" onclick="openProduct('${safeName}')">👀 View Details</button><button class="order" data-name="${safeName}" data-price="${cleanPrice}" onclick="orderNow(this.getAttribute('data-name'), parseInt(this.getAttribute('data-price')))">Order Now 🛒</button></div></div>`; }
 function renderBestPage(){ let best=[...allProducts].sort((a,b)=>b.sales-a.sales).slice(0,8); document.getElementById('bestPageGrid').innerHTML = best.length? best.map((p,i)=>cardHTML(p,i,true)).join('') : '<p style="padding:15px;color:#888">No Best Seller yet.</p>'; }
 function filterProducts(){ let q=document.getElementById('searchInput').value.toLowerCase().trim(); showPage('page-shop'); let list=[...allProducts]; if(currentMode==='free'){ list=list.filter(p=>parseInt(p.price||0)===0); } if(currentMode==='best'){ list=[...allProducts].sort((a,b)=>b.sales-a.sales).slice(0,8); } let filtered=list.filter(p=>{ let matchCat=currentCat==='all'||(p.cat||'').toLowerCase().includes(currentCat); let matchSearch=!q||(p.name||'').toLowerCase().includes(q)||(p.desc||'').toLowerCase().includes(q)||(p.cat||'').toLowerCase().includes(q); return matchCat&&matchSearch; }); document.getElementById('homeGrid').innerHTML = allProducts.length? allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join('') : '<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>'; let modeText=currentMode==='free'?' - Free Products':''; document.getElementById('resultCount').innerText = `Showing ${filtered.length} product${filtered.length===1?'':'s'}`+(currentCat!=='all'?` in ${currentCat}`:'')+modeText+(q?` for "${q}"`:''); document.getElementById('grid').innerHTML = filtered.length? filtered.map((p,i)=>cardHTML(p,i,currentMode==='all')).join('') : '<p style="padding:15px;color:#888">No product found. Try another search or category!</p>'; }
 function renderHomeOnly(){ document.getElementById('homeGrid').innerHTML = allProducts.length? allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join('') : '<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>'; document.getElementById('grid').innerHTML = allProducts.length? allProducts.map((p,i)=>cardHTML(p,i,true)).join('') : '<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>'; document.getElementById('resultCount').innerText = `Showing ${allProducts.length} products`; }
