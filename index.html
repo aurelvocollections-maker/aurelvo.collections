@@ -90,7 +90,7 @@ footer b{color:#d4af37;font-size:17px}
 </div>
 </header>
 <div id="page-home" class="page active">
-<div class="hero"><h2>Aurelvo Collections</h2><p>Watches • Suits • Jewelry • Shoes</p><p style="margin-top:12px;font-size:16px;color:#fff">WhatsApp: 03098890935 • <span class="live">● LIVE</span></p></div>
+<div class="hero"><h2>Aurelvo Collections</h2><p id="heroCats">Watches • Suits • Jewelry • Shoes • Perfume</p><p style="margin-top:12px;font-size:16px;color:#fff">WhatsApp: 03098890935 • <span class="live">● LIVE</span></p></div>
 <div class="section"><h2>Our Collection</h2></div>
 <div style="max-width:1200px;margin:auto">
 <div class="slider-box">
@@ -113,22 +113,15 @@ footer b{color:#d4af37;font-size:17px}
 <div id="page-shop" class="page">
 <div class="section"><h2 id="shopTitle">Shop All Products</h2><p style="color:#888;font-size:14px">Most sold on top - Auto Ranking!</p></div>
 <div class="cat-bar" id="catBar">
-  <button class="cat-btn active" data-cat="all" onclick="setCat('all',this)">All</button>
-  <button class="cat-btn" data-cat="watches" onclick="setCat('watches',this)">Watches</button>
-  <button class="cat-btn" data-cat="suits" onclick="setCat('suits',this)">Suits</button>
-  <button class="cat-btn" data-cat="jewelry" onclick="setCat('jewelry',this)">Jewelry</button>
-  <button class="cat-btn" data-cat="shoes" onclick="setCat('shoes',this)">Shoes</button>
+  <button class="cat-btn active" data-cat="all" onclick="setCat('all',this)">All (0)</button>
 </div>
 <p id="resultCount" style="max-width:1200px;margin:auto;padding:0 18px 10px;color:#888;font-size:14px"></p>
 <div class="grid" id="grid"><p style="padding:10px;color:#888">Loading products...</p></div>
 </div>
 <div id="page-categories" class="page">
-<div class="section"><h2>Categories</h2><p style="color:#888;font-size:14px">Click any category to see its products.</p></div>
-<div class="cat-big">
-<div onclick="openCat('watches')">Watches<span id="c-watches">0 Products</span></div>
-<div onclick="openCat('suits')">Suits<span id="c-suits">0 Products</span></div>
-<div onclick="openCat('jewelry')">Jewelry<span id="c-jewelry">0 Products</span></div>
-<div onclick="openCat('shoes')">Shoes<span id="c-shoes">0 Products</span></div>
+<div class="section"><h2>Categories</h2><p style="color:#888;font-size:14px">Click any category to see its products. Auto - Sheet se banti hain!</p></div>
+<div class="cat-big" id="catBig">
+<p style="padding:15px;color:#888">Loading categories...</p>
 </div>
 </div>
 <div id="page-best" class="page">
@@ -137,7 +130,7 @@ footer b{color:#d4af37;font-size:17px}
 </div>
 <div id="page-about" class="page">
 <div class="section"><h2>About Us</h2></div>
-<div class="info-box"><h3>Aurelvo Collections</h3><p>Aurelvo Collections is a trusted online shop from Kanganpur. We provide our customers with best quality Watches, Suits, Jewelry and Shoes at affordable prices.</p><p>Our goal is to deliver good quality products to every home in Kanganpur, right at your doorstep!</p><p>Thank you for choosing Aurelvo!</p></div>
+<div class="info-box"><h3>Aurelvo Collections</h3><p>Aurelvo Collections is a trusted online shop from Kanganpur. We provide our customers with best quality Watches, Suits, Jewelry, Shoes and Perfume at affordable prices.</p><p>Our goal is to deliver good quality products to every home in Kanganpur, right at your doorstep!</p><p>Thank you for choosing Aurelvo!</p></div>
 <div class="section"><h2>Payment Method</h2></div>
 <div class="pay-box"><div class="pay-card"><b>JazzCash</b><br>Number: 03098890935<br><span style="color:#777;font-size:14px">Send payment screenshot on WhatsApp</span></div><div class="pay-card"><b>EasyPaisa</b><br>Number: 03289598403<br><span style="color:#777;font-size:14px">Send payment screenshot on WhatsApp</span></div><div class="pay-card"><b>Cash on Delivery</b><br>Pay at your home<br><span style="color:#777;font-size:14px">Pay when you receive your product</span></div></div>
 <div class="section"><h2>Delivery Info</h2></div>
@@ -185,10 +178,48 @@ let timer=setInterval(()=>showSlide(idx+1),4000);
 function resetTimer(){clearInterval(timer);timer=setInterval(()=>showSlide(idx+1),4000);}
 function showPage(id){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
 function goNav(type,btn){ document.querySelectorAll('.nav-bar button').forEach(b=>b.classList.remove('active')); if(btn) btn.classList.add('active'); document.getElementById('searchInput').value=''; if(type==='home'){ showPage('page-home'); return; } if(type==='categories'){ showPage('page-categories'); return; } if(type==='best'){ currentMode='best'; showPage('page-best'); renderBestPage(); return; } if(type==='about'){ showPage('page-about'); return; } if(type==='contact'){ showPage('page-contact'); return; } if(type==='help'){ showPage('page-help'); return; } if(type==='all'){ currentMode='all'; currentCat='all'; document.getElementById('shopTitle').innerText='Shop All Products'; } if(type==='free'){ currentMode='free'; document.getElementById('shopTitle').innerText='Free Products'; } syncCatBtn(); showPage('page-shop'); filterProducts(); }
-function openCat(cat){ currentCat=cat; currentMode='all'; document.getElementById('shopTitle').innerText=cat; syncCatBtn(); showPage('page-shop'); filterProducts(); document.querySelectorAll('.nav-bar button').forEach(b=>b.classList.remove('active')); }
+function openCat(cat){ currentCat=cat.toLowerCase(); currentMode='all'; document.getElementById('shopTitle').innerText=cat; syncCatBtn(); showPage('page-shop'); filterProducts(); document.querySelectorAll('.nav-bar button').forEach(b=>b.classList.remove('active')); }
 function syncCatBtn(){ document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('active', b.getAttribute('data-cat')===currentCat)); }
 function setCat(cat,btn){ currentCat=cat; currentMode='all'; document.getElementById('shopTitle').innerText='Shop All Products'; document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); filterProducts(); }
-function updateCatCounts(){ let counts={watches:0,suits:0,jewelry:0,shoes:0}; allProducts.forEach(p=>{ let c=(p.cat||'').toLowerCase(); if(c.includes('watch')) counts.watches++; else if(c.includes('suit')) counts.suits++; else if(c.includes('jewel')) counts.jewelry++; else if(c.includes('shoe')) counts.shoes++; }); document.querySelectorAll('.cat-btn').forEach(b=>{ let cat=b.getAttribute('data-cat'); let label=b.innerText.split(' (')[0]; let n = cat==='all'?allProducts.length:counts[cat]; b.innerText=label+' ('+n+')'; }); document.getElementById('c-watches').innerText=counts.watches+' Products'; document.getElementById('c-suits').innerText=counts.suits+' Products'; document.getElementById('c-jewelry').innerText=counts.jewelry+' Products'; document.getElementById('c-shoes').innerText=counts.shoes+' Products'; }
+// --- AUTO CATEGORIES - Sheet se banti hain ---
+function getCategories(){
+  let map = {};
+  allProducts.forEach(p=>{
+    let raw = (p.cat||'').trim();
+    if(!raw) return;
+    let key = raw.toLowerCase();
+    if(!map[key]) map[key] = { name: raw, count: 0 };
+    map[key].count++;
+  });
+  return Object.values(map).sort((a,b)=>b.count-a.count);
+}
+function updateCatCounts(){
+  let cats = getCategories();
+  // Hero text auto
+  let heroEl = document.getElementById('heroCats');
+  if(heroEl && cats.length) heroEl.innerText = cats.map(c=>c.name).join(' • ');
+  // Shop top filter bar - AUTO
+  let bar = document.getElementById('catBar');
+  if(bar){
+    let html = `<button class="cat-btn ${currentCat==='all'?'active':''}" data-cat="all" onclick="setCat('all',this)">All (${allProducts.length})</button>`;
+    cats.forEach(c=>{
+      let key = c.name.toLowerCase();
+      html += `<button class="cat-btn ${currentCat===key?'active':''}" data-cat="${key}" onclick="setCat('${key}',this)">${c.name} (${c.count})</button>`;
+    });
+    bar.innerHTML = html;
+  }
+  // Categories Page - AUTO
+  let big = document.getElementById('catBig');
+  if(big){
+    if(!cats.length){ big.innerHTML = '<p style="padding:15px;color:#888">No category yet. Add product from Sheet!</p>'; }
+    else {
+      big.innerHTML = cats.map(c=>{
+        let safe = c.name.replace(/'/g,"");
+        return `<div onclick="openCat('${safe}')">${c.name}<span>${c.count} Products</span></div>`;
+      }).join('');
+    }
+  }
+}
 function cardHTML(p,i,showBest){ let cleanPrice = parseInt(String(p.price||0).replace(/[^0-9]/g,'')) || 0; let safeName = (p.name||'').replace(/'/g,"").replace(/"/g,''); return `<div class="card">${showBest&&i<4?'<span class="best-badge">BEST SELLER</span>':''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'"><div class="card-body"><h3>${p.name}</h3><div><span class="price">Rs ${cleanPrice}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:13px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="order" data-name="${safeName}" data-price="${cleanPrice}" onclick="orderNow(this.getAttribute('data-name'), parseInt(this.getAttribute('data-price')))">Order Now 🛒</button></div></div>`; }
 function renderBestPage(){ let best=[...allProducts].sort((a,b)=>b.sales-a.sales).slice(0,8); document.getElementById('bestPageGrid').innerHTML = best.length? best.map((p,i)=>cardHTML(p,i,true)).join('') : '<p style="padding:15px;color:#888">No Best Seller yet.</p>'; }
 function filterProducts(){ let q=document.getElementById('searchInput').value.toLowerCase().trim(); showPage('page-shop'); let list=[...allProducts]; if(currentMode==='free'){ list=list.filter(p=>parseInt(p.price||0)===0); } if(currentMode==='best'){ list=[...allProducts].sort((a,b)=>b.sales-a.sales).slice(0,8); } let filtered=list.filter(p=>{ let matchCat=currentCat==='all'||(p.cat||'').toLowerCase().includes(currentCat); let matchSearch=!q||(p.name||'').toLowerCase().includes(q)||(p.desc||'').toLowerCase().includes(q)||(p.cat||'').toLowerCase().includes(q); return matchCat&&matchSearch; }); document.getElementById('homeGrid').innerHTML = allProducts.length? allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join('') : '<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>'; let modeText=currentMode==='free'?' - Free Products':''; document.getElementById('resultCount').innerText = `Showing ${filtered.length} product${filtered.length===1?'':'s'}`+(currentCat!=='all'?` in ${currentCat}`:'')+modeText+(q?` for "${q}"`:''); document.getElementById('grid').innerHTML = filtered.length? filtered.map((p,i)=>cardHTML(p,i,currentMode==='all')).join('') : '<p style="padding:15px;color:#888">No product found. Try another search or category!</p>'; }
@@ -202,4 +233,3 @@ loadSheet();
 </script>
 </body>
 </html>
-
