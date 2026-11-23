@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Detail - Aurelvo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
+body{background:#fdf8f2;color:#222}
+header{background:#111;color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+header b{color:#d4af37;font-size:24px}
+header a{color:#fff;text-decoration:none}
+.box{max-width:1000px;margin:auto;padding:20px 15px;display:grid;grid-template-columns:1fr 1fr;gap:25px}
+.box img{width:100%;height:450px;object-fit:cover;border-radius:18px;background:#fff}
+.info{background:#fff;padding:25px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+.info h1{font-size:30px}
+.info .cat{color:#888;margin:8px 0}
+.price{color:#b8860b;font-weight:800;font-size:28px;margin:12px 0}
+.old{color:#999;text-decoration:line-through;font-size:18px;margin-left:8px}
+.badge{background:#ff3b30;color:#fff;padding:6px 12px;border-radius:20px;font-size:13px;font-weight:800;display:inline-block}
+.sales{margin:12px 0;color:#555;font-size:16px}
+.sales b{color:#111}
+.desc{line-height:1.8;color:#444;margin:15px 0}
+.qty{display:flex;align-items:center;gap:12px;margin:15px 0}
+.qty button{width:40px;height:40px;background:#111;color:#D4AF37;border:none;font-size:22px;border-radius:8px;cursor:pointer}
+.qty span{font-size:20px;font-weight:800}
+.total{font-size:20px;font-weight:800;margin:10px 0}
+input,select,textarea{width:100%;padding:13px;margin:6px 0;border:1px solid #ddd;border-radius:10px;font-size:15px}
+.btn{background:#111;color:#D4AF37;border:none;padding:15px;width:100%;border-radius:10px;font-weight:800;font-size:17px;cursor:pointer;margin-top:8px}
+.btn2{background:#d4af37;color:#000}
+@media(max-width:700px){.box{grid-template-columns:1fr} .box img{height:320px}}
+</style>
+</head>
+<body>
+<header><b>AURELVO</b><a href="index.html">← Back to Shop</a></header>
+<div id="wrap"><p style="padding:30px;text-align:center;color:#888">Loading product...</p></div>
+<script>
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pub?gid=2032873731&single=true&output=csv";
+const ORDER_URL = "https://script.google.com/macros/s/AKfycbxj3Ee17SPizTjTfCO2hIreBawshNZCMirtrDWnoYwV-FTlSbFsscQBFM4JcJ9M2A2t/exec";
+let P=null, QTY=1;
+function getName(){ return decodeURIComponent(new URLSearchParams(location.search).get('name')||''); }
+function chQty(v){ QTY=Math.max(1,Math.min(20,QTY+v)); document.getElementById('q').innerText=QTY; document.getElementById('tot').innerText='Total: Rs '+(P.price*QTY); }
+async function load(){
+  let name=getName();
+  let res=await fetch(SHEET_CSV_URL+"&t="+Date.now());
+  let text=await res.text();
+  let lines=text.trim().split('\n');
+  let headers=lines[0].split(',').map(h=>h.trim().toLowerCase().replace(/"/g,''));
+  let list=lines.slice(1).map(line=>{
+    let vals=line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)||[]; let o={};
+    headers.forEach((h,i)=>{o[h]=(vals[i]||'').replace(/^"|"$/g,'').trim()}); return o;
+  });
+  P=list.find(p=>(p.name||'').toLowerCase()===name.toLowerCase());
+  if(!P){ document.getElementById('wrap').innerHTML='<p style="padding:40px;text-align:center">Product nahi mila! <a href="index.html">Wapas jayen</a></p>'; return; }
+  P.price=parseInt(String(P.price||0).replace(/[^0-9]/g,''))||0;
+  P.sales=parseInt(P.sales||0)||0;
+  document.title=P.name+' - Aurelvo';
+  document.getElementById('wrap').innerHTML=`
+  <div class="box">
+    <img src="${P.img}" onerror="this.src='https://via.placeholder.com/500x500?text=Aurelvo'">
+    <div class="info">
+      ${P.sales>10?'<span class="badge">BEST SELLER</span>':''}
+      <h1>${P.name}</h1>
+      <p class="cat">Category: ${P.cat||''}</p>
+      <div><span class="price">Rs ${P.price}</span>${P.old?`<span class="old">Rs ${P.old}</span>`:''}</div>
+      <p class="sales">⭐ Total Sold: <b>${P.sales} Pieces</b> • 🔥 In Stock: Available • 🚚 Delivery: 3-5 Days</p>
+      <p class="desc"><b>Detail:</b><br>${P.desc||'Premium quality product from Aurelvo Collections. Cash on Delivery available all over Pakistan.'}</p>
+      <div class="qty"><b>Quantity:</b><button onclick="chQty(-1)">-</button><span id="q">1</span><button onclick="chQty(1)">+</button></div>
+      <p class="total" id="tot">Total: Rs ${P.price}</p>
+      <input id="n" placeholder="Apna Naam *">
+      <input id="ph" placeholder="Mobile Number *">
+      <input id="ct" placeholder="City *">
+      <textarea id="ad" placeholder="Mukammal Address *" rows="2"></textarea>
+      <select id="pay"><option value="COD">Cash on Delivery</option><option value="JazzCash">JazzCash</option><option value="Easypaisa">Easypaisa</option></select>
+      <button class="btn btn2" onclick="doOrder()">Add to Cart / Order Now 🛒</button>
+      <button class="btn" onclick="window.open('https://wa.me/923098890935?text='+encodeURIComponent('Hello! Mujhe '+P.name+' order karna hai - Rs '+P.price),'_blank')">WhatsApp pe Order</button>
+    </div>
+  </div>`;
+}
+function doOrder(){
+  let name=document.getElementById('n').value.trim();
+  let phone=document.getElementById('ph').value.trim();
+  let city=document.getElementById('ct').value.trim();
+  let address=document.getElementById('ad').value.trim();
+  let payment=document.getElementById('pay').value;
+  if(!name||!phone||!city||!address){ alert('Naam, Number, City, Address zaroori hai!'); return; }
+  fetch(ORDER_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify({name:name,phone:phone,address:address,city:city,product:P.name,price:P.price,qty:QTY,payment:payment})}).then(()=>{ alert('✅ Order Mil Gaya! '+QTY+' x '+P.name+' - Total Rs '+(P.price*QTY)); });
+}
+load();
+</script>
+</body>
+</html>
