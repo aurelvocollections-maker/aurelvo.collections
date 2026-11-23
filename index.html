@@ -173,7 +173,7 @@ footer b{color:#d4af37;font-size:17px}
 <script>
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pub?gid=2032873731&single=true&output=csv";
 const SHEET_EDIT_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pubhtml";
-const ORDER_URL = "https://script.google.com/macros/s/AKfycbx1IBW7L_s1d8mhd3t3wWd0Xv88gKY7b2KjWXL2Wt_0yaPTBAD05zce7xSg6rY37kQc/exec";
+const ORDER_URL = "https://script.google.com/macros/s/AKfycbxj3Ee17SPizTjTfCO2hIreBawshNZCMirtrDWnoYwV-FTlSbFsscQBFM4JcJ9M2A2t/exec";
 const MY_PASSWORD = "Aurelvo123";
 let allProducts = []; let currentCat = 'all'; let currentMode = 'all'; let currentProduct = null; let currentQty = 1;
 function checkPassword(){ let p = prompt("Enter Admin Password:"); if(p === MY_PASSWORD){ window.open(SHEET_EDIT_URL, "_blank"); } else if(p !== null){ alert("Wrong Password! Only Admin can add."); } }
@@ -202,3 +202,4 @@ loadSheet();
 </script>
 </body>
 </html>
+
