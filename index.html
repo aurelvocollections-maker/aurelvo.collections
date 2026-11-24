@@ -130,6 +130,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 <input type="search" id="searchInput" placeholder="Search products..." onkeydown="if(event.key==='Enter')filterProducts()">
 <button onclick="filterProducts()">Search</button>
 </div>
+  <select id="themeSelect" onchange="setTheme(this.value)" style="padding:12px 14px;border-radius:25px;border:none;font-weight:800;cursor:pointer;background:#fff;color:#111">
+<option value="gold">✨ Gold Theme</option>
+<option value="navy">💙 Royal Navy</option>
+<option value="emerald" selected>💚 Emerald Luxury</option>
+<option value="snow">🤍 Snow White</option>
+<option value="maroon">❤️ Maroon Royal</option>
+</select>
 <button class="btn" onclick="checkPassword()">+ Add Product</button>
 </div>
 
