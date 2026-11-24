@@ -742,7 +742,17 @@ return;
 
 currentProduct={name:n,price:price};
 currentQty=1;
+// Variation Check - Sirf usi me Size/Color dikhao jisme Sheet me likha ho
+let realProduct = allProducts.find(p => p.name === n);
+let hasSize = realProduct && String(realProduct.size || realProduct.Size || "").trim() !== "";
+let hasColor = realProduct && String(realProduct.color || realProduct.Color || "").trim() !== "";
 
+document.getElementById("sizeWrap").style.display = hasSize ? "block" : "none";
+document.getElementById("colorWrap").style.display = hasColor ? "block" : "none";
+
+// Agar Size/Color nahi hai to purani value bhi saaf kar do
+if(!hasSize) document.getElementById("cSize").value = "";
+if(!hasColor) document.getElementById("cColor").value = "";
 document.getElementById("qtyDisplay").innerText="1";
 document.getElementById("selectedProduct").innerText=n+" - Rs "+price;
 document.getElementById("totalDisplay").innerText="Total: Rs "+price;
