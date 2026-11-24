@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -270,6 +271,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 <footer><b>AURELVO COLLECTION</b><br>Kanganpur, Pakistan | WhatsApp: 03098890935<br>© 2026 Aurelvo Collection - All Rights Reserved</footer>
 
 <script>
+"use strict";
+
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pub?gid=2032873731&single=true&output=csv";
 const SHEET_EDIT_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pubhtml";
 const ORDER_URL = "https://script.google.com/macros/s/AKfycbxeFVQWRD-uNZ9ioLa_HnFodJk3ZazpR5ShKPKl7u2afb-XVNUKwnYsOIaEiLLlkaAH/exec";
@@ -280,100 +283,184 @@ let currentCat = 'all';
 let currentMode = 'all';
 let currentProduct = null;
 let currentQty = 1;
+let idx = 0;
+let slideTimer = null;
+let orderSending = false;
 
+/* HTML escaping: sheet data is treated as text, not HTML */
+function escapeHTML(value){
+return String(value ?? '').replace(/[&<>"']/g,char=>({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#39;'
+}[char]));
+}
+
+/* Admin sheet access */
 function checkPassword(){
-let p = prompt("Enter Admin Password:");
-if(p === MY_PASSWORD){
-window.open(SHEET_EDIT_URL, "_blank");
-}else if(p !== null){
+let p=prompt("Enter Admin Password:");
+if(p===null)return;
+
+if(p===MY_PASSWORD){
+window.open(SHEET_EDIT_URL,"_blank","noopener");
+}else{
 alert("Wrong Password! Only Admin can add.");
 }
 }
 
-let idx=0;
-
+/* Slider */
 function showSlide(n){
 let s=document.getElementById('mySlides');
+if(!s)return;
+
 idx=(n+4)%4;
 s.style.transform=`translateX(-${idx*100}%)`;
-document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+
+document.querySelectorAll('.dot').forEach((d,i)=>{
+d.classList.toggle('active',i===idx);
+});
 }
 
-function moveSlide(n){showSlide(idx+n);resetTimer();}
-function goSlide(n){showSlide(n);resetTimer();}
-let timer=setInterval(()=>showSlide(idx+1),4000);
-function resetTimer(){clearInterval(timer);timer=setInterval(()=>showSlide(idx+1),4000);}
+function moveSlide(n){
+showSlide(idx+n);
+resetTimer();
+}
 
+function goSlide(n){
+showSlide(n);
+resetTimer();
+}
+
+function startTimer(){
+clearInterval(slideTimer);
+slideTimer=setInterval(()=>showSlide(idx+1),4000);
+}
+
+function resetTimer(){
+startTimer();
+}
+
+/* Page navigation */
 function showPage(id){
 document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-document.getElementById(id).classList.add('active');
+
+const target=document.getElementById(id);
+if(target)target.classList.add('active');
+
 window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function goNav(type,btn){
 document.querySelectorAll('.nav-bar button').forEach(b=>b.classList.remove('active'));
-if(btn) btn.classList.add('active');
+if(btn)btn.classList.add('active');
+
 document.getElementById('searchInput').value='';
-if(type==='home'){showPage('page-home');return;}
-if(type==='categories'){showPage('page-categories');return;}
-if(type==='best'){currentMode='best';showPage('page-best');renderBestPage();return;}
+
+if(type==='home'){
+currentMode='all';
+currentCat='all';
+showPage('page-home');
+return;
+}
+
+if(type==='categories'){
+showPage('page-categories');
+return;
+}
+
+if(type==='best'){
+currentMode='best';
+currentCat='all';
+showPage('page-best');
+renderBestPage();
+return;
+}
+
 if(type==='about'){showPage('page-about');return;}
 if(type==='contact'){showPage('page-contact');return;}
 if(type==='help'){showPage('page-help');return;}
-if(type==='all'){currentMode='all';currentCat='all';document.getElementById('shopTitle').innerText='Shop All Products';}
-if(type==='free'){currentMode='free';document.getElementById('shopTitle').innerText='Free Products';}
+
+if(type==='all'){
+currentMode='all';
+currentCat='all';
+document.getElementById('shopTitle').innerText='Shop All Products';
+}
+
+if(type==='free'){
+currentMode='free';
+currentCat='all';
+document.getElementById('shopTitle').innerText='Free Products';
+}
+
 syncCatBtn();
 showPage('page-shop');
 filterProducts();
 }
 
 function openCat(cat){
-currentCat=cat.toLowerCase();
+currentCat=String(cat).toLowerCase();
 currentMode='all';
+
 document.getElementById('shopTitle').innerText=cat;
 syncCatBtn();
 showPage('page-shop');
 filterProducts();
+
 document.querySelectorAll('.nav-bar button').forEach(b=>b.classList.remove('active'));
 }
 
 function syncCatBtn(){
-document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('data-cat')===currentCat));
+document.querySelectorAll('.cat-btn').forEach(b=>{
+b.classList.toggle('active',b.getAttribute('data-cat')===currentCat);
+});
 }
 
 function setCat(cat,btn){
-currentCat=cat;
+currentCat=String(cat);
 currentMode='all';
 document.getElementById('shopTitle').innerText='Shop All Products';
+
 document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
-btn.classList.add('active');
+if(btn)btn.classList.add('active');
+
 filterProducts();
 }
 
+/* Categories */
 function getCategories(){
 let map={};
+
 allProducts.forEach(p=>{
-let raw=(p.cat||'').trim();
+let raw=String(p.cat||'').trim();
 if(!raw)return;
+
 let key=raw.toLowerCase();
 if(!map[key])map[key]={name:raw,count:0};
 map[key].count++;
 });
+
 return Object.values(map).sort((a,b)=>b.count-a.count);
 }
 
 function updateCatCounts(){
 let cats=getCategories();
 let heroEl=document.getElementById('heroCats');
-if(heroEl&&cats.length)heroEl.innerText=cats.map(c=>c.name).join(' • ');
+
+if(heroEl&&cats.length){
+heroEl.innerText=cats.map(c=>c.name).join(' • ');
+}
 
 let bar=document.getElementById('catBar');
 if(bar){
 let html=`<button class="cat-btn ${currentCat==='all'?'active':''}" data-cat="all" onclick="setCat('all',this)">All (${allProducts.length})</button>`;
+
 cats.forEach(c=>{
 let key=c.name.toLowerCase();
-html+=`<button class="cat-btn ${currentCat===key?'active':''}" data-cat="${key}" onclick="setCat('${key}',this)">${c.name} (${c.count})</button>`;
+html+=`<button class="cat-btn ${currentCat===key?'active':''}" data-cat="${escapeHTML(key)}" onclick="setCat(this.dataset.cat,this)">${escapeHTML(c.name)} (${c.count})</button>`;
 });
+
 bar.innerHTML=html;
 }
 
@@ -383,128 +470,315 @@ if(!cats.length){
 big.innerHTML='<p style="padding:15px;color:#888">No category yet. Add product from Sheet!</p>';
 }else{
 big.innerHTML=cats.map(c=>{
-let safe=c.name.replace(/'/g,"");
-return `<div onclick="openCat('${safe}')">${c.name}<span>${c.count} Products</span></div>`;
+return `<div data-cat="${escapeHTML(c.name)}" onclick="openCat(this.dataset.cat)">${escapeHTML(c.name)}<span>${c.count} Products</span></div>`;
 }).join('');
 }
 }
 }
 
+/* Product detail page */
 function openProduct(name){
 window.open('product.html?name='+encodeURIComponent(name),'_blank');
 }
 
-// === BEST SELLER MANUAL SYSTEM - SIRF YES WALA ===
+/* Best Seller detection */
 function isBestSeller(p){
-  let v = (p.bestseller || p.best || p.bestsellercol || "").toString().toLowerCase().trim();
-  return v === 'yes' || v === 'y' || v === '1' || v === 'true' || v === 'best';
+let v=(p.bestseller||p.best||p.bestsellercol||"")
+.toString().toLowerCase().trim();
+
+return v==='yes'||v==='y'||v==='1'||v==='true'||v==='best';
 }
 
+/* Product card rendering */
 function cardHTML(p,i,showBest){
 let cleanPrice=parseInt(String(p.price||0).replace(/[^0-9]/g,''))||0;
-let safeName=(p.name||'').replace(/'/g,"").replace(/"/g,'');
-// Badge sirf tab lagega jab Sheet me BestSeller = YES ho, warna kabhi nahi
-return `<div class="card">${isBestSeller(p)?'<span class="best-badge">BEST SELLER</span>':''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'" onclick="openProduct('${safeName}')" title="Click to view detail"><div class="card-body"><h3 onclick="openProduct('${safeName}')">${p.name}</h3><div><span class="price">Rs ${cleanPrice}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:13px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="view-btn" onclick="openProduct('${safeName}')">👀 View Details</button><button class="order" data-name="${safeName}" data-price="${cleanPrice}" onclick="orderNow(this.getAttribute('data-name'),parseInt(this.getAttribute('data-price')))">Order Now 🛒</button></div></div>`;
+let safeName=String(p.name||'');
+let safeDesc=escapeHTML(p.desc||'');
+let safeCat=escapeHTML(p.cat||'');
+let safeImage=escapeHTML(p.img||'https://via.placeholder.com/300x200?text=Aurelvo');
+let safeOld=escapeHTML(p.old||'');
+let safeSales=Number(p.sales)||0;
+let bestBadge=isBestSeller(p)?'<span class="best-badge">BEST SELLER</span>':'';
+
+return `<div class="card">
+${bestBadge}
+<img src="${safeImage}" onerror="this.onerror=null;this.src='https://via.placeholder.com/300x200?text=Aurelvo'" onclick="openProduct(this.dataset.name)" data-name="${escapeHTML(safeName)}" title="Click to view detail" loading="lazy">
+<div class="card-body">
+<h3 onclick="openProduct(this.dataset.name)" data-name="${escapeHTML(safeName)}">${escapeHTML(safeName)}</h3>
+<div><span class="price">Rs ${cleanPrice}</span> ${safeOld?`<span class="old">Rs ${safeOld}</span>`:''}</div>
+<p style="font-size:13px;color:#777">${safeCat} • ${safeDesc} • ${safeSales} Sold</p>
+<button class="view-btn" data-name="${escapeHTML(safeName)}" onclick="openProduct(this.dataset.name)">👀 View Details</button>
+<button class="order" data-name="${escapeHTML(safeName)}" data-price="${cleanPrice}" onclick="orderNow(this.dataset.name,Number(this.dataset.price))">Order Now 🛒</button>
+</div>
+</div>`;
 }
 
+/* Best Sellers page */
 function renderBestPage(){
-  // SIRF wahi jo Sheet me BestSeller = YES hai - Sale se koi lena dena nahi
-  let best = allProducts.filter(p=>isBestSeller(p));
-  document.getElementById('bestPageGrid').innerHTML=best.length?best.map((p,i)=>cardHTML(p,i,true)).join(''):'<p style="padding:15px;color:#888">Abhi koi Best Seller select nahi kiya gaya. Sheet me BestSeller column me YES likhen!</p>';
+let best=allProducts.filter(p=>isBestSeller(p));
+let target=document.getElementById('bestPageGrid');
+
+if(!target)return;
+
+target.innerHTML=best.length
+?best.map((p,i)=>cardHTML(p,i,true)).join('')
+:'<p style="padding:15px;color:#888">Abhi koi Best Seller select nahi kiya gaya. Sheet me BestSeller column me YES likhen!</p>';
 }
 
+/* Product filtering and search */
 function filterProducts(){
-let q=document.getElementById('searchInput').value.toLowerCase().trim();
+let searchEl=document.getElementById('searchInput');
+let q=(searchEl?.value||'').toLowerCase().trim();
+
 let list=[...allProducts];
-if(currentMode==='free'){list=list.filter(p=>parseInt(p.price||0)===0);}
-if(currentMode==='best'){list=allProducts.filter(p=>isBestSeller(p));}
+
+if(currentMode==='free'){
+list=list.filter(p=>(parseInt(String(p.price||0).replace(/[^0-9]/g,''))||0)===0);
+}
+
+if(currentMode==='best'){
+list=allProducts.filter(p=>isBestSeller(p));
+}
+
 let filtered=list.filter(p=>{
-let matchCat=currentCat==='all'||(p.cat||'').toLowerCase().includes(currentCat);
-let matchSearch=!q||(p.name||'').toLowerCase().includes(q)||(p.desc||'').toLowerCase().includes(q)||(p.cat||'').toLowerCase().includes(q);
+let matchCat=currentCat==='all'||String(p.cat||'').toLowerCase().includes(currentCat);
+
+let matchSearch=!q||
+String(p.name||'').toLowerCase().includes(q)||
+String(p.desc||'').toLowerCase().includes(q)||
+String(p.cat||'').toLowerCase().includes(q);
+
 return matchCat&&matchSearch;
 });
-document.getElementById('homeGrid').innerHTML=allProducts.length?allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join(''):'<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';
+
+let home=document.getElementById('homeGrid');
+if(home){
+home.innerHTML=allProducts.length
+?allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join('')
+:'<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';
+}
+
 let modeText=currentMode==='free'?' - Free Products':'';
-document.getElementById('resultCount').innerText=`Showing ${filtered.length} product${filtered.length===1?'':'s'}`+(currentCat!=='all'?` in ${currentCat}`:'')+modeText+(q?` for "${q}"`:'');
-document.getElementById('grid').innerHTML=filtered.length?filtered.map((p,i)=>cardHTML(p,i,currentMode==='all')).join(''):'<p style="padding:15px;color:#888">No product found. Try another search or category!</p>';
+
+document.getElementById('resultCount').innerText=
+`Showing ${filtered.length} product${filtered.length===1?'':'s'}`+
+(currentCat!=='all'?` in ${currentCat}`:'')+
+modeText+
+(q?` for "${q}"`:'');
+
+document.getElementById('grid').innerHTML=filtered.length
+?filtered.map((p,i)=>cardHTML(p,i,currentMode==='all')).join('')
+:'<p style="padding:15px;color:#888">No product found. Try another search or category!</p>';
 }
 
+/* Home/shop rendering */
 function renderHomeOnly(){
-document.getElementById('homeGrid').innerHTML=allProducts.length?allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join(''):'<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';
-document.getElementById('grid').innerHTML=allProducts.length?allProducts.map((p,i)=>cardHTML(p,i,false)).join(''):'<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';
-document.getElementById('resultCount').innerText=`Showing ${allProducts.length} products`;
+let home=document.getElementById('homeGrid');
+let grid=document.getElementById('grid');
+
+if(home){
+home.innerHTML=allProducts.length
+?allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join('')
+:'<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';
 }
 
+if(grid){
+grid.innerHTML=allProducts.length
+?allProducts.map((p,i)=>cardHTML(p,i,false)).join('')
+:'<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';
+}
+
+let count=document.getElementById('resultCount');
+if(count)count.innerText=`Showing ${allProducts.length} products`;
+}
+
+/* CSV parser handles commas, quoted text and line breaks inside quotes */
 function parseCSV(text){
 const rows=[];
 let row=[],cell='',quoted=false;
+
 for(let i=0;i<text.length;i++){
 const ch=text[i],next=text[i+1];
-if(ch==='"'&&quoted&&next==='"'){cell+='"';i++;}
-else if(ch==='"'){quoted=!quoted;}
-else if(ch===','&&!quoted){row.push(cell);cell='';}
+
+if(ch==='"'&&quoted&&next==='"'){
+cell+='"';
+i++;
+}
+else if(ch==='"'){
+quoted=!quoted;
+}
+else if(ch===','&&!quoted){
+row.push(cell);
+cell='';
+}
 else if((ch==='\n'||ch==='\r')&&!quoted){
 if(ch==='\r'&&next==='\n')i++;
-row.push(cell);cell='';
+row.push(cell);
+cell='';
 if(row.some(v=>String(v).trim()))rows.push(row);
 row=[];
-}else cell+=ch;
 }
+else{
+cell+=ch;
+}
+}
+
 row.push(cell);
 if(row.some(v=>String(v).trim()))rows.push(row);
+
 return rows;
 }
 
-async function loadSheet(){
+/* Sheet loading with retries */
+async function fetchSheetData(){
+const maxAttempts=3;
+
+for(let attempt=1;attempt<=maxAttempts;attempt++){
 try{
-const res=await fetch(SHEET_CSV_URL+"&t="+Date.now());
-if(!res.ok)throw new Error("Sheet request failed ("+res.status+")");
-const rows=parseCSV(await res.text());
-if(!rows.length)throw new Error("Published sheet is empty");
+const controller=new AbortController();
+const timeout=setTimeout(()=>controller.abort(),15000);
+
+const res=await fetch(SHEET_CSV_URL+"&t="+Date.now(),{
+cache:'no-store',
+signal:controller.signal
+});
+
+clearTimeout(timeout);
+
+if(!res.ok){
+throw new Error("Sheet request failed ("+res.status+")");
+}
+
+const text=await res.text();
+
+if(!text.trim()){
+throw new Error("Sheet returned empty data");
+}
+
+return text;
+}catch(error){
+console.warn("Sheet load attempt",attempt,"failed:",error);
+
+if(attempt===maxAttempts)throw error;
+
+await new Promise(resolve=>setTimeout(resolve,1000*attempt));
+}
+}
+
+throw new Error("Could not load products");
+}
+
+async function loadSheet(){
+const grid=document.getElementById('grid');
+const home=document.getElementById('homeGrid');
+
+if(grid)grid.innerHTML='<p style="padding:10px;color:#888">Loading products...</p>';
+if(home)home.innerHTML='<p style="padding:10px;color:#888">Loading products...</p>';
+
+try{
+const csvText=await fetchSheetData();
+const rows=parseCSV(csvText);
+
+if(!rows.length){
+throw new Error("Published sheet is empty");
+}
+
 const headers=rows[0].map(h=>String(h||'').trim().toLowerCase());
+
+if(!headers.includes('name')){
+throw new Error("Sheet missing product name column");
+}
+
 const products=rows.slice(1).map(vals=>{
 const o={};
-headers.forEach((h,i)=>o[h]=String(vals[i]||'').trim());
+
+headers.forEach((h,i)=>{
+o[h]=String(vals[i]??'').trim();
+});
+
 return o;
 }).filter(p=>p.name&&p.name.toLowerCase()!=='name');
-products.forEach(p=>{p.sales=parseInt(p.sales||0)||0;});
+
+products.forEach(p=>{
+p.sales=parseInt(p.sales||0)||0;
+});
+
 products.sort((a,b)=>b.sales-a.sales);
+
 allProducts=products;
+
 updateCatCounts();
 renderBestPage();
 renderHomeOnly();
+filterProducts();
+
+console.info("Aurelvo products loaded:",allProducts.length);
+
 }catch(e){
-const grid=document.getElementById('grid');
-if(grid)grid.innerHTML='<p style="padding:10px;color:red">Products load nahi ho rahe. Google Sheet ki Publish to Web settings check karein.</p>';
-const home=document.getElementById('homeGrid');
-if(home)home.innerHTML='<p style="padding:10px;color:#888">Products temporarily unavailable. Please try again later.</p>';
+console.error("Aurelvo Sheet error:",e);
+
+if(grid){
+grid.innerHTML='<p style="padding:10px;color:red">Products load nahi ho rahe. Connection check karein ya page refresh karke dobara try karein.</p>';
+}
+
+if(home){
+home.innerHTML='<p style="padding:10px;color:#888">Products temporarily unavailable. Please try again later.</p>';
+}
+
+let categories=document.getElementById('catBig');
+if(categories){
+categories.innerHTML='<p style="padding:15px;color:#888">Categories temporarily unavailable.</p>';
+}
 }
 }
 
+/* Order modal */
 function orderNow(n,pr){
-currentProduct={name:n,price:pr};
+let price=Number(pr);
+
+if(!n||!Number.isFinite(price)||price<0){
+alert("Product information is invalid. Please refresh the page.");
+return;
+}
+
+currentProduct={name:n,price:price};
 currentQty=1;
+
 document.getElementById("qtyDisplay").innerText="1";
-document.getElementById("selectedProduct").innerText=n+" - Rs "+pr;
-document.getElementById("totalDisplay").innerText="Total: Rs "+pr;
+document.getElementById("selectedProduct").innerText=n+" - Rs "+price;
+document.getElementById("totalDisplay").innerText="Total: Rs "+price;
+
 document.getElementById("formBox").style.display="block";
 document.getElementById("successBox").style.display="none";
 document.getElementById("orderModal").style.display="flex";
+
+document.getElementById("confirmBtn").disabled=false;
+document.getElementById("confirmBtn").innerText="Order Confirm Karain ✅";
 }
 
 function changeQty(val){
-currentQty=currentQty+val;
-if(currentQty<1)currentQty=1;
-if(currentQty>20)currentQty=20;
+if(!currentProduct)return;
+
+currentQty=Math.max(1,Math.min(20,currentQty+val));
+
 document.getElementById("qtyDisplay").innerText=currentQty;
-document.getElementById("totalDisplay").innerText="Total: Rs "+(currentProduct.price*currentQty)+" ("+currentQty+" x Rs "+currentProduct.price+")";
+document.getElementById("totalDisplay").innerText=
+"Total: Rs "+(currentProduct.price*currentQty)+
+" ("+currentQty+" x Rs "+currentProduct.price+")";
 }
 
 function closeModal(){
 document.getElementById("orderModal").style.display="none";
+orderSending=false;
 }
 
 function confirmOrder(){
+if(orderSending)return;
+if(!currentProduct){
+alert("Please select a product first.");
+return;
+}
+
 let name=document.getElementById("cName").value.trim();
 let phone=document.getElementById("cPhone").value.trim();
 let city=document.getElementById("cCity").value.trim();
@@ -518,46 +792,83 @@ alert("Bhai saari cheezein bharo - Naam, Number, City, Address zaroori hai!");
 return;
 }
 
+/* Basic Pakistan/international phone validation */
+let phoneDigits=phone.replace(/\D/g,'');
+
+if(phoneDigits.length<10||phoneDigits.length>15){
+alert("Mobile number sahi format mein enter karein.");
+return;
+}
+
+if(address.length<8){
+alert("Mukammal address enter karein.");
+return;
+}
+
 let btn=document.getElementById("confirmBtn");
+orderSending=true;
 btn.innerText="Order Bheja Ja Raha Hai...";
 btn.disabled=true;
+
+const orderData={
+name,
+phone,
+address,
+city,
+product:currentProduct.name,
+price:currentProduct.price,
+qty:currentQty,
+payment,
+size,
+color,
+total:currentProduct.price*currentQty
+};
 
 fetch(ORDER_URL,{
 method:"POST",
 mode:"no-cors",
 headers:{"Content-Type":"text/plain"},
-body:JSON.stringify({
-name:name,
-phone:phone,
-address:address,
-city:city,
-product:currentProduct.name,
-price:currentProduct.price,
-qty:currentQty,
-payment:payment,
-size:size,
-color:color
+body:JSON.stringify(orderData)
 })
-}).then(()=>{
+.then(()=>{
+/* no-cors cannot confirm server receipt, so this is a submission attempt */
 document.getElementById("formBox").style.display="none";
 document.getElementById("successBox").style.display="block";
-document.getElementById("successQtyText").innerText="Aap ne "+currentQty+" x "+currentProduct.name+(size?" ("+size+")":"")+(color?" - "+color:"")+" order kiya hai. Total: Rs "+(currentProduct.price*currentQty)+". Hum jald rabta karenge!";
+
+document.getElementById("successQtyText").innerText=
+"Aap ne "+currentQty+" x "+currentProduct.name+
+(size?" ("+size+")":"")+
+(color?" - "+color:"")+
+" order kiya hai. Total: Rs "+(currentProduct.price*currentQty)+
+". Hum jald rabta karenge!";
+
 document.getElementById("showOrderId").innerText="ORD-"+Date.now();
+
 document.getElementById("cName").value="";
 document.getElementById("cPhone").value="";
 document.getElementById("cCity").value="";
 document.getElementById("cAddress").value="";
 document.getElementById("cSize").value="";
 document.getElementById("cColor").value="";
+
 btn.innerText="Order Confirm Karain ✅";
 btn.disabled=false;
-}).catch(()=>{
-alert("Order bhej diya gaya hai! Sheet me check karain.");
-closeModal();
+orderSending=false;
+})
+.catch(error=>{
+console.error("Order submission error:",error);
+alert("Submission attempt failed. Please contact us on WhatsApp to confirm your order.");
+btn.innerText="Order Confirm Karain ✅";
+btn.disabled=false;
+orderSending=false;
 });
 }
 
+/* Start website */
+showSlide(0);
+startTimer();
 loadSheet();
 </script>
 </body>
 </html>
+```
