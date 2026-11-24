@@ -293,7 +293,15 @@ body[data-theme="maroon"] .hero{background:radial-gradient(ellipse at 50% 0%,#7f
 <script>
 "use strict";
 
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pub?gid=2032873731&single=true&output=csv";
+const SHEET_CSV_URL // Theme System
+function setTheme(theme){
+  document.body.setAttribute('data-theme', theme);
+  localStorage.setItem('aurelvo_theme', theme);
+  document.getElementById('themeSelect').value = theme;
+}
+let savedTheme = localStorage.getItem('aurelvo_theme') || 'emerald';
+document.body.setAttribute('data-theme', savedTheme);
+setTimeout(()=>{ let s=document.getElementById('themeSelect'); if(s) s.value=savedTheme; }, 100);= "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pub?gid=2032873731&single=true&output=csv";
 const SHEET_EDIT_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pubhtml";
 const ORDER_URL = "https://script.google.com/macros/s/AKfycbxeFVQWRD-uNZ9ioLa_HnFodJk3ZazpR5ShKPKl7u2afb-XVNUKwnYsOIaEiLLlkaAH/exec";
 const MY_PASSWORD = "Aurelvo123";
