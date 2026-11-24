@@ -1,25 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="icon" href="favicon.png?v=2">
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+<link rel="icon" href="favicon.png?v=2">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Aurelvo Collection - Premium Collection in Pakistan</title>
 <meta name="description" content="Aurelvo Collection - Best Quality Watches, Suits, Jewelry, Shoes & Perfume Online in Pakistan. Fast Delivery All Pakistan.">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
 body{background:#fdf8f2;color:#222}
 header{background:#111;color:#fff;padding:18px 20px 0;display:flex;flex-direction:column;gap:12px;position:sticky;top:0;z-index:100}
 .top-row{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
-header h1{font-size:32px;color:#d4af37;line-height:1} header h1 span{font-size:14px;color:#ccc;display:block;margin-top:4px}
+header h1{font-size:32px;color:#d4af37;line-height:1}
+header h1 span{font-size:14px;color:#ccc;display:block;margin-top:4px}
 .btn{background:#d4af37;color:#000;padding:14px 24px;border-radius:25px;font-weight:800;font-size:16px;cursor:pointer;border:none;white-space:nowrap}
 .hero{background:linear-gradient(135deg,#111,#3a2a00);color:#fff;text-align:center;padding:90px 15px 95px}
-.hero h2{font-size:52px} .hero p{color:#e8d9a0;margin-top:14px;font-size:21px}
+.hero h2{font-size:52px}
+.hero p{color:#e8d9a0;margin-top:14px;font-size:21px}
 .section{max-width:1200px;margin:auto;padding:28px 18px 8px}
 .section h2{font-size:28px;margin-bottom:14px;border-left:6px solid #d4af37;padding-left:12px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px;padding:0 18px 12px;max-width:1200px;margin:auto}
 .card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.08);position:relative}
 .card img{width:100%;height:230px;object-fit:cover;cursor:pointer}
-.card-body{padding:16px} .card-body h3{font-size:19px;cursor:pointer} .card-body h3:hover{color:#b8860b}
-.price{color:#b8860b;font-weight:800;font-size:18px} .old{color:#999;text-decoration:line-through;font-size:14px;margin-left:5px}
+.card-body{padding:16px}
+.card-body h3{font-size:19px;cursor:pointer}
+.card-body h3:hover{color:#b8860b}
+.price{color:#b8860b;font-weight:800;font-size:18px}
+.old{color:#999;text-decoration:line-through;font-size:14px;margin-left:5px}
 .order{width:100%;background:#111;color:#D4AF37;border:none;padding:13px;border-radius:10px;font-weight:700;font-size:16px;cursor:pointer;margin-top:10px}
 .view-btn{width:100%;background:#fff;color:#111;border:1px solid #ddd;padding:11px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px}
 .view-btn:hover{background:#fdf8f2;border-color:#d4af37}
@@ -42,7 +51,8 @@ footer b{color:#d4af37;font-size:17px}
 .dot{height:12px;width:12px;background:#ddd;border-radius:50%;display:inline-block;margin:0 5px;cursor:pointer}
 .dot.active{background:#000;width:32px;border-radius:10px}
 .arrow{position:absolute;top:42%;background:#000;color:#fff;border:none;font-size:22px;padding:11px 16px;border-radius:50%;cursor:pointer;opacity:.85}
-.prev{left:14px}.next{right:14px}
+.prev{left:14px}
+.next{right:14px}
 .header-search{flex:1;max-width:520px;display:flex;gap:8px}
 .header-search input{flex:1;padding:14px 18px;border:none;border-radius:25px;font-size:16px;outline:none;background:#fff}
 .header-search button{background:#d4af37;border:none;padding:0 22px;border-radius:25px;font-weight:800;font-size:16px;cursor:pointer}
@@ -53,7 +63,8 @@ footer b{color:#d4af37;font-size:17px}
 .cat-bar{display:flex;gap:10px;overflow-x:auto;white-space:nowrap;padding:14px 18px;max-width:1200px;margin:auto}
 .cat-btn{padding:12px 24px;border:1px solid #ddd;background:#fff;border-radius:25px;cursor:pointer;font-weight:700;font-size:16px;white-space:nowrap}
 .cat-btn.active{background:#111;color:#d4af37;border-color:#111}
-.page{display:none} .page.active{display:block}
+.page{display:none}
+.page.active{display:block}
 .cat-big{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;padding:0 18px;max-width:1200px;margin:auto}
 .cat-big div{background:#fff;padding:30px;border-radius:18px;text-align:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.06);font-weight:800;font-size:21px}
 .cat-big div span{display:block;font-size:15px;color:#888;font-weight:400;margin-top:8px}
@@ -71,16 +82,57 @@ footer b{color:#d4af37;font-size:17px}
 .qty-btns{display:flex;align-items:center;gap:10px}
 .qty-btns button{width:38px;height:38px;border:none;background:#111;color:#D4AF37;font-size:20px;font-weight:800;border-radius:8px;cursor:pointer}
 .qty-btns span{font-size:18px;font-weight:800;min-width:24px;text-align:center}
-@media(max-width:700px){.top-row{justify-content:center} .header-search{order:3;max-width:100%;flex-basis:100%} header h1{font-size:26px} .slide img{height:280px} .hero{padding:60px 15px 65px} .hero h2{font-size:36px} .grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))} .nav-bar button{font-size:15px;padding:11px 16px}}
+
+@media(max-width:700px){
+.top-row{justify-content:center}
+.header-search{order:3;max-width:100%;flex-basis:100%}
+header h1{font-size:26px}
+.slide img{height:280px}
+.hero{padding:60px 15px 65px}
+.hero h2{font-size:36px}
+.grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+.nav-bar button{font-size:15px;padding:11px 16px}
+}
+
+/* Aurelvo safe polish pass */
+:root{--gold:#d4af37;--ink:#111;--paper:#fdf8f2}
+html{scroll-behavior:smooth}
+body{background:var(--paper)}
+button,a{transition:transform .15s ease,filter .15s ease}
+button:hover{filter:brightness(1.04)}
+button:active{transform:translateY(1px)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(212,175,55,.65);outline-offset:2px}
+.hero{background:radial-gradient(ellipse at 50% 0%,#4a3709 0%,#1c180e 35%,#111 75%);position:relative}
+.hero h2{letter-spacing:.03em}
+.section h2{letter-spacing:.01em}
+.card{transition:transform .2s ease,box-shadow .2s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
+.card img{display:block;background:#eee}
+.order:hover,.confirmBtn:hover{filter:brightness(1.15)}
+.info-box,.pay-card{border:1px solid rgba(212,175,55,.12)}
+.slider-box{margin-left:auto;margin-right:auto}
+@media(max-width:700px){
+.slider-box{margin:0 12px}
+.slide img{height:260px}
+.card img{height:190px}
+.hero h2{font-size:clamp(30px,8vw,38px)}
+.section h2{font-size:24px}
+.info-box{margin-left:12px;margin-right:12px;padding:18px}
+}
 </style>
 </head>
 <body>
+
 <header>
 <div class="top-row">
 <h1>AURELVO<span>COLLECTION • KANGANPUR</span></h1>
-<div class="header-search"><input type="text" id="searchInput" placeholder="Search by product name..."><button onclick="filterProducts()">Search</button></div>
+<div class="header-search">
+<input type="search" id="searchInput" placeholder="Search products..." onkeydown="if(event.key==='Enter')filterProducts()">
+<button onclick="filterProducts()">Search</button>
+</div>
 <button class="btn" onclick="checkPassword()">+ Add Product</button>
 </div>
+
 <div class="nav-bar" id="navBar">
 <button class="active" onclick="goNav('home',this)">Home</button>
 <button onclick="goNav('all',this)">Shop All Products</button>
@@ -92,141 +144,419 @@ footer b{color:#d4af37;font-size:17px}
 <button onclick="goNav('help',this)">Help Center</button>
 </div>
 </header>
+
 <div id="page-home" class="page active">
-<div class="hero"><h2>Aurelvo Collection</h2><p id="heroCats">Watches • Suits • Jewelry • Shoes • Perfume</p><p style="margin-top:12px;font-size:16px;color:#fff">WhatsApp: 03098890935 • <span class="live">● LIVE</span></p></div>
+<div class="hero">
+<h2>Aurelvo Collection</h2>
+<p id="heroCats">Watches • Suits • Jewelry • Shoes • Perfume</p>
+<p style="margin-top:12px;font-size:16px;color:#fff">WhatsApp: 03098890935 • <span class="live">● LIVE</span></p>
+</div>
+
 <div class="section"><h2>Our Collection</h2></div>
+
 <div style="max-width:1200px;margin:auto">
 <div class="slider-box">
-  <div class="slides" id="mySlides">
-    <div class="slide"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80"><h3>Luxury Watches</h3><p>Premium Quality Collection</p></div>
-    <div class="slide"><img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80"><h3>Elegant Suits</h3><p>Stylish & Premium Suits</p></div>
-    <div class="slide"><img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=900&q=80"><h3>Beautiful Jewelry</h3><p>Gold & Artificial Jewelry</p></div>
-    <div class="slide"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80"><h3>Trendy Shoes</h3><p>Comfortable & Stylish</p></div>
-  </div>
-  <button class="arrow prev" onclick="moveSlide(-1)">❮</button>
-  <button class="arrow next" onclick="moveSlide(1)">❯</button>
+<div class="slides" id="mySlides">
+<div class="slide"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80"><h3>Luxury Watches</h3><p>Premium Quality Collection</p></div>
+<div class="slide"><img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80"><h3>Elegant Suits</h3><p>Stylish & Premium Suits</p></div>
+<div class="slide"><img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=900&q=80"><h3>Beautiful Jewelry</h3><p>Gold & Artificial Jewelry</p></div>
+<div class="slide"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80"><h3>Trendy Shoes</h3><p>Comfortable & Stylish</p></div>
 </div>
-<div class="dots"><span class="dot active" onclick="goSlide(0)"></span><span class="dot" onclick="goSlide(1)"></span><span class="dot" onclick="goSlide(2)"></span><span class="dot" onclick="goSlide(3)"></span></div>
+<button class="arrow prev" onclick="moveSlide(-1)">❮</button>
+<button class="arrow next" onclick="moveSlide(1)">❯</button>
 </div>
+<div class="dots">
+<span class="dot active" onclick="goSlide(0)"></span>
+<span class="dot" onclick="goSlide(1)"></span>
+<span class="dot" onclick="goSlide(2)"></span>
+<span class="dot" onclick="goSlide(3)"></span>
+</div>
+</div>
+
 <div class="section"><h2>Our Live Products</h2><p style="color:#888;font-size:14px">Live From Sheet - Most Sold On Top</p></div>
 <div class="grid" id="homeGrid"></div>
 </div>
+
 <div id="page-shop" class="page">
 <div class="section"><h2 id="shopTitle">Shop All Products</h2><p style="color:#888;font-size:14px">Most sold on top - Auto Ranking!</p></div>
 <div class="cat-bar" id="catBar"><button class="cat-btn active" data-cat="all" onclick="setCat('all',this)">All (0)</button></div>
 <p id="resultCount" style="max-width:1200px;margin:auto;padding:0 18px 10px;color:#888;font-size:14px"></p>
 <div class="grid" id="grid"><p style="padding:10px;color:#888">Loading products...</p></div>
 </div>
+
 <div id="page-categories" class="page">
 <div class="section"><h2>Categories</h2><p style="color:#888;font-size:14px">Click any category to see its products. Auto - Sheet se banti hain!</p></div>
 <div class="cat-big" id="catBig"><p style="padding:15px;color:#888">Loading categories...</p></div>
 </div>
+
 <div id="page-best" class="page">
-<div class="section"><h2>Best Sellers</h2><p style="color:#888;font-size:14px">Most selling products!</p></div>
+<div class="section"><h2>Best Sellers</h2><p style="color:#888;font-size:14px">Sirf wohi jo aap ne BestSeller me YES kiya hai!</p></div>
 <div class="grid" id="bestPageGrid"></div>
 </div>
+
 <div id="page-about" class="page">
 <div class="section"><h2>About Us</h2></div>
-<div class="info-box"><h3>Aurelvo Collection</h3><p>Aurelvo Collection is a trusted online shop from Kanganpur. We provide our customers with best quality Watches, Suits, Jewelry, Shoes and Perfume at affordable prices.</p><p>Our goal is to deliver good quality products to every home in Kanganpur, right at your doorstep!</p><p>Thank you for choosing Aurelvo!</p></div>
-<div class="section"><h2>Payment Method</h2></div>
-<div class="pay-box"><div class="pay-card"><b>JazzCash</b><br>Number: 03098890935<br><span style="color:#777;font-size:14px">Send payment screenshot on WhatsApp</span></div><div class="pay-card"><b>EasyPaisa</b><br>Number: 03289598403<br><span style="color:#777;font-size:14px">Send payment screenshot on WhatsApp</span></div><div class="pay-card"><b>Cash on Delivery</b><br>Pay at your home<br><span style="color:#777;font-size:14px">Pay when you receive your product</span></div></div>
-<div class="section"><h2>Delivery Info</h2></div>
-<div class="info-box"><p><b>Delivery Charges:</b> Rs 250</p><p><b>Delivery Time:</b> 3 to 5 Business Days</p><p><b>Delivery:</b> All Pakistan Delivery Available</p></div>
+<div class="info-box">
+<h3>Aurelvo Collection</h3>
+<p>Aurelvo Collection is a trusted online shop from Kanganpur. We provide our customers with best quality Watches, Suits, Jewelry, Shoes and Perfume at affordable prices.</p>
+<p>Our goal is to deliver good quality products to every home in Kanganpur, right at your doorstep!</p>
+<p>Thank you for choosing Aurelvo!</p>
 </div>
+<div class="section"><h2>Payment Method</h2></div>
+<div class="pay-box">
+<div class="pay-card"><b>JazzCash</b><br>Number: 03098890935<br><span style="color:#777;font-size:14px">Send payment screenshot on WhatsApp</span></div>
+<div class="pay-card"><b>EasyPaisa</b><br>Number: 03289598403<br><span style="color:#777;font-size:14px">Send payment screenshot on WhatsApp</span></div>
+<div class="pay-card"><b>Cash on Delivery</b><br>Pay at your home<br><span style="color:#777;font-size:14px">Pay when you receive your product</span></div>
+</div>
+<div class="section"><h2>Delivery Info</h2></div>
+<div class="info-box">
+<p><b>Delivery Charges:</b> Rs 250</p>
+<p><b>Delivery Time:</b> 3 to 5 Business Days</p>
+<p><b>Delivery:</b> All Pakistan Delivery Available</p>
+</div>
+</div>
+
 <div id="page-contact" class="page">
 <div class="section"><h2>Contact Us</h2></div>
-<div class="info-box"><p>Email: aurelvo.collections@gmail.com</p><p>WhatsApp: 03098890935</p><p>Location: Kanganpur, Pakistan</p><p>Timing: 9:00 AM to 9:00 PM</p><p style="margin-top:10px"><a href="https://wa.me/923098890935?text=Hello! I want to order from Aurelvo Collection." style="background:#25D366;color:#fff;padding:12px 22px;border-radius:20px;text-decoration:none;font-weight:700;display:inline-block">Chat on WhatsApp</a></p></div>
+<div class="info-box">
+<p>Email: aurelvo.collections@gmail.com</p>
+<p>WhatsApp: 03098890935</p>
+<p>Location: Kanganpur, Pakistan</p>
+<p>Timing: 9:00 AM to 9:00 PM</p>
+<p style="margin-top:10px"><a href="https://wa.me/923098890935?text=Hello! I want to order from Aurelvo Collection." style="background:#25D366;color:#fff;padding:12px 22px;border-radius:20px;text-decoration:none;font-weight:700;display:inline-block">Chat on WhatsApp</a></p>
 </div>
+</div>
+
 <div id="page-help" class="page">
 <div class="section"><h2>Help Center</h2></div>
-<div class="info-box"><p><b>How to order?</b> Click `Order Now`, select Qty, fill Name, Phone, City, Address and Confirm.</p><p><b>Payment?</b> JazzCash / EasyPaisa / Cash on Delivery</p><p><b>Delivery?</b> 3 to 5 days, All Pakistan</p><p><b>Return?</b> Contact us on WhatsApp: 03098890935</p></div>
+<div class="info-box">
+<p><b>How to order?</b> Click `Order Now`, select Qty, fill Name, Phone, City, Address and Confirm.</p>
+<p><b>Payment?</b> JazzCash / EasyPaisa / Cash on Delivery</p>
+<p><b>Delivery?</b> 3 to 5 days, All Pakistan</p>
+<p><b>Return?</b> Contact us on WhatsApp: 03098890935</p>
 </div>
+</div>
+
 <div id="orderModal">
-  <div class="modalBox">
-    <div id="formBox">
-      <h2>Order Karain</h2>
-      <p id="selectedProduct">Product - Rs 0</p>
-      <div class="qty-row"><b>Quantity:</b><div class="qty-btns"><button type="button" onclick="changeQty(-1)">-</button><span id="qtyDisplay">1</span><button type="button" onclick="changeQty(1)">+</button></div></div>
-      <p id="totalDisplay" style="font-weight:800;color:#111;font-size:16px">Total: Rs 0</p>
-      <input id="cSize" placeholder="Size (Optional) - M / L / XL / 42">
-      <input id="cColor" placeholder="Color (Optional) - Black / White">
-      <input id="cName" placeholder="Apna Naam *">
-      <input id="cPhone" placeholder="Mobile Number * - 0300-1234567" type="tel">
-      <input id="cCity" placeholder="City * - Kanganpur">
-      <textarea id="cAddress" placeholder="Mukammal Address * - Ghar / Mohalla / Street" rows="2"></textarea>
-      <select id="cPayment"><option value="COD">Cash on Delivery (COD)</option><option value="JazzCash">JazzCash</option><option value="Easypaisa">Easypaisa</option></select>
-      <button class="confirmBtn" id="confirmBtn" onclick="confirmOrder()">Order Confirm Karain ✅</button>
-      <button class="closeBtn" onclick="closeModal()">Cancel</button>
-    </div>
-    <div id="successBox" class="success"><h2>✅ Order Mil Gaya!</h2><p id="successQtyText">Shukriya! Hum jald aap se rabta karenge.</p><p style="font-size:12px;color:#999">Order ID: <span id="showOrderId"></span></p><button class="confirmBtn" onclick="closeModal()">Shopping Jari Rakhein</button></div>
-  </div>
+<div class="modalBox">
+<div id="formBox">
+<h2>Order Karain</h2>
+<p id="selectedProduct">Product - Rs 0</p>
+<div class="qty-row"><b>Quantity:</b><div class="qty-btns"><button type="button" onclick="changeQty(-1)">-</button><span id="qtyDisplay">1</span><button type="button" onclick="changeQty(1)">+</button></div></div>
+<p id="totalDisplay" style="font-weight:800;color:#111;font-size:16px">Total: Rs 0</p>
+<input id="cSize" placeholder="Size (Optional) - M / L / XL / 42">
+<input id="cColor" placeholder="Color (Optional) - Black / White">
+<input id="cName" placeholder="Apna Naam *">
+<input id="cPhone" placeholder="Mobile Number * - 0300-1234567" type="tel">
+<input id="cCity" placeholder="City * - Kanganpur">
+<textarea id="cAddress" placeholder="Mukammal Address * - Ghar / Mohalla / Street" rows="2"></textarea>
+<select id="cPayment">
+<option value="COD">Cash on Delivery (COD)</option>
+<option value="JazzCash">JazzCash</option>
+<option value="Easypaisa">Easypaisa</option>
+</select>
+<button class="confirmBtn" id="confirmBtn" onclick="confirmOrder()">Order Confirm Karain ✅</button>
+<button class="closeBtn" onclick="closeModal()">Cancel</button>
 </div>
+<div id="successBox" class="success">
+<h2>✅ Order Mil Gaya!</h2>
+<p id="successQtyText">Shukriya! Hum jald aap se rabta karenge.</p>
+<p style="font-size:12px;color:#999">Order ID: <span id="showOrderId"></span></p>
+<button class="confirmBtn" onclick="closeModal()">Shopping Jari Rakhein</button>
+</div>
+</div>
+</div>
+
 <footer><b>AURELVO COLLECTION</b><br>Kanganpur, Pakistan | WhatsApp: 03098890935<br>© 2026 Aurelvo Collection - All Rights Reserved</footer>
+
 <script>
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pub?gid=2032873731&single=true&output=csv";
 const SHEET_EDIT_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pubhtml";
 const ORDER_URL = "https://script.google.com/macros/s/AKfycbxeFVQWRD-uNZ9ioLa_HnFodJk3ZazpR5ShKPKl7u2afb-XVNUKwnYsOIaEiLLlkaAH/exec";
 const MY_PASSWORD = "Aurelvo123";
-let allProducts = []; let currentCat = 'all'; let currentMode = 'all'; let currentProduct = null; let currentQty = 1;
-function checkPassword(){ let p = prompt("Enter Admin Password:"); if(p === MY_PASSWORD){ window.open(SHEET_EDIT_URL, "_blank"); } else if(p !== null){ alert("Wrong Password! Only Admin can add."); } }
+
+let allProducts = [];
+let currentCat = 'all';
+let currentMode = 'all';
+let currentProduct = null;
+let currentQty = 1;
+
+function checkPassword(){
+let p = prompt("Enter Admin Password:");
+if(p === MY_PASSWORD){
+window.open(SHEET_EDIT_URL, "_blank");
+}else if(p !== null){
+alert("Wrong Password! Only Admin can add.");
+}
+}
+
 let idx=0;
-function showSlide(n){ let s=document.getElementById('mySlides'); idx=(n+4)%4; s.style.transform=`translateX(-${idx*100}%)`; document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx)); }
+
+function showSlide(n){
+let s=document.getElementById('mySlides');
+idx=(n+4)%4;
+s.style.transform=`translateX(-${idx*100}%)`;
+document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+}
+
 function moveSlide(n){showSlide(idx+n);resetTimer();}
 function goSlide(n){showSlide(n);resetTimer();}
 let timer=setInterval(()=>showSlide(idx+1),4000);
 function resetTimer(){clearInterval(timer);timer=setInterval(()=>showSlide(idx+1),4000);}
-function showPage(id){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
-function goNav(type,btn){ document.querySelectorAll('.nav-bar button').forEach(b=>b.classList.remove('active')); if(btn) btn.classList.add('active'); document.getElementById('searchInput').value=''; if(type==='home'){ showPage('page-home'); return; } if(type==='categories'){ showPage('page-categories'); return; } if(type==='best'){ currentMode='best'; showPage('page-best'); renderBestPage(); return; } if(type==='about'){ showPage('page-about'); return; } if(type==='contact'){ showPage('page-contact'); return; } if(type==='help'){ showPage('page-help'); return; } if(type==='all'){ currentMode='all'; currentCat='all'; document.getElementById('shopTitle').innerText='Shop All Products'; } if(type==='free'){ currentMode='free'; document.getElementById('shopTitle').innerText='Free Products'; } syncCatBtn(); showPage('page-shop'); filterProducts(); }
-function openCat(cat){ currentCat=cat.toLowerCase(); currentMode='all'; document.getElementById('shopTitle').innerText=cat; syncCatBtn(); showPage('page-shop'); filterProducts(); document.querySelectorAll('.nav-bar button').forEach(b=>b.classList.remove('active')); }
-function syncCatBtn(){ document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('active', b.getAttribute('data-cat')===currentCat)); }
-function setCat(cat,btn){ currentCat=cat; currentMode='all'; document.getElementById('shopTitle').innerText='Shop All Products'; document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); filterProducts(); }
+
+function showPage(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goNav(type,btn){
+document.querySelectorAll('.nav-bar button').forEach(b=>b.classList.remove('active'));
+if(btn) btn.classList.add('active');
+document.getElementById('searchInput').value='';
+if(type==='home'){showPage('page-home');return;}
+if(type==='categories'){showPage('page-categories');return;}
+if(type==='best'){currentMode='best';showPage('page-best');renderBestPage();return;}
+if(type==='about'){showPage('page-about');return;}
+if(type==='contact'){showPage('page-contact');return;}
+if(type==='help'){showPage('page-help');return;}
+if(type==='all'){currentMode='all';currentCat='all';document.getElementById('shopTitle').innerText='Shop All Products';}
+if(type==='free'){currentMode='free';document.getElementById('shopTitle').innerText='Free Products';}
+syncCatBtn();
+showPage('page-shop');
+filterProducts();
+}
+
+function openCat(cat){
+currentCat=cat.toLowerCase();
+currentMode='all';
+document.getElementById('shopTitle').innerText=cat;
+syncCatBtn();
+showPage('page-shop');
+filterProducts();
+document.querySelectorAll('.nav-bar button').forEach(b=>b.classList.remove('active'));
+}
+
+function syncCatBtn(){
+document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('data-cat')===currentCat));
+}
+
+function setCat(cat,btn){
+currentCat=cat;
+currentMode='all';
+document.getElementById('shopTitle').innerText='Shop All Products';
+document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+filterProducts();
+}
+
 function getCategories(){
-  let map = {};
-  allProducts.forEach(p=>{
-    let raw = (p.cat||'').trim();
-    if(!raw) return;
-    let key = raw.toLowerCase();
-    if(!map[key]) map[key] = { name: raw, count: 0 };
-    map[key].count++;
-  });
-  return Object.values(map).sort((a,b)=>b.count-a.count);
+let map={};
+allProducts.forEach(p=>{
+let raw=(p.cat||'').trim();
+if(!raw)return;
+let key=raw.toLowerCase();
+if(!map[key])map[key]={name:raw,count:0};
+map[key].count++;
+});
+return Object.values(map).sort((a,b)=>b.count-a.count);
 }
+
 function updateCatCounts(){
-  let cats = getCategories();
-  let heroEl = document.getElementById('heroCats');
-  if(heroEl && cats.length) heroEl.innerText = cats.map(c=>c.name).join(' • ');
-  let bar = document.getElementById('catBar');
-  if(bar){
-    let html = `<button class="cat-btn ${currentCat==='all'?'active':''}" data-cat="all" onclick="setCat('all',this)">All (${allProducts.length})</button>`;
-    cats.forEach(c=>{
-      let key = c.name.toLowerCase();
-      html += `<button class="cat-btn ${currentCat===key?'active':''}" data-cat="${key}" onclick="setCat('${key}',this)">${c.name} (${c.count})</button>`;
-    });
-    bar.innerHTML = html;
-  }
-  let big = document.getElementById('catBig');
-  if(big){
-    if(!cats.length){ big.innerHTML = '<p style="padding:15px;color:#888">No category yet. Add product from Sheet!</p>'; }
-    else {
-      big.innerHTML = cats.map(c=>{
-        let safe = c.name.replace(/'/g,"");
-        return `<div onclick="openCat('${safe}')">${c.name}<span>${c.count} Products</span></div>`;
-      }).join('');
-    }
-  }
+let cats=getCategories();
+let heroEl=document.getElementById('heroCats');
+if(heroEl&&cats.length)heroEl.innerText=cats.map(c=>c.name).join(' • ');
+
+let bar=document.getElementById('catBar');
+if(bar){
+let html=`<button class="cat-btn ${currentCat==='all'?'active':''}" data-cat="all" onclick="setCat('all',this)">All (${allProducts.length})</button>`;
+cats.forEach(c=>{
+let key=c.name.toLowerCase();
+html+=`<button class="cat-btn ${currentCat===key?'active':''}" data-cat="${key}" onclick="setCat('${key}',this)">${c.name} (${c.count})</button>`;
+});
+bar.innerHTML=html;
 }
+
+let big=document.getElementById('catBig');
+if(big){
+if(!cats.length){
+big.innerHTML='<p style="padding:15px;color:#888">No category yet. Add product from Sheet!</p>';
+}else{
+big.innerHTML=cats.map(c=>{
+let safe=c.name.replace(/'/g,"");
+return `<div onclick="openCat('${safe}')">${c.name}<span>${c.count} Products</span></div>`;
+}).join('');
+}
+}
+}
+
 function openProduct(name){
-  window.open('product.html?name=' + encodeURIComponent(name), '_blank');
+window.open('product.html?name='+encodeURIComponent(name),'_blank');
 }
-function cardHTML(p,i,showBest){ let cleanPrice = parseInt(String(p.price||0).replace(/[^0-9]/g,'')) || 0; let safeName = (p.name||'').replace(/'/g,"").replace(/"/g,''); return `<div class="card">${showBest&&i<4?'<span class="best-badge">BEST SELLER</span>':''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'" onclick="openProduct('${safeName}')" title="Click to view detail"><div class="card-body"><h3 onclick="openProduct('${safeName}')">${p.name}</h3><div><span class="price">Rs ${cleanPrice}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:13px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="view-btn" onclick="openProduct('${safeName}')">👀 View Details</button><button class="order" data-name="${safeName}" data-price="${cleanPrice}" onclick="orderNow(this.getAttribute('data-name'), parseInt(this.getAttribute('data-price')))">Order Now 🛒</button></div></div>`; }
-function renderBestPage(){ let best=[...allProducts].sort((a,b)=>b.sales-a.sales).slice(0,8); document.getElementById('bestPageGrid').innerHTML = best.length? best.map((p,i)=>cardHTML(p,i,true)).join('') : '<p style="padding:15px;color:#888">No Best Seller yet.</p>'; }
-function filterProducts(){ let q=document.getElementById('searchInput').value.toLowerCase().trim(); let list=[...allProducts]; if(currentMode==='free'){ list=list.filter(p=>parseInt(p.price||0)===0); } if(currentMode==='best'){ list=[...allProducts].sort((a,b)=>b.sales-a.sales).slice(0,8); } let filtered=list.filter(p=>{ let matchCat=currentCat==='all'||(p.cat||'').toLowerCase().includes(currentCat); let matchSearch=!q||(p.name||'').toLowerCase().includes(q)||(p.desc||'').toLowerCase().includes(q)||(p.cat||'').toLowerCase().includes(q); return matchCat&&matchSearch; }); document.getElementById('homeGrid').innerHTML = allProducts.length? allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join('') : '<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>'; let modeText=currentMode==='free'?' - Free Products':''; document.getElementById('resultCount').innerText = `Showing ${filtered.length} product${filtered.length===1?'':'s'}`+(currentCat!=='all'?` in ${currentCat}`:'')+modeText+(q?` for "${q}"`:''); document.getElementById('grid').innerHTML = filtered.length? filtered.map((p,i)=>cardHTML(p,i,currentMode==='all')).join('') : '<p style="padding:15px;color:#888">No product found. Try another search or category!</p>'; }
-function renderHomeOnly(){ document.getElementById('homeGrid').innerHTML = allProducts.length? allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join('') : '<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>'; document.getElementById('grid').innerHTML = allProducts.length? allProducts.map((p,i)=>cardHTML(p,i,true)).join('') : '<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>'; document.getElementById('resultCount').innerText = `Showing ${allProducts.length} products`; }
-async function loadSheet(){ try{ let res=await fetch(SHEET_CSV_URL + "&t=" + Date.now()); let text=await res.text(); let lines=text.trim().split('\n'); let headers=lines[0].split(',').map(h=>h.trim().toLowerCase().replace(/"/g,'')); let products=lines.slice(1).filter(l=>l.trim()).map(line=>{ let vals=line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)||[]; let o={}; headers.forEach((h,i)=>{o[h]=(vals[i]||'').replace(/^"|"$/g,'').trim()}); return o; }).filter(p=>p.name && p.name.toLowerCase()!=='name'); products.forEach(p=>{ p.sales=parseInt(p.sales||0)||0; }); products.sort((a,b)=>b.sales-a.sales); allProducts=products; updateCatCounts(); renderBestPage(); renderHomeOnly(); }catch(e){document.getElementById('grid').innerHTML='<p style="padding:10px;color:red">Error: '+e.message+' - Sheet Publish to Web check karain!</p>';} }
-function orderNow(n, pr){ currentProduct = {name:n, price:pr}; currentQty = 1; document.getElementById("qtyDisplay").innerText = "1"; document.getElementById("selectedProduct").innerText = n + " - Rs " + pr; document.getElementById("totalDisplay").innerText = "Total: Rs " + pr; document.getElementById("formBox").style.display = "block"; document.getElementById("successBox").style.display = "none"; document.getElementById("orderModal").style.display = "flex"; }
-function changeQty(val){ currentQty = currentQty + val; if(currentQty < 1) currentQty = 1; if(currentQty > 20) currentQty = 20; document.getElementById("qtyDisplay").innerText = currentQty; document.getElementById("totalDisplay").innerText = "Total: Rs " + (currentProduct.price * currentQty) + "  (" + currentQty + " x Rs " + currentProduct.price + ")"; }
-function closeModal(){ document.getElementById("orderModal").style.display = "none"; }
-function confirmOrder(){ let name = document.getElementById("cName").value.trim(); let phone = document.getElementById("cPhone").value.trim(); let city = document.getElementById("cCity").value.trim(); let address = document.getElementById("cAddress").value.trim(); let payment = document.getElementById("cPayment").value; let size = document.getElementById("cSize").value.trim(); let color = document.getElementById("cColor").value.trim(); if(!name || !phone || !city || !address){ alert("Bhai saari cheezein bharo - Naam, Number, City, Address zaroori hai!"); return; } let btn = document.getElementById("confirmBtn"); btn.innerText = "Order Bheja Ja Raha Hai..."; btn.disabled = true; fetch(ORDER_URL, { method: "POST", mode: "no-cors", headers: {"Content-Type":"text/plain"}, body: JSON.stringify({name:name, phone:phone, address:address, city:city, product:currentProduct.name, price:currentProduct.price, qty:currentQty, payment:payment, size:size, color:color}) }).then(()=>{ document.getElementById("formBox").style.display = "none"; document.getElementById("successBox").style.display = "block"; document.getElementById("successQtyText").innerText = "Aap ne " + currentQty + " x " + currentProduct.name + (size?" ("+size+")":"") + (color?" - "+color:"") + " order kiya hai. Total: Rs " + (currentProduct.price * currentQty) + ". Hum jald rabta karenge!"; document.getElementById("showOrderId").innerText = "ORD-" + Date.now(); document.getElementById("cName").value=""; document.getElementById("cPhone").value=""; document.getElementById("cCity").value=""; document.getElementById("cAddress").value=""; document.getElementById("cSize").value=""; document.getElementById("cColor").value=""; btn.innerText = "Order Confirm Karain ✅"; btn.disabled = false; }).catch(()=>{ alert("Order bhej diya gaya hai! Sheet me check karain."); closeModal(); }); }
+
+// === BEST SELLER MANUAL SYSTEM - SIRF YES WALA ===
+function isBestSeller(p){
+  let v = (p.bestseller || p.best || p.bestsellercol || "").toString().toLowerCase().trim();
+  return v === 'yes' || v === 'y' || v === '1' || v === 'true' || v === 'best';
+}
+
+function cardHTML(p,i,showBest){
+let cleanPrice=parseInt(String(p.price||0).replace(/[^0-9]/g,''))||0;
+let safeName=(p.name||'').replace(/'/g,"").replace(/"/g,'');
+// Badge sirf tab lagega jab Sheet me BestSeller = YES ho, warna kabhi nahi
+return `<div class="card">${isBestSeller(p)?'<span class="best-badge">BEST SELLER</span>':''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'" onclick="openProduct('${safeName}')" title="Click to view detail"><div class="card-body"><h3 onclick="openProduct('${safeName}')">${p.name}</h3><div><span class="price">Rs ${cleanPrice}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:13px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="view-btn" onclick="openProduct('${safeName}')">👀 View Details</button><button class="order" data-name="${safeName}" data-price="${cleanPrice}" onclick="orderNow(this.getAttribute('data-name'),parseInt(this.getAttribute('data-price')))">Order Now 🛒</button></div></div>`;
+}
+
+function renderBestPage(){
+  // SIRF wahi jo Sheet me BestSeller = YES hai - Sale se koi lena dena nahi
+  let best = allProducts.filter(p=>isBestSeller(p));
+  document.getElementById('bestPageGrid').innerHTML=best.length?best.map((p,i)=>cardHTML(p,i,true)).join(''):'<p style="padding:15px;color:#888">Abhi koi Best Seller select nahi kiya gaya. Sheet me BestSeller column me YES likhen!</p>';
+}
+
+function filterProducts(){
+let q=document.getElementById('searchInput').value.toLowerCase().trim();
+let list=[...allProducts];
+if(currentMode==='free'){list=list.filter(p=>parseInt(p.price||0)===0);}
+if(currentMode==='best'){list=allProducts.filter(p=>isBestSeller(p));}
+let filtered=list.filter(p=>{
+let matchCat=currentCat==='all'||(p.cat||'').toLowerCase().includes(currentCat);
+let matchSearch=!q||(p.name||'').toLowerCase().includes(q)||(p.desc||'').toLowerCase().includes(q)||(p.cat||'').toLowerCase().includes(q);
+return matchCat&&matchSearch;
+});
+document.getElementById('homeGrid').innerHTML=allProducts.length?allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join(''):'<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';
+let modeText=currentMode==='free'?' - Free Products':'';
+document.getElementById('resultCount').innerText=`Showing ${filtered.length} product${filtered.length===1?'':'s'}`+(currentCat!=='all'?` in ${currentCat}`:'')+modeText+(q?` for "${q}"`:'');
+document.getElementById('grid').innerHTML=filtered.length?filtered.map((p,i)=>cardHTML(p,i,currentMode==='all')).join(''):'<p style="padding:15px;color:#888">No product found. Try another search or category!</p>';
+}
+
+function renderHomeOnly(){
+document.getElementById('homeGrid').innerHTML=allProducts.length?allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join(''):'<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';
+document.getElementById('grid').innerHTML=allProducts.length?allProducts.map((p,i)=>cardHTML(p,i,false)).join(''):'<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';
+document.getElementById('resultCount').innerText=`Showing ${allProducts.length} products`;
+}
+
+function parseCSV(text){
+const rows=[];
+let row=[],cell='',quoted=false;
+for(let i=0;i<text.length;i++){
+const ch=text[i],next=text[i+1];
+if(ch==='"'&&quoted&&next==='"'){cell+='"';i++;}
+else if(ch==='"'){quoted=!quoted;}
+else if(ch===','&&!quoted){row.push(cell);cell='';}
+else if((ch==='\n'||ch==='\r')&&!quoted){
+if(ch==='\r'&&next==='\n')i++;
+row.push(cell);cell='';
+if(row.some(v=>String(v).trim()))rows.push(row);
+row=[];
+}else cell+=ch;
+}
+row.push(cell);
+if(row.some(v=>String(v).trim()))rows.push(row);
+return rows;
+}
+
+async function loadSheet(){
+try{
+const res=await fetch(SHEET_CSV_URL+"&t="+Date.now());
+if(!res.ok)throw new Error("Sheet request failed ("+res.status+")");
+const rows=parseCSV(await res.text());
+if(!rows.length)throw new Error("Published sheet is empty");
+const headers=rows[0].map(h=>String(h||'').trim().toLowerCase());
+const products=rows.slice(1).map(vals=>{
+const o={};
+headers.forEach((h,i)=>o[h]=String(vals[i]||'').trim());
+return o;
+}).filter(p=>p.name&&p.name.toLowerCase()!=='name');
+products.forEach(p=>{p.sales=parseInt(p.sales||0)||0;});
+products.sort((a,b)=>b.sales-a.sales);
+allProducts=products;
+updateCatCounts();
+renderBestPage();
+renderHomeOnly();
+}catch(e){
+const grid=document.getElementById('grid');
+if(grid)grid.innerHTML='<p style="padding:10px;color:red">Products load nahi ho rahe. Google Sheet ki Publish to Web settings check karein.</p>';
+const home=document.getElementById('homeGrid');
+if(home)home.innerHTML='<p style="padding:10px;color:#888">Products temporarily unavailable. Please try again later.</p>';
+}
+}
+
+function orderNow(n,pr){
+currentProduct={name:n,price:pr};
+currentQty=1;
+document.getElementById("qtyDisplay").innerText="1";
+document.getElementById("selectedProduct").innerText=n+" - Rs "+pr;
+document.getElementById("totalDisplay").innerText="Total: Rs "+pr;
+document.getElementById("formBox").style.display="block";
+document.getElementById("successBox").style.display="none";
+document.getElementById("orderModal").style.display="flex";
+}
+
+function changeQty(val){
+currentQty=currentQty+val;
+if(currentQty<1)currentQty=1;
+if(currentQty>20)currentQty=20;
+document.getElementById("qtyDisplay").innerText=currentQty;
+document.getElementById("totalDisplay").innerText="Total: Rs "+(currentProduct.price*currentQty)+" ("+currentQty+" x Rs "+currentProduct.price+")";
+}
+
+function closeModal(){
+document.getElementById("orderModal").style.display="none";
+}
+
+function confirmOrder(){
+let name=document.getElementById("cName").value.trim();
+let phone=document.getElementById("cPhone").value.trim();
+let city=document.getElementById("cCity").value.trim();
+let address=document.getElementById("cAddress").value.trim();
+let payment=document.getElementById("cPayment").value;
+let size=document.getElementById("cSize").value.trim();
+let color=document.getElementById("cColor").value.trim();
+
+if(!name||!phone||!city||!address){
+alert("Bhai saari cheezein bharo - Naam, Number, City, Address zaroori hai!");
+return;
+}
+
+let btn=document.getElementById("confirmBtn");
+btn.innerText="Order Bheja Ja Raha Hai...";
+btn.disabled=true;
+
+fetch(ORDER_URL,{
+method:"POST",
+mode:"no-cors",
+headers:{"Content-Type":"text/plain"},
+body:JSON.stringify({
+name:name,
+phone:phone,
+address:address,
+city:city,
+product:currentProduct.name,
+price:currentProduct.price,
+qty:currentQty,
+payment:payment,
+size:size,
+color:color
+})
+}).then(()=>{
+document.getElementById("formBox").style.display="none";
+document.getElementById("successBox").style.display="block";
+document.getElementById("successQtyText").innerText="Aap ne "+currentQty+" x "+currentProduct.name+(size?" ("+size+")":"")+(color?" - "+color:"")+" order kiya hai. Total: Rs "+(currentProduct.price*currentQty)+". Hum jald rabta karenge!";
+document.getElementById("showOrderId").innerText="ORD-"+Date.now();
+document.getElementById("cName").value="";
+document.getElementById("cPhone").value="";
+document.getElementById("cCity").value="";
+document.getElementById("cAddress").value="";
+document.getElementById("cSize").value="";
+document.getElementById("cColor").value="";
+btn.innerText="Order Confirm Karain ✅";
+btn.disabled=false;
+}).catch(()=>{
+alert("Order bhej diya gaya hai! Sheet me check karain.");
+closeModal();
+});
+}
+
 loadSheet();
 </script>
 </body>
