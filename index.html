@@ -124,6 +124,20 @@ body[data-theme="snow"] header h1{color:#111 !important}
 body[data-theme="snow"] .hero{background:#111 !important}
 body[data-theme="maroon"] header{background:#4a0e0e !important}
 body[data-theme="maroon"] .hero{background:radial-gradient(ellipse at 50% 0%,#7f1d1d 0%,#4a0e0e 60%,#220707 100%) !important}
+/* === MOBILE 2 PRODUCTS IN 1 LINE FIX === */
+@media(max-width:700px){
+.grid{
+grid-template-columns:repeat(2,1fr) !important;
+gap:10px !important;
+padding:0 10px 10px !important;
+}
+.card img{height:160px !important}
+.card-body{padding:10px !important}
+.card-body h3{font-size:14px !important;line-height:1.3 !important}
+.price{font-size:15px !important}
+.order{padding:10px !important;font-size:13px !important}
+.view-btn{padding:9px !important;font-size:13px !important}
+}
 </style>
 </head>
 <body data-theme="emerald">
