@@ -126,11 +126,7 @@ body[data-theme="maroon"] header{background:#4a0e0e !important}
 body[data-theme="maroon"] .hero{background:radial-gradient(ellipse at 50% 0%,#7f1d1d 0%,#4a0e0e 60%,#220707 100%) !important}
 /* === MOBILE 2 PRODUCTS IN 1 LINE FIX === */
 @media(max-width:700px){
-.grid{
-grid-template-columns:repeat(2,1fr) !important;
-gap:10px !important;
-padding:0 10px 10px !important;
-}
+.grid{grid-template-columns:repeat(2,1fr) !important;gap:10px !important;padding:0 10px 10px !important}
 .card img{height:160px !important}
 .card-body{padding:10px !important}
 .card-body h3{font-size:14px !important;line-height:1.3 !important}
@@ -138,6 +134,8 @@ padding:0 10px 10px !important;
 .order{padding:10px !important;font-size:13px !important}
 .view-btn{padding:9px !important;font-size:13px !important}
 }
+/* === OFFER BADGE === */
+.offer-badge{position:absolute;top:12px;right:12px;background:#ff3b30;color:#fff;font-size:13px;font-weight:800;padding:6px 10px;border-radius:20px;z-index:2;box-shadow:0 3px 8px rgba(0,0,0,.3)}
 </style>
 </head>
 <body data-theme="emerald">
@@ -285,7 +283,6 @@ const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCY
 const SHEET_EDIT_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pubhtml";
 const ORDER_URL = "https://script.google.com/macros/s/AKfycbxeFVQWRD-uNZ9ioLa_HnFodJk3ZazpR5ShKPKl7u2afb-XVNUKwnYsOIaEiLLlkaAH/exec";
 const MY_PASSWORD = "Aurelvo123";
-// Theme System - FIXED
 function setTheme(theme){document.body.setAttribute('data-theme',theme);localStorage.setItem('aurelvo_theme',theme);}
 let savedTheme = localStorage.getItem('aurelvo_theme') || 'emerald';
 document.body.setAttribute('data-theme', savedTheme);
@@ -311,7 +308,7 @@ function getCategories(){let map={};allProducts.forEach(p=>{let raw=(p.cat||'').
 function updateCatCounts(){let cats=getCategories();let heroEl=document.getElementById('heroCats');if(heroEl&&cats.length)heroEl.innerText=cats.map(c=>c.name).join(' • ');let bar=document.getElementById('catBar');if(bar){let html=`<button class="cat-btn ${currentCat==='all'?'active':''}" data-cat="all" onclick="setCat('all',this)">All (${allProducts.length})</button>`;cats.forEach(c=>{let key=c.name.toLowerCase();html+=`<button class="cat-btn ${currentCat===key?'active':''}" data-cat="${key}" onclick="setCat('${key}',this)">${c.name} (${c.count})</button>`;});bar.innerHTML=html;}let big=document.getElementById('catBig');if(big){if(!cats.length){big.innerHTML='<p style="padding:15px;color:#888">No category yet. Add product from Sheet!</p>';}else{big.innerHTML=cats.map(c=>{let safe=c.name.replace(/'/g,"");return `<div onclick="openCat('${safe}')">${c.name}<span>${c.count} Products</span></div>`;}).join('');}}}
 function openProduct(name){window.open('product.html?name='+encodeURIComponent(name),'_blank');}
 function isBestSeller(p){let v = (p.bestseller || p.best || p.bestsellercol || "").toString().toLowerCase().trim();return v === 'yes' || v === 'y' || v === '1' || v === 'true' || v === 'best';}
-function cardHTML(p,i,showBest){let cleanPrice=parseInt(String(p.price||0).replace(/[^0-9]/g,''))||0;let safeName=(p.name||'').replace(/'/g,"").replace(/"/g,'');return `<div class="card">${isBestSeller(p)?'<span class="best-badge">BEST SELLER</span>':''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'" onclick="openProduct('${safeName}')" title="Click to view detail"><div class="card-body"><h3 onclick="openProduct('${safeName}')">${p.name}</h3><div><span class="price">Rs ${cleanPrice}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:13px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="view-btn" onclick="openProduct('${safeName}')">👀 View Details</button><button class="order" data-name="${safeName}" data-price="${cleanPrice}" onclick="orderNow(this.getAttribute('data-name'),parseInt(this.getAttribute('data-price')))">Order Now 🛒</button></div></div>`;}
+function cardHTML(p,i,showBest){let cleanPrice=parseInt(String(p.price||0).replace(/[^0-9]/g,''))||0;let oldPrice=parseInt(String(p.old||0).replace(/[^0-9]/g,''))||0;let offPercent=0;if(oldPrice>cleanPrice&&cleanPrice>0){offPercent=Math.round(((oldPrice-cleanPrice)/oldPrice)*100);}let safeName=(p.name||'').replace(/'/g,"").replace(/"/g,'');return `<div class="card">${isBestSeller(p)?'<span class="best-badge">BEST SELLER</span>':''}${offPercent>0?`<span class="offer-badge">🔥 ${offPercent}% OFF</span>`:''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'" onclick="openProduct('${safeName}')" title="Click to view detail"><div class="card-body"><h3 onclick="openProduct('${safeName}')">${p.name}</h3><div><span class="price">Rs ${cleanPrice}</span> ${p.old?`<span class="old">Rs ${p.old}</span>`:''}</div><p style="font-size:13px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="view-btn" onclick="openProduct('${safeName}')">👀 View Details</button><button class="order" data-name="${safeName}" data-price="${cleanPrice}" onclick="orderNow(this.getAttribute('data-name'),parseInt(this.getAttribute('data-price')))">Order Now 🛒</button></div></div>`;}
 function renderBestPage(){let best = allProducts.filter(p=>isBestSeller(p));document.getElementById('bestPageGrid').innerHTML=best.length?best.map((p,i)=>cardHTML(p,i,true)).join(''):'<p style="padding:15px;color:#888">Abhi koi Best Seller select nahi kiya gaya. Sheet me BestSeller column me YES likhen!</p>';}
 function filterProducts(){let q=document.getElementById('searchInput').value.toLowerCase().trim();let list=[...allProducts];if(currentMode==='free'){list=list.filter(p=>parseInt(p.price||0)===0);}if(currentMode==='best'){list=allProducts.filter(p=>isBestSeller(p));}let filtered=list.filter(p=>{let matchCat=currentCat==='all'||(p.cat||'').toLowerCase().includes(currentCat);let matchSearch=!q||(p.name||'').toLowerCase().includes(q)||(p.desc||'').toLowerCase().includes(q)||(p.cat||'').toLowerCase().includes(q);return matchCat&&matchSearch;});document.getElementById('homeGrid').innerHTML=allProducts.length?allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join(''):'<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';let modeText=currentMode==='free'?' - Free Products':'';document.getElementById('resultCount').innerText=`Showing ${filtered.length} product${filtered.length===1?'':'s'}`+(currentCat!=='all'?` in ${currentCat}`:'')+modeText+(q?` for "${q}"`:'');document.getElementById('grid').innerHTML=filtered.length?filtered.map((p,i)=>cardHTML(p,i,currentMode==='all')).join(''):'<p style="padding:15px;color:#888">No product found. Try another search or category!</p>';}
 function renderHomeOnly(){document.getElementById('homeGrid').innerHTML=allProducts.length?allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join(''):'<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';document.getElementById('grid').innerHTML=allProducts.length?allProducts.map((p,i)=>cardHTML(p,i,false)).join(''):'<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';document.getElementById('resultCount').innerText=`Showing ${allProducts.length} products`;}
