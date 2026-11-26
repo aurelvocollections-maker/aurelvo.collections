@@ -279,7 +279,7 @@ body[data-theme="maroon"] .hero{background:radial-gradient(ellipse at 50% 0%,#7f
 </div>
 <footer><b>AURELVO COLLECTION</b><br>Kanganpur, Pakistan | WhatsApp: 03098890935<br>© 2026 Aurelvo Collection - All Rights Reserved</footer>
 <script>
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pub?gid=2032873731&single=true&output=csv";
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pub?gid=1469332574&single=true&output=csv";
 const SHEET_EDIT_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pubhtml";
 const ORDER_URL = "https://script.google.com/macros/s/AKfycbxeFVQWRD-uNZ9ioLa_HnFodJk3ZazpR5ShKPKl7u2afb-XVNUKwnYsOIaEiLLlkaAH/exec";
 const MY_PASSWORD = "Aurelvo123";
@@ -317,7 +317,6 @@ let rawOld=p.old||p["old price"]||p.oldprice||p["old_price"]||0;
 let oldPrice=parseInt(String(rawOld||0).replace(/[^0-9]/g,''))||0;
 let offPercent=0;
 if(oldPrice>cleanPrice&&cleanPrice>0){offPercent=Math.round(((oldPrice-cleanPrice)/oldPrice)*100);}
-// NEW: Agar Old khali hai aur OfferBar me % hai to wohi % sab pe laga do
 if(offPercent===0 && globalOfferPercent>0 && cleanPrice>0){
 offPercent=globalOfferPercent;
 oldPrice=Math.round(cleanPrice/(1-globalOfferPercent/100));
