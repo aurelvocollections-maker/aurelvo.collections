@@ -255,8 +255,8 @@ body[data-theme="maroon"] .hero{background:radial-gradient(ellipse at 50% 0%,#7f
 <p id="selectedProduct">Product - Rs 0</p>
 <div class="qty-row"><b>Quantity:</b><div class="qty-btns"><button type="button" onclick="changeQty(-1)">-</button><span id="qtyDisplay">1</span><button type="button" onclick="changeQty(1)">+</button></div></div>
 <p id="totalDisplay" style="font-weight:800;color:#111;font-size:16px">Total: Rs 0</p>
-<input id="cSize" placeholder="Size (Optional) - M / L / XL / 42">
-<input id="cColor" placeholder="Color (Optional) - Black / White">
+<input id="cSize" placeholder="Size - M / L / XL / 42" style="display:none">
+<input id="cColor" placeholder="Color - Black / White" style="display:none">
 <input id="cName" placeholder="Apna Naam *">
 <input id="cPhone" placeholder="Mobile Number * - 0300-1234567" type="tel">
 <input id="cCity" placeholder="City * - Kanganpur">
@@ -322,13 +322,44 @@ offPercent=globalOfferPercent;
 oldPrice=Math.round(cleanPrice/(1-globalOfferPercent/100));
 }
 let safeName=(p.name||'').replace(/'/g,"").replace(/"/g,'');
-return `<div class="card">${isBestSeller(p)?'<span class="best-badge">BEST SELLER</span>':''}${offPercent>0?`<span class="offer-badge">🔥 ${offPercent}% OFF</span>`:''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'" onclick="openProduct('${safeName}')" title="Click to view detail"><div class="card-body"><h3 onclick="openProduct('${safeName}')">${p.name}</h3><div><span class="price">Rs ${cleanPrice}</span> ${oldPrice?`<span class="old">Rs ${oldPrice}</span>`:''}</div><p style="font-size:13px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="view-btn" onclick="openProduct('${safeName}')">👀 View Details</button><button class="order" data-name="${safeName}" data-price="${cleanPrice}" onclick="orderNow(this.getAttribute('data-name'),parseInt(this.getAttribute('data-price')))">Order Now 🛒</button></div></div>`;}
+let safeSize=encodeURIComponent(p.size||'');
+let safeColor=encodeURIComponent(p.color||'');
+return `<div class="card">${isBestSeller(p)?'<span class="best-badge">BEST SELLER</span>':''}${offPercent>0?`<span class="offer-badge">🔥 ${offPercent}% OFF</span>`:''}<img src="${p.img||'https://via.placeholder.com/300x200?text=Aurelvo'}" onerror="this.src='https://via.placeholder.com/300x200?text=Aurelvo'" onclick="openProduct('${safeName}')" title="Click to view detail"><div class="card-body"><h3 onclick="openProduct('${safeName}')">${p.name}</h3><div><span class="price">Rs ${cleanPrice}</span> ${oldPrice?`<span class="old">Rs ${oldPrice}</span>`:''}</div><p style="font-size:13px;color:#777">${p.cat||''} • ${p.desc||''} • ${p.sales} Sold</p><button class="view-btn" onclick="openProduct('${safeName}')">👀 View Details</button><button class="order" data-name="${safeName}" data-price="${cleanPrice}" data-size="${safeSize}" data-color="${safeColor}" onclick="orderNow(this.getAttribute('data-name'),parseInt(this.getAttribute('data-price')),decodeURIComponent(this.getAttribute('data-size')||''),decodeURIComponent(this.getAttribute('data-color')||''))">Order Now 🛒</button></div></div>`;}
 function renderBestPage(){let best = allProducts.filter(p=>isBestSeller(p));document.getElementById('bestPageGrid').innerHTML=best.length?best.map((p,i)=>cardHTML(p,i,true)).join(''):'<p style="padding:15px;color:#888">Abhi koi Best Seller select nahi kiya gaya. Sheet me BestSeller column me YES likhen!</p>';}
 function filterProducts(){let q=document.getElementById('searchInput').value.toLowerCase().trim();let list=[...allProducts];if(currentMode==='free'){list=list.filter(p=>parseInt(p.price||0)===0);}if(currentMode==='best'){list=allProducts.filter(p=>isBestSeller(p));}let filtered=list.filter(p=>{let matchCat=currentCat==='all'||(p.cat||'').toLowerCase().includes(currentCat);let matchSearch=!q||(p.name||'').toLowerCase().includes(q)||(p.desc||'').toLowerCase().includes(q)||(p.cat||'').toLowerCase().includes(q);return matchCat&&matchSearch;});document.getElementById('homeGrid').innerHTML=allProducts.length?allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join(''):'<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';let modeText=currentMode==='free'?' - Free Products':'';document.getElementById('resultCount').innerText=`Showing ${filtered.length} product${filtered.length===1?'':'s'}`+(currentCat!=='all'?` in ${currentCat}`:'')+modeText+(q?` for "${q}"`:'');document.getElementById('grid').innerHTML=filtered.length?filtered.map((p,i)=>cardHTML(p,i,currentMode==='all')).join(''):'<p style="padding:15px;color:#888">No product found. Try another search or category!</p>';}
 function renderHomeOnly(){document.getElementById('homeGrid').innerHTML=allProducts.length?allProducts.slice(0,8).map((p,i)=>cardHTML(p,i,false)).join(''):'<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';document.getElementById('grid').innerHTML=allProducts.length?allProducts.map((p,i)=>cardHTML(p,i,false)).join(''):'<p style="padding:10px;color:#888">No product yet. Add from Sheet!</p>';document.getElementById('resultCount').innerText=`Showing ${allProducts.length} products`;}
 function parseCSV(text){const rows=[];let row=[],cell='',quoted=false;for(let i=0;i<text.length;i++){const ch=text[i],next=text[i+1];if(ch==='"'&&quoted&&next==='"'){cell+='"';i++;}else if(ch==='"'){quoted=!quoted;}else if(ch===','&&!quoted){row.push(cell);cell='';}else if((ch==='\n'||ch==='\r')&&!quoted){if(ch==='\r'&&next==='\n')i++;row.push(cell);cell='';if(row.some(v=>String(v).trim()))rows.push(row);row=[];}else cell+=ch;}row.push(cell);if(row.some(v=>String(v).trim()))rows.push(row);return rows;}
 async function loadSheet(){try{const res=await fetch(SHEET_CSV_URL+"&t="+Date.now());if(!res.ok)throw new Error("Sheet request failed ("+res.status+")");const rows=parseCSV(await res.text());if(!rows.length)throw new Error("Published sheet is empty");const headers=rows[0].map(h=>String(h||'').trim().toLowerCase());const products=rows.slice(1).map(vals=>{const o={};headers.forEach((h,i)=>o[h]=String(vals[i]||'').trim());return o;}).filter(p=>p.name&&p.name.toLowerCase()!=='name');products.forEach(p=>{p.sales=parseInt(p.sales||0)||0;});products.sort((a,b)=>b.sales-a.sales);allProducts=products;updateCatCounts();updateOfferBar();renderBestPage();renderHomeOnly();}catch(e){const grid=document.getElementById('grid');if(grid)grid.innerHTML='<p style="padding:10px;color:red">Products load nahi ho rahe. Google Sheet ki Publish to Web settings check karein.</p>';const home=document.getElementById('homeGrid');if(home)home.innerHTML='<p style="padding:10px;color:#888">Products temporarily unavailable. Please try again later.</p>';}}
-function orderNow(n,pr){currentProduct={name:n,price:pr};currentQty=1;document.getElementById("qtyDisplay").innerText="1";document.getElementById("selectedProduct").innerText=n+" - Rs "+pr;document.getElementById("totalDisplay").innerText="Total: Rs "+pr;document.getElementById("formBox").style.display="block";document.getElementById("successBox").style.display="none";document.getElementById("orderModal").style.display="flex";}
+function orderNow(n,pr,sizeVal,colorVal){
+  currentProduct={name:n,price:pr};
+  currentQty=1;
+  // SIZE - Sirf tab dikhao jab Sheet me Size likha ho
+  let sizeInput=document.getElementById("cSize");
+  if(sizeVal && sizeVal.trim()!==""){
+    sizeInput.style.display="block";
+    sizeInput.placeholder="Size - "+sizeVal;
+    sizeInput.value="";
+  } else {
+    sizeInput.style.display="none";
+    sizeInput.value="";
+  }
+  // COLOR - Sirf tab dikhao jab Sheet me Color likha ho
+  let colorInput=document.getElementById("cColor");
+  if(colorVal && colorVal.trim()!==""){
+    colorInput.style.display="block";
+    colorInput.placeholder="Color - "+colorVal;
+    colorInput.value="";
+  } else {
+    colorInput.style.display="none";
+    colorInput.value="";
+  }
+  document.getElementById("qtyDisplay").innerText="1";
+  document.getElementById("selectedProduct").innerText=n+" - Rs "+pr;
+  document.getElementById("totalDisplay").innerText="Total: Rs "+pr;
+  document.getElementById("formBox").style.display="block";
+  document.getElementById("successBox").style.display="none";
+  document.getElementById("orderModal").style.display="flex";
+}
 function changeQty(val){currentQty=currentQty+val;if(currentQty<1)currentQty=1;if(currentQty>20)currentQty=20;document.getElementById("qtyDisplay").innerText=currentQty;document.getElementById("totalDisplay").innerText="Total: Rs "+(currentProduct.price*currentQty)+" ("+currentQty+" x Rs "+currentProduct.price+")";}
 function closeModal(){document.getElementById("orderModal").style.display="none";}
 function confirmOrder(){let name=document.getElementById("cName").value.trim();let phone=document.getElementById("cPhone").value.trim();let city=document.getElementById("cCity").value.trim();let address=document.getElementById("cAddress").value.trim();let payment=document.getElementById("cPayment").value;let size=document.getElementById("cSize").value.trim();let color=document.getElementById("cColor").value.trim();if(!name||!phone||!city||!address){alert("Bhai saari cheezein bharo - Naam, Number, City, Address zaroori hai!");return;}let btn=document.getElementById("confirmBtn");btn.innerText="Order Bheja Ja Raha Hai...";btn.disabled=true;fetch(ORDER_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify({name:name,phone:phone,address:address,city:city,product:currentProduct.name,price:currentProduct.price,qty:currentQty,payment:payment,size:size,color:color})}).then(()=>{document.getElementById("formBox").style.display="none";document.getElementById("successBox").style.display="block";document.getElementById("successQtyText").innerText="Aap ne "+currentQty+" x "+currentProduct.name+(size?" ("+size+")":"")+(color?" - "+color:"")+" order kiya hai. Total: Rs "+(currentProduct.price*currentQty)+". Hum jald rabta karenge!";document.getElementById("showOrderId").innerText="ORD-"+Date.now();document.getElementById("cName").value="";document.getElementById("cPhone").value="";document.getElementById("cCity").value="";document.getElementById("cAddress").value="";document.getElementById("cSize").value="";document.getElementById("cColor").value="";btn.innerText="Order Confirm Karain ✅";btn.disabled=false;}).catch(()=>{alert("Order bhej diya gaya hai! Sheet me check karain.");closeModal();});}
