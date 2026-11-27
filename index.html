@@ -254,7 +254,7 @@ body[data-theme="maroon"] .hero{background:radial-gradient(ellipse at 50% 0%,#7f
 <h2>Order Karain</h2>
 <p id="selectedProduct">Product - Rs 0</p>
 <div class="qty-row"><b>Quantity:</b><div class="qty-btns"><button type="button" onclick="changeQty(-1)">-</button><span id="qtyDisplay">1</span><button type="button" onclick="changeQty(1)">+</button></div></div>
-<p id="totalDisplay" style="font-weight:800;color:#111;font-size:16px">Total: Rs 0</p>
+<p id="totalDisplay" style="font-weight:800;color:#111;font-size:16px;line-height:1.7">Total: Rs 0</p>
 <input id="cSize" placeholder="Size - M / L / XL / 42" style="display:none">
 <input id="cColor" placeholder="Color - Black / White" style="display:none">
 <input id="cName" placeholder="Apna Naam *">
@@ -277,12 +277,27 @@ body[data-theme="maroon"] .hero{background:radial-gradient(ellipse at 50% 0%,#7f
 </div>
 </div>
 </div>
+<div id="detailModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;justify-content:center;align-items:center;padding:15px">
+  <div style="background:#fff;width:100%;max-width:450px;border-radius:18px;overflow:hidden;max-height:90vh;overflow-y:auto">
+    <img id="dImg" src="" style="width:100%;height:300px;object-fit:cover">
+    <div style="padding:20px">
+      <h2 id="dName" style="font-size:22px"></h2>
+      <p id="dCat" style="color:#888;margin:8px 0;font-size:14px"></p>
+      <p id="dDesc" style="color:#555;line-height:1.6"></p>
+      <div id="dPrice" style="color:#b8860b;font-weight:800;font-size:22px;margin-top:10px"></div>
+      <p style="margin-top:10px;font-size:14px">Delivery: Rs 250 • Cash on Delivery Available<br>WhatsApp: 03098890935</p>
+      <button id="dOrderBtn" style="width:100%;background:#111;color:#D4AF37;border:none;padding:14px;border-radius:10px;font-weight:800;font-size:16px;margin-top:12px;cursor:pointer">Order Now 🛒</button>
+      <button onclick="closeDetail()" style="width:100%;background:#eee;border:none;padding:11px;border-radius:10px;margin-top:8px;cursor:pointer">Band Karain</button>
+    </div>
+  </div>
+</div>
 <footer><b>AURELVO COLLECTION</b><br>Kanganpur, Pakistan | WhatsApp: 03098890935<br>© 2026 Aurelvo Collection - All Rights Reserved</footer>
 <script>
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pub?gid=1469332574&single=true&output=csv";
 const SHEET_EDIT_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIR_HTCYaywjkeB0LSzt3jzdjZcl4IRmCCbxNik0MLnD0kDvlT4zYTubJdqAn_T5PknME1O-19k7l0/pubhtml";
 const ORDER_URL = "https://script.google.com/macros/s/AKfycbxeFVQWRD-uNZ9ioLa_HnFodJk3ZazpR5ShKPKl7u2afb-XVNUKwnYsOIaEiLLlkaAH/exec";
 const MY_PASSWORD = "Aurelvo123";
+const DELIVERY_CHARGE = 250;
 function setTheme(theme){document.body.setAttribute('data-theme',theme);localStorage.setItem('aurelvo_theme',theme);}
 let savedTheme = localStorage.getItem('aurelvo_theme') || 'emerald';
 document.body.setAttribute('data-theme', savedTheme);
@@ -309,7 +324,19 @@ function setCat(cat,btn){currentCat=cat;currentMode='all';document.getElementByI
 function getCategories(){let map={};allProducts.forEach(p=>{let raw=(p.cat||'').trim();if(!raw)return;let key=raw.toLowerCase();if(!map[key])map[key]={name:raw,count:0};map[key].count++;});return Object.values(map).sort((a,b)=>b.count-a.count);}
 function updateOfferBar(){let bar=document.getElementById('offerBar');if(!bar) return;let offer='';for(let p of allProducts){let v=p.offerbar||p.offer||p["offer bar"]||p.banner||"";if(v&&v.trim()){offer=v.trim();break;}}globalOfferText=offer;globalOfferPercent=0;if(offer){let m=offer.match(/(\d+)\s*%/);if(m) globalOfferPercent=parseInt(m[1])||0;if(globalOfferPercent>90) globalOfferPercent=0;bar.innerText=offer;bar.style.display='block';}else{bar.style.display='none';}}
 function updateCatCounts(){let cats=getCategories();let heroEl=document.getElementById('heroCats');if(heroEl&&cats.length)heroEl.innerText=cats.map(c=>c.name).join(' • ');let bar=document.getElementById('catBar');if(bar){let html=`<button class="cat-btn ${currentCat==='all'?'active':''}" data-cat="all" onclick="setCat('all',this)">All (${allProducts.length})</button>`;cats.forEach(c=>{let key=c.name.toLowerCase();html+=`<button class="cat-btn ${currentCat===key?'active':''}" data-cat="${key}" onclick="setCat('${key}',this)">${c.name} (${c.count})</button>`;});bar.innerHTML=html;}let big=document.getElementById('catBig');if(big){if(!cats.length){big.innerHTML='<p style="padding:15px;color:#888">No category yet. Add product from Sheet!</p>';}else{big.innerHTML=cats.map(c=>{let safe=c.name.replace(/'/g,"");return `<div onclick="openCat('${safe}')">${c.name}<span>${c.count} Products</span></div>`;}).join('');}}}
-function openProduct(name){window.open('product.html?name='+encodeURIComponent(name),'_blank');}
+function openProduct(name){
+  let p = allProducts.find(x => x.name.toLowerCase() == name.toLowerCase());
+  if(!p){ alert("Product nahi mila!"); return; }
+  let cleanPrice = parseInt(String(p.price||0).replace(/[^0-9]/g,''))||0;
+  document.getElementById("dImg").src = p.img || 'https://via.placeholder.com/300x200?text=Aurelvo';
+  document.getElementById("dName").innerText = p.name;
+  document.getElementById("dCat").innerText = (p.cat||'') + " • " + (p.sales||0) + " Sold";
+  document.getElementById("dDesc").innerText = p.desc || 'Best Quality Product from Aurelvo Collection';
+  document.getElementById("dPrice").innerText = "Rs " + cleanPrice + " + Rs 250 Delivery";
+  document.getElementById("dOrderBtn").onclick = function(){ closeDetail(); orderNow(p.name, cleanPrice, p.size||'', p.color||''); };
+  document.getElementById("detailModal").style.display = "flex";
+}
+function closeDetail(){ document.getElementById("detailModal").style.display = "none"; }
 function isBestSeller(p){let v = (p.bestseller || p.best || p.bestsellercol || "").toString().toLowerCase().trim();return v === 'yes' || v === 'y' || v === '1' || v === 'true' || v === 'best';}
 function cardHTML(p,i,showBest){
 let cleanPrice=parseInt(String(p.price||0).replace(/[^0-9]/g,''))||0;
@@ -333,7 +360,6 @@ async function loadSheet(){try{const res=await fetch(SHEET_CSV_URL+"&t="+Date.no
 function orderNow(n,pr,sizeVal,colorVal){
   currentProduct={name:n,price:pr};
   currentQty=1;
-  // SIZE - Sirf tab dikhao jab Sheet me Size likha ho
   let sizeInput=document.getElementById("cSize");
   if(sizeVal && sizeVal.trim()!==""){
     sizeInput.style.display="block";
@@ -343,7 +369,6 @@ function orderNow(n,pr,sizeVal,colorVal){
     sizeInput.style.display="none";
     sizeInput.value="";
   }
-  // COLOR - Sirf tab dikhao jab Sheet me Color likha ho
   let colorInput=document.getElementById("cColor");
   if(colorVal && colorVal.trim()!==""){
     colorInput.style.display="block";
@@ -355,14 +380,14 @@ function orderNow(n,pr,sizeVal,colorVal){
   }
   document.getElementById("qtyDisplay").innerText="1";
   document.getElementById("selectedProduct").innerText=n+" - Rs "+pr;
-  document.getElementById("totalDisplay").innerText="Total: Rs "+pr;
+  document.getElementById("totalDisplay").innerHTML="Product: Rs "+pr+"<br>Delivery: Rs "+DELIVERY_CHARGE+"<br><b>Total: Rs "+(pr+DELIVERY_CHARGE)+"</b>";
   document.getElementById("formBox").style.display="block";
   document.getElementById("successBox").style.display="none";
   document.getElementById("orderModal").style.display="flex";
 }
-function changeQty(val){currentQty=currentQty+val;if(currentQty<1)currentQty=1;if(currentQty>20)currentQty=20;document.getElementById("qtyDisplay").innerText=currentQty;document.getElementById("totalDisplay").innerText="Total: Rs "+(currentProduct.price*currentQty)+" ("+currentQty+" x Rs "+currentProduct.price+")";}
+function changeQty(val){currentQty=currentQty+val;if(currentQty<1)currentQty=1;if(currentQty>20)currentQty=20;document.getElementById("qtyDisplay").innerText=currentQty;let pTotal=currentProduct.price*currentQty;document.getElementById("totalDisplay").innerHTML="Product: Rs "+pTotal+" ("+currentQty+" x Rs "+currentProduct.price+")<br>Delivery: Rs "+DELIVERY_CHARGE+"<br><b>Total: Rs "+(pTotal+DELIVERY_CHARGE)+"</b>";}
 function closeModal(){document.getElementById("orderModal").style.display="none";}
-function confirmOrder(){let name=document.getElementById("cName").value.trim();let phone=document.getElementById("cPhone").value.trim();let city=document.getElementById("cCity").value.trim();let address=document.getElementById("cAddress").value.trim();let payment=document.getElementById("cPayment").value;let size=document.getElementById("cSize").value.trim();let color=document.getElementById("cColor").value.trim();if(!name||!phone||!city||!address){alert("Bhai saari cheezein bharo - Naam, Number, City, Address zaroori hai!");return;}let btn=document.getElementById("confirmBtn");btn.innerText="Order Bheja Ja Raha Hai...";btn.disabled=true;fetch(ORDER_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify({name:name,phone:phone,address:address,city:city,product:currentProduct.name,price:currentProduct.price,qty:currentQty,payment:payment,size:size,color:color})}).then(()=>{document.getElementById("formBox").style.display="none";document.getElementById("successBox").style.display="block";document.getElementById("successQtyText").innerText="Aap ne "+currentQty+" x "+currentProduct.name+(size?" ("+size+")":"")+(color?" - "+color:"")+" order kiya hai. Total: Rs "+(currentProduct.price*currentQty)+". Hum jald rabta karenge!";document.getElementById("showOrderId").innerText="ORD-"+Date.now();document.getElementById("cName").value="";document.getElementById("cPhone").value="";document.getElementById("cCity").value="";document.getElementById("cAddress").value="";document.getElementById("cSize").value="";document.getElementById("cColor").value="";btn.innerText="Order Confirm Karain ✅";btn.disabled=false;}).catch(()=>{alert("Order bhej diya gaya hai! Sheet me check karain.");closeModal();});}
+function confirmOrder(){let name=document.getElementById("cName").value.trim();let phone=document.getElementById("cPhone").value.trim();let city=document.getElementById("cCity").value.trim();let address=document.getElementById("cAddress").value.trim();let payment=document.getElementById("cPayment").value;let size=document.getElementById("cSize").value.trim();let color=document.getElementById("cColor").value.trim();if(!name||!phone||!city||!address){alert("Bhai saari cheezein bharo - Naam, Number, City, Address zaroori hai!");return;}let btn=document.getElementById("confirmBtn");btn.innerText="Order Bheja Ja Raha Hai...";btn.disabled=true;let finalTotal=(currentProduct.price*currentQty)+DELIVERY_CHARGE;fetch(ORDER_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify({name:name,phone:phone,address:address,city:city,product:currentProduct.name,price:currentProduct.price,qty:currentQty,payment:payment,size:size,color:color,delivery:DELIVERY_CHARGE,total:finalTotal})}).then(()=>{document.getElementById("formBox").style.display="none";document.getElementById("successBox").style.display="block";document.getElementById("successQtyText").innerText="Aap ne "+currentQty+" x "+currentProduct.name+(size?" ("+size+")":"")+(color?" - "+color:"")+" order kiya hai. Product: Rs "+(currentProduct.price*currentQty)+" + Delivery Rs "+DELIVERY_CHARGE+" = Total: Rs "+finalTotal+". Hum jald rabta karenge!";document.getElementById("showOrderId").innerText="ORD-"+Date.now();document.getElementById("cName").value="";document.getElementById("cPhone").value="";document.getElementById("cCity").value="";document.getElementById("cAddress").value="";document.getElementById("cSize").value="";document.getElementById("cColor").value="";btn.innerText="Order Confirm Karain ✅";btn.disabled=false;}).catch(()=>{alert("Order bhej diya gaya hai! Sheet me check karain.");closeModal();});}
 loadSheet();
 </script>
 </body>
